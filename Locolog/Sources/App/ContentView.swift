@@ -1,5 +1,12 @@
 import SwiftUI
 
+/// 사이드바 선택 상태 — 전체 메모 / 카테고리 / 스마트 폴더
+enum SidebarItem: Hashable {
+    case allNotes
+    case category(Category)
+    case smartFolder(SmartFolder)
+}
+
 struct ContentView: View {
     var body: some View {
         #if os(iOS)
@@ -29,16 +36,17 @@ struct MainTabView: View {
     }
 }
 
-// MARK: - macOS: NavigationSplitView
+// MARK: - macOS: 3-패널 NavigationSplitView
+#if os(macOS)
 struct MainSplitView: View {
-    @State private var selectedCategory: Category? = nil
+    @State private var selectedItem: SidebarItem = .allNotes
     @State private var selectedNote: Note? = nil
 
     var body: some View {
         NavigationSplitView {
-            SidebarView(selectedCategory: $selectedCategory)
+            SidebarView(selectedItem: $selectedItem)
         } content: {
-            NoteListView(selectedCategory: selectedCategory, selectedNote: $selectedNote)
+            NoteListView(selectedItem: selectedItem, selectedNote: $selectedNote)
         } detail: {
             if let note = selectedNote {
                 NoteEditorView(note: note)
@@ -61,3 +69,4 @@ struct EmptyEditorView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
+#endif

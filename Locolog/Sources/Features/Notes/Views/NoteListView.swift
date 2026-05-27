@@ -2,34 +2,85 @@ import SwiftUI
 import SwiftData
 
 struct NoteListView: View {
-    var selectedCategory: Category? = nil
-
-    // macOS: NavigationSplitView 에서 주입
+    // macOS: SidebarView로부터 주입 / iOS: 기본값 사용
+    var selectedItem: SidebarItem = .allNotes
     @Binding var selectedNote: Note?
 
     @Environment(\.modelContext) private var context
     @Query(sort: \Note.updatedAt, order: .reverse) private var allNotes: [Note]
+    @Query(sort: \Category.position) private var categories: [Category]
 
     @State private var searchText = ""
+    @State private var showCategoryForm = false
+    @State private var showSmartFolderForm = false
+    // iOS 카테고리 칩 선택 상태
+    @State private var iOSSelectedCategoryId: UUID? = nil
 
-    // iOS: 내부 NavigationStack 경로
     #if os(iOS)
     @State private var navigationPath: [Note] = []
     #endif
 
-    // MARK: - Filtered
+    // MARK: - 필터링
 
     private var filteredNotes: [Note] {
-        allNotes
-            .filter { !$0.isDeleted }
-            .filter { selectedCategory == nil || $0.categoryId == selectedCategory?.id }
-            .filter { note in
-                guard !searchText.isEmpty else { return true }
-                let q = searchText
-                return note.content.localizedCaseInsensitiveContains(q)
-                    || (note.locationName?.localizedCaseInsensitiveContains(q) ?? false)
-                    || (note.locationPOI?.localizedCaseInsensitiveContains(q) ?? false)
+        var result = allNotes.filter { !$0.isDeleted }
+
+        #if os(iOS)
+        if let catId = iOSSelectedCategoryId {
+            result = result.filter { $0.categoryId == catId }
+        }
+        #else
+        switch selectedItem {
+        case .allNotes:
+            break
+        case .category(let cat):
+            result = result.filter { $0.categoryId == cat.id }
+        case .smartFolder(let sf):
+            let f = sf.filter
+            if let catId = f.categoryId {
+                result = result.filter { $0.categoryId == catId }
             }
+            if let loc = f.locationName, !loc.isEmpty {
+                result = result.filter {
+                    $0.locationName?.localizedCaseInsensitiveContains(loc) ?? false ||
+                    $0.locationPOI?.localizedCaseInsensitiveContains(loc) ?? false
+                }
+            }
+            if !f.tagNames.isEmpty {
+                result = result.filter { note in
+                    f.tagNames.allSatisfy {
+                        note.content.localizedCaseInsensitiveContains("#\($0)")
+                    }
+                }
+            }
+        }
+        #endif
+
+        if !searchText.isEmpty {
+            let q = searchText
+            result = result.filter {
+                $0.content.localizedCaseInsensitiveContains(q) ||
+                ($0.locationName?.localizedCaseInsensitiveContains(q) ?? false) ||
+                ($0.locationPOI?.localizedCaseInsensitiveContains(q) ?? false)
+            }
+        }
+        return result
+    }
+
+    private var navigationTitle: String {
+        #if os(iOS)
+        if let catId = iOSSelectedCategoryId,
+           let cat = categories.first(where: { $0.id == catId }) {
+            return cat.name
+        }
+        return "전체 메모"
+        #else
+        switch selectedItem {
+        case .allNotes: return "전체 메모"
+        case .category(let cat): return cat.name
+        case .smartFolder(let sf): return sf.name
+        }
+        #endif
     }
 
     // MARK: - Body
@@ -37,64 +88,132 @@ struct NoteListView: View {
     var body: some View {
         #if os(iOS)
         NavigationStack(path: $navigationPath) {
-            noteList
-                .navigationDestination(for: Note.self) { note in
-                    NoteEditorView(note: note)
+            noteContent
+                .navigationDestination(for: Note.self) { NoteEditorView(note: $0) }
+                .navigationTitle(navigationTitle)
+                .navigationBarTitleDisplayMode(.large)
+                .searchable(text: $searchText, prompt: "메모, 장소 검색")
+                .toolbar {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Menu {
+                            Button { showCategoryForm = true } label: {
+                                Label("카테고리 추가", systemImage: "folder.badge.plus")
+                            }
+                            Button { showSmartFolderForm = true } label: {
+                                Label("스마트 폴더 추가", systemImage: "folder.badge.gearshape")
+                            }
+                        } label: {
+                            Image(systemName: "ellipsis.circle")
+                        }
+                    }
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button(action: createNote) {
+                            Image(systemName: "square.and.pencil")
+                        }
+                    }
                 }
+                .sheet(isPresented: $showCategoryForm) { CategoryFormView() }
+                .sheet(isPresented: $showSmartFolderForm) { SmartFolderFormView() }
         }
         #else
-        noteList
+        noteContent
+            .navigationTitle(navigationTitle)
+            .searchable(text: $searchText, prompt: "메모, 장소 검색")
+            .toolbar {
+                ToolbarItem(placement: .primaryAction) {
+                    Button(action: createNote) {
+                        Image(systemName: "square.and.pencil")
+                    }
+                }
+            }
         #endif
     }
 
-    // MARK: - Note List
+    // MARK: - 컨텐츠
 
-    private var noteList: some View {
-        Group {
+    @ViewBuilder
+    private var noteContent: some View {
+        #if os(iOS)
+        VStack(spacing: 0) {
+            if !categories.isEmpty {
+                categoryChipBar
+                Divider()
+            }
             if filteredNotes.isEmpty {
                 emptyState
             } else {
-                #if os(iOS)
-                List(filteredNotes) { note in
-                    NavigationLink(value: note) {
-                        NoteRowView(note: note)
-                    }
-                    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                        Button(role: .destructive) { deleteNote(note) } label: {
-                            Label("삭제", systemImage: "trash")
-                        }
-                    }
-                }
-                .listStyle(.plain)
-                #else
-                List(filteredNotes, selection: $selectedNote) { note in
-                    NoteRowView(note: note)
-                        .tag(note)
-                        .swipeActions(edge: .trailing) {
-                            Button(role: .destructive) { deleteNote(note) } label: {
-                                Label("삭제", systemImage: "trash")
-                            }
-                        }
-                }
-                .listStyle(.plain)
-                #endif
+                iosList
             }
         }
-        .searchable(text: $searchText, prompt: "메모, 장소 검색")
-        .navigationTitle(selectedCategory?.name ?? "전체 메모")
-        #if os(iOS)
-        .navigationBarTitleDisplayMode(.large)
+        #else
+        if filteredNotes.isEmpty {
+            emptyState
+        } else {
+            macOSList
+        }
         #endif
-        .toolbar {
-            ToolbarItem(placement: .primaryAction) {
-                Button(action: createNote) {
-                    Image(systemName: "square.and.pencil")
-                }
-            }
-        }
     }
 
-    // MARK: - Empty State
+    // MARK: - iOS 전용
+
+    #if os(iOS)
+    private var iosList: some View {
+        List(filteredNotes) { note in
+            NavigationLink(value: note) { NoteRowView(note: note) }
+                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                    Button(role: .destructive) { deleteNote(note) } label: {
+                        Label("삭제", systemImage: "trash")
+                    }
+                }
+        }
+        .listStyle(.plain)
+    }
+
+    private var categoryChipBar: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 8) {
+                CategoryChip(
+                    title: "전체",
+                    color: .secondary,
+                    isSelected: iOSSelectedCategoryId == nil
+                ) {
+                    iOSSelectedCategoryId = nil
+                }
+                ForEach(categories) { cat in
+                    CategoryChip(
+                        title: cat.name,
+                        color: cat.color,
+                        isSelected: iOSSelectedCategoryId == cat.id
+                    ) {
+                        iOSSelectedCategoryId = iOSSelectedCategoryId == cat.id ? nil : cat.id
+                    }
+                }
+            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 8)
+        }
+        .background(.regularMaterial)
+    }
+    #endif
+
+    // MARK: - macOS 전용
+
+    #if !os(iOS)
+    private var macOSList: some View {
+        List(filteredNotes, selection: $selectedNote) { note in
+            NoteRowView(note: note)
+                .tag(note)
+                .swipeActions(edge: .trailing) {
+                    Button(role: .destructive) { deleteNote(note) } label: {
+                        Label("삭제", systemImage: "trash")
+                    }
+                }
+        }
+        .listStyle(.plain)
+    }
+    #endif
+
+    // MARK: - 빈 상태
 
     private var emptyState: some View {
         ContentUnavailableView {
@@ -111,10 +230,18 @@ struct NoteListView: View {
         }
     }
 
-    // MARK: - Actions
+    // MARK: - 액션
 
     private func createNote() {
-        let note = Note(categoryId: selectedCategory?.id)
+        let categoryId: UUID?
+        #if os(iOS)
+        categoryId = iOSSelectedCategoryId
+        #else
+        if case .category(let cat) = selectedItem { categoryId = cat.id }
+        else { categoryId = nil }
+        #endif
+
+        let note = Note(categoryId: categoryId)
         context.insert(note)
         try? context.save()
 
@@ -135,11 +262,33 @@ struct NoteListView: View {
     }
 }
 
-// MARK: - iOS 전용 init (TabView 에서 selectedNote 없이 사용)
-
+// MARK: - iOS TabView에서 selectedNote 없이 사용
 extension NoteListView {
-    init(selectedCategory: Category? = nil) {
-        self.selectedCategory = selectedCategory
+    init() {
         self._selectedNote = .constant(nil)
     }
 }
+
+// MARK: - iOS 카테고리 칩
+
+#if os(iOS)
+private struct CategoryChip: View {
+    let title: String
+    let color: Color
+    let isSelected: Bool
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            Text(title)
+                .font(.subheadline)
+                .fontWeight(isSelected ? .semibold : .regular)
+                .foregroundStyle(isSelected ? .white : .primary)
+                .padding(.horizontal, 12)
+                .padding(.vertical, 6)
+                .background(Capsule().fill(isSelected ? color : Color(.systemGray5)))
+        }
+        .buttonStyle(.plain)
+    }
+}
+#endif

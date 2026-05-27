@@ -53,6 +53,7 @@ struct CalendarView: View {
             #if os(iOS)
             .navigationBarTitleDisplayMode(.large)
             #endif
+            .navigationDestination(for: Note.self) { NoteEditorView(note: $0) }
         }
     }
 }

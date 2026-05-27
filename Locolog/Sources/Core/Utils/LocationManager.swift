@@ -103,9 +103,13 @@ extension LocationManager: CLLocationManagerDelegate {
     nonisolated func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         let status = manager.authorizationStatus
         Task { @MainActor in
-            if status == .authorizedWhenInUse {
-                await requestLocation()
-            }
+            #if os(iOS)
+            let authorized = (status == .authorizedWhenInUse || status == .authorizedAlways)
+            #else
+            // macOS: requestWhenInUseAuthorization 결과는 .authorizedAlways
+            let authorized = (status == .authorizedAlways)
+            #endif
+            if authorized { await requestLocation() }
         }
     }
 }

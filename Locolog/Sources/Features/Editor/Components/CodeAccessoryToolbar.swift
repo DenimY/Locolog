@@ -61,8 +61,8 @@ struct CodeToolbarButtonStyle: ButtonStyle {
             .background(
                 RoundedRectangle(cornerRadius: 6)
                     .fill(configuration.isPressed
-                          ? Color(.systemGray4)
-                          : Color(.systemGray5))
+                          ? Color.secondary.opacity(0.4)
+                          : Color.secondary.opacity(0.2))
             )
     }
 }

@@ -12,7 +12,7 @@ struct OnboardingView: View {
             VStack(spacing: 12) {
                 Image(systemName: "mappin.and.ellipse")
                     .font(.system(size: 64))
-                    .foregroundStyle(.accent)
+                    .foregroundStyle(Color.accentColor)
                 Text("Locolog")
                     .font(.largeTitle.bold())
                 Text("무지성으로 던져도\n날짜와 장소로 자동 정리")
@@ -41,7 +41,7 @@ struct OnboardingView: View {
                         .font(.headline)
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(.accent)
+                        .background(Color.accentColor)
                         .foregroundStyle(.white)
                         .clipShape(RoundedRectangle(cornerRadius: 14))
                 }
@@ -70,7 +70,7 @@ private struct FeatureRow: View {
         HStack(spacing: 16) {
             Image(systemName: icon)
                 .font(.title3)
-                .foregroundStyle(.accent)
+                .foregroundStyle(Color.accentColor)
                 .frame(width: 28)
             Text(text)
                 .font(.callout)

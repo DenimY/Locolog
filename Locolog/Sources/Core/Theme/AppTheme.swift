@@ -2,7 +2,7 @@ import SwiftUI
 
 enum AppTheme {
     // MARK: - Colors
-    static let accent = Color.accentColor
+    static let accent = Color.accentColor   // 사용 시 Color.accentColor 직접 참조 권장
 
     // MARK: - Typography
     static let noteBodyFont = Font.system(.body, design: .default)

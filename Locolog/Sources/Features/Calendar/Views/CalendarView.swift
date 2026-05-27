@@ -141,18 +141,18 @@ private struct DayCell: View {
         VStack(spacing: 2) {
             Text("\(calendar.component(.day, from: date))")
                 .font(.callout)
-                .foregroundStyle(isSelected ? .white : isToday ? .accent : .primary)
+                .foregroundStyle(isSelected ? Color.white : isToday ? Color.accentColor : Color.primary)
                 .frame(width: 32, height: 32)
                 .background(
                     Circle().fill(
-                        isSelected ? Color.accent :
-                        isToday ? Color.accent.opacity(0.15) : .clear
+                        isSelected ? Color.accentColor :
+                        isToday ? Color.accentColor.opacity(0.15) : .clear
                     )
                 )
 
             // 히트맵 점
             Circle()
-                .fill(noteCount > 0 ? Color.accent.opacity(min(0.3 + Double(noteCount) * 0.15, 1.0)) : .clear)
+                .fill(noteCount > 0 ? Color.accentColor.opacity(min(0.3 + Double(noteCount) * 0.15, 1.0)) : .clear)
                 .frame(width: 4, height: 4)
         }
     }

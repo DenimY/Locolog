@@ -18,6 +18,9 @@ struct SidebarView: View {
             Label("전체 메모", systemImage: "tray.full")
                 .tag(SidebarItem.allNotes)
 
+            Label("캘린더", systemImage: "calendar")
+                .tag(SidebarItem.calendar)
+
             Section {
                 ForEach(categories) { category in
                     Label {

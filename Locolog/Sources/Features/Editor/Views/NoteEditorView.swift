@@ -6,12 +6,16 @@ struct NoteEditorView: View {
     @Bindable var note: Note
     @Environment(\.modelContext) private var context
     @Environment(\.colorScheme) private var colorScheme
-    @StateObject private var locationManager = LocationManager.shared
+    @ObservedObject private var locationManager = LocationManager.shared
 
     @State private var isPreviewMode = false
     @FocusState private var isEditorFocused: Bool
-
     @State private var saveTask: Task<Void, Never>?
+    @Query private var allTags: [Tag]
+
+    #if os(macOS)
+    @State private var showLocationPicker = false
+    #endif
 
     var body: some View {
         VStack(spacing: 0) {
@@ -32,11 +36,20 @@ struct NoteEditorView: View {
         #endif
         .toolbar { toolbarItems }
         .onAppear {
-            if note.content.isEmpty {
-                isEditorFocused = true
-            }
+            if note.content.isEmpty { isEditorFocused = true }
             Task { await fetchLocationIfNeeded() }
         }
+        #if os(macOS)
+        .sheet(isPresented: $showLocationPicker) {
+            LocationPickerSheet(isPresented: $showLocationPicker) { name, poi in
+                guard let name else { return }
+                note.locationName = name
+                note.locationPOI = poi
+                note.isDirty = true
+                try? context.save()
+            }
+        }
+        #endif
     }
 
     // MARK: - Editor
@@ -68,18 +81,7 @@ struct NoteEditorView: View {
 
     private var metadataBar: some View {
         HStack(spacing: 8) {
-            if let location = note.displayLocation {
-                Label(location, systemImage: "location.fill")
-                    .font(AppTheme.listMetaFont)
-                    .foregroundStyle(.secondary)
-                    .lineLimit(1)
-            } else if case .loading = locationManager.status {
-                ProgressView()
-                    .scaleEffect(0.7)
-                Text("위치 가져오는 중...")
-                    .font(AppTheme.listMetaFont)
-                    .foregroundStyle(.secondary)
-            }
+            locationInfo
             Spacer()
             Text(note.createdAt.formatted(date: .abbreviated, time: .shortened))
                 .font(AppTheme.listMetaFont)
@@ -90,15 +92,46 @@ struct NoteEditorView: View {
         .background(.bar)
     }
 
+    @ViewBuilder
+    private var locationInfo: some View {
+        if let location = note.displayLocation {
+            Label(location, systemImage: "location.fill")
+                .font(AppTheme.listMetaFont)
+                .foregroundStyle(.secondary)
+                .lineLimit(1)
+        } else if case .loading = locationManager.status {
+            HStack(spacing: 4) {
+                ProgressView().scaleEffect(0.7)
+                Text("위치 가져오는 중...")
+                    .font(AppTheme.listMetaFont)
+                    .foregroundStyle(.secondary)
+            }
+        } else {
+            #if os(macOS)
+            switch locationManager.status {
+            case .timedOut, .failed:
+                Button {
+                    showLocationPicker = true
+                } label: {
+                    Label("장소 직접 입력", systemImage: "location.slash")
+                        .font(AppTheme.listMetaFont)
+                }
+                .buttonStyle(.plain)
+                .foregroundStyle(.secondary)
+            default:
+                EmptyView()
+            }
+            #endif
+        }
+    }
+
     // MARK: - Toolbar
 
     @ToolbarContentBuilder
     private var toolbarItems: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
             Button {
-                withAnimation(.easeInOut(duration: 0.15)) {
-                    isPreviewMode.toggle()
-                }
+                withAnimation(.easeInOut(duration: 0.15)) { isPreviewMode.toggle() }
                 if !isPreviewMode { isEditorFocused = true }
             } label: {
                 Label(
@@ -118,7 +151,23 @@ struct NoteEditorView: View {
             guard !Task.isCancelled else { return }
             note.updatedAt = Date()
             note.isDirty = true
+            syncTags()
             try? context.save()
+        }
+    }
+
+    private func syncTags() {
+        let parsed = Set(note.parsedTagNames)
+        note.tags = note.tags.filter { parsed.contains($0.name) }
+        let existingNames = Set(note.tags.map { $0.name })
+        for name in parsed where !existingNames.contains(name) {
+            if let existing = allTags.first(where: { $0.name == name }) {
+                note.tags.append(existing)
+            } else {
+                let tag = Tag(name: name)
+                context.insert(tag)
+                note.tags.append(tag)
+            }
         }
     }
 
@@ -126,14 +175,35 @@ struct NoteEditorView: View {
 
     private func fetchLocationIfNeeded() async {
         guard note.locationName == nil else { return }
+
+        // 방금 다른 메모에서 위치를 성공적으로 받았으면 재활용
+        if case .ready = locationManager.status, let name = locationManager.locationName {
+            note.locationName = name
+            note.locationPOI = locationManager.locationPOI
+            note.locationLat = locationManager.currentLocation?.coordinate.latitude
+            note.locationLng = locationManager.currentLocation?.coordinate.longitude
+            note.isDirty = true
+            try? context.save()
+            return
+        }
+
         await locationManager.requestLocation()
-        guard case .ready = locationManager.status else { return }
-        note.locationName  = locationManager.locationName
-        note.locationPOI   = locationManager.locationPOI
-        note.locationLat   = locationManager.currentLocation?.coordinate.latitude
-        note.locationLng   = locationManager.currentLocation?.coordinate.longitude
-        note.isDirty = true
-        try? context.save()
+
+        switch locationManager.status {
+        case .ready:
+            note.locationName = locationManager.locationName
+            note.locationPOI = locationManager.locationPOI
+            note.locationLat = locationManager.currentLocation?.coordinate.latitude
+            note.locationLng = locationManager.currentLocation?.coordinate.longitude
+            note.isDirty = true
+            try? context.save()
+        case .timedOut, .failed:
+            #if os(macOS)
+            showLocationPicker = true
+            #endif
+        default:
+            break
+        }
     }
 }
 

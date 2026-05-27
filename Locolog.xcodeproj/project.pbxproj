@@ -20,6 +20,7 @@
 		20056E39D84BD94362CFD8BF /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10CC5B25E5E6EC35A4950027 /* OnboardingView.swift */; };
 		21E3C4F29A7C1E3DD0C0BCF0 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9317E40BE96F5541285F3DE3 /* Tag.swift */; };
 		29708BB0D5F526F941F74A78 /* LocologTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C2EAB777BDA140BEC189E5 /* LocologTests.swift */; };
+		2A20CFA587506DCC1AEE07B5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9688689B7CAC2418AD63A56E /* Assets.xcassets */; };
 		319663A73744B3A0475F3D02 /* LocologApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12CD83A1B8A6465CCA4F4202 /* LocologApp.swift */; };
 		339A498B5FF769750BE6BFAD /* HighlightrCodeHighlighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD0B46E20EA05A7CE158D9CA /* HighlightrCodeHighlighter.swift */; };
 		3833F6FF0D1FADEF4BF0BAA2 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D0AF9DA9AD2C0C5B0410C4 /* LocationManager.swift */; };
@@ -30,6 +31,7 @@
 		4512D08C2389FC35335986F0 /* NoteRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178696157A8A65AA84018F05 /* NoteRowView.swift */; };
 		47B9AD838B23A454C98DB4C3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661A0E0045096E7D7C61B836 /* ContentView.swift */; };
 		4AE18313E56F9632BD067232 /* LocologUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F91950F0F6D748A8DBD513A8 /* LocologUITests.swift */; };
+		4B6147E7ACFB225383DF7E3A /* LocationPickerSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE8C19D7A7BED66A1743C53 /* LocationPickerSheet.swift */; };
 		4B71FDF16AED48BADBA0C6EB /* SidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7919F5E27B7E93E9511A6E6 /* SidebarView.swift */; };
 		4B91F6715FB9144D991B3DCA /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10CC5B25E5E6EC35A4950027 /* OnboardingView.swift */; };
 		500B1F1E8FD50F0C73301F83 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4FB7377E124E5A101E6C327 /* Category.swift */; };
@@ -39,10 +41,12 @@
 		6330F63D1AA185858183E757 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D123980EB550EC0AD907DE8 /* CalendarView.swift */; };
 		6629BDBB3DE6DF12FD515AB2 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D123980EB550EC0AD907DE8 /* CalendarView.swift */; };
 		703FB262CC3FF1143A26B392 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DE38D26DA8433708023FAF5 /* RootView.swift */; };
+		88D663CE874BA05278346DAE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9688689B7CAC2418AD63A56E /* Assets.xcassets */; };
 		8A34E5B020129B6E47548844 /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F7A5632AF8E7479600755E /* Note.swift */; };
 		95CD7E11C466B783B17F38FE /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9317E40BE96F5541285F3DE3 /* Tag.swift */; };
 		9A8A27E95A5A121DD0DE6A89 /* NoteEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1652CCD7C0F138788EEF524 /* NoteEditorView.swift */; };
 		9D2872154218C6ACA6431D56 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE6D14F6F6183BE915C1DB27 /* SearchView.swift */; };
+		9D2A3826308ABA28A86F4307 /* LocationPickerSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE8C19D7A7BED66A1743C53 /* LocationPickerSheet.swift */; };
 		A2BB4665D4E1E7D090A9B623 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005C8CC2FFDF9F584E8FD583 /* SettingsView.swift */; };
 		AB6E371FAAE227DB3FDE4897 /* CategoryFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D0641B262D377510528237 /* CategoryFormView.swift */; };
 		ADAE6BA91C4FE20834FD2BBF /* NoteRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178696157A8A65AA84018F05 /* NoteRowView.swift */; };
@@ -95,9 +99,11 @@
 		8583C7EA3D072A891130AE3A /* Locolog.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Locolog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8DE38D26DA8433708023FAF5 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		9317E40BE96F5541285F3DE3 /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
+		9688689B7CAC2418AD63A56E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A1652CCD7C0F138788EEF524 /* NoteEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteEditorView.swift; sourceTree = "<group>"; };
 		A4F7A5632AF8E7479600755E /* Note.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
 		A7C2EAB777BDA140BEC189E5 /* LocologTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocologTests.swift; sourceTree = "<group>"; };
+		BFE8C19D7A7BED66A1743C53 /* LocationPickerSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPickerSheet.swift; sourceTree = "<group>"; };
 		C4FB7377E124E5A101E6C327 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		DD0B46E20EA05A7CE158D9CA /* HighlightrCodeHighlighter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightrCodeHighlighter.swift; sourceTree = "<group>"; };
 		E8C9008C17836E22544D4F63 /* SmartFolderFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartFolderFormView.swift; sourceTree = "<group>"; };
@@ -191,6 +197,7 @@
 		371B756B306CA1B809DFDF47 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				9688689B7CAC2418AD63A56E /* Assets.xcassets */,
 				5B421C5389142D5FA7DD15B1 /* Info.plist */,
 				F5D39529E85FF2C538B25CBF /* Locolog.entitlements */,
 			);
@@ -359,6 +366,7 @@
 		E0A2884AB5FE6C43EDC23093 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				BFE8C19D7A7BED66A1743C53 /* LocationPickerSheet.swift */,
 				A1652CCD7C0F138788EEF524 /* NoteEditorView.swift */,
 			);
 			path = Views;
@@ -415,6 +423,7 @@
 			buildConfigurationList = 766C20734638154A26602687 /* Build configuration list for PBXNativeTarget "Locolog_iOS" */;
 			buildPhases = (
 				4C9717BB8C99818F34D59AD2 /* Sources */,
+				301A94B552E206A5F65C6050 /* Resources */,
 				0D39BA30A0B3056E0457ADB0 /* Frameworks */,
 			);
 			buildRules = (
@@ -454,6 +463,7 @@
 			buildConfigurationList = A5416CF912A80A41B914C103 /* Build configuration list for PBXNativeTarget "Locolog_macOS" */;
 			buildPhases = (
 				C34660155E8B389487079B90 /* Sources */,
+				3F7BDD443426DEB9961245F1 /* Resources */,
 				D9898421BBDC5E4A613BA028 /* Frameworks */,
 			);
 			buildRules = (
@@ -535,6 +545,25 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		301A94B552E206A5F65C6050 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2A20CFA587506DCC1AEE07B5 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3F7BDD443426DEB9961245F1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				88D663CE874BA05278346DAE /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		42A64B64A5489F1C2DC473B5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -556,6 +585,7 @@
 				47B9AD838B23A454C98DB4C3 /* ContentView.swift in Sources */,
 				422CF2E2D30ADFBC77EE6F91 /* HighlightrCodeHighlighter.swift in Sources */,
 				CE518A36D3B3E43733F4D43C /* LocationManager.swift in Sources */,
+				9D2A3826308ABA28A86F4307 /* LocationPickerSheet.swift in Sources */,
 				11BE27E19ED914FAB2697AE4 /* LocologApp.swift in Sources */,
 				8A34E5B020129B6E47548844 /* Note.swift in Sources */,
 				579478F950D08D74D4372E3A /* NoteEditorView.swift in Sources */,
@@ -592,6 +622,7 @@
 				0CE7B04F9A5E8AF1F0D78762 /* ContentView.swift in Sources */,
 				339A498B5FF769750BE6BFAD /* HighlightrCodeHighlighter.swift in Sources */,
 				3833F6FF0D1FADEF4BF0BAA2 /* LocationManager.swift in Sources */,
+				4B6147E7ACFB225383DF7E3A /* LocationPickerSheet.swift in Sources */,
 				319663A73744B3A0475F3D02 /* LocologApp.swift in Sources */,
 				17A5C37C8BD2D4548CC6F73A /* Note.swift in Sources */,
 				9A8A27E95A5A121DD0DE6A89 /* NoteEditorView.swift in Sources */,

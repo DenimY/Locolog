@@ -13,12 +13,14 @@ final class LocationManager: NSObject, ObservableObject {
     @Published var status: LocationStatus = .idle
 
     enum LocationStatus {
-        case idle, loading, ready, failed(String)
+        case idle, loading, timedOut, ready, failed(String)
     }
 
     private let manager = CLLocationManager()
     private let geocoder = CLGeocoder()
     private var continuation: CheckedContinuation<CLLocation, Error>?
+
+    private enum LocationError: Error { case timedOut }
 
     override init() {
         super.init()
@@ -28,6 +30,9 @@ final class LocationManager: NSObject, ObservableObject {
 
     /// 메모 작성 시점에 한 번 위치 요청 (포그라운드 전용)
     func requestLocation() async {
+        // 이미 로딩 중이면 완료될 때까지 대기하지 않고 스킵
+        if case .loading = status { return }
+
         guard CLLocationManager.locationServicesEnabled() else {
             status = .failed("위치 서비스가 비활성화되어 있습니다.")
             return
@@ -48,10 +53,20 @@ final class LocationManager: NSObject, ObservableObject {
         do {
             let location = try await withCheckedThrowingContinuation { cont in
                 self.continuation = cont
-                manager.requestLocation()
+                self.manager.requestLocation()
+
+                // macOS는 Wi-Fi 기반이라 최대 10초 대기 후 timedOut 처리
+                Task { @MainActor [weak self] in
+                    try? await Task.sleep(for: .seconds(10))
+                    guard let self, case .loading = self.status else { return }
+                    self.continuation?.resume(throwing: LocationError.timedOut)
+                    self.continuation = nil
+                }
             }
             currentLocation = location
             await reverseGeocode(location)
+        } catch is LocationError {
+            status = .timedOut
         } catch {
             status = .failed(error.localizedDescription)
         }
@@ -74,12 +89,6 @@ final class LocationManager: NSObject, ObservableObject {
         } catch {
             status = .failed("장소명을 가져올 수 없습니다.")
         }
-    }
-
-    /// macOS: 타임아웃(10초) 후 수동 입력 fallback 트리거
-    var isTimedOut: Bool {
-        if case .loading = status { return false }
-        return false
     }
 }
 
@@ -106,7 +115,6 @@ extension LocationManager: CLLocationManagerDelegate {
             #if os(iOS)
             let authorized = (status == .authorizedWhenInUse || status == .authorizedAlways)
             #else
-            // macOS: requestWhenInUseAuthorization 결과는 .authorizedAlways
             let authorized = (status == .authorizedAlways)
             #endif
             if authorized { await requestLocation() }

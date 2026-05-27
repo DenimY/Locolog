@@ -40,7 +40,6 @@ final class Note {
         if firstLine.isEmpty {
             return createdAt.formatted(date: .abbreviated, time: .shortened)
         }
-        // 마크다운 헤더 기호 제거 (#, ##, ###)
         return firstLine.replacingOccurrences(of: #"^#+\s*"#, with: "", options: .regularExpression)
     }
 
@@ -58,4 +57,21 @@ final class Note {
         if let poi = locationPOI, !poi.isEmpty { return poi }
         return locationName
     }
+
+    /// content에서 #태그 파싱 (마크다운 헤더 제외, 중복 제거, 소문자)
+    var parsedTagNames: [String] {
+        guard let regex = Note.tagRegex else { return [] }
+        let range = NSRange(content.startIndex..., in: content)
+        var seen = Set<String>()
+        return regex.matches(in: content, range: range).compactMap { match in
+            guard let r = Range(match.range(at: 1), in: content) else { return nil }
+            let name = String(content[r]).lowercased()
+            return seen.insert(name).inserted ? name : nil
+        }
+    }
+
+    // 단어 경계 뒤에 오는 #태그만 인식 (abc#tag 같은 경우 제외)
+    private static let tagRegex = try? NSRegularExpression(
+        pattern: #"(?<![가-힣a-zA-Z0-9_#])#([가-힣a-zA-Z0-9_]+)"#
+    )
 }

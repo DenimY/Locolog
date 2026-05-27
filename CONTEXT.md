@@ -1,7 +1,7 @@
 # Locolog — 개발 컨텍스트 (에이전트 인수인계)
 
 > 새 대화에서 이 파일을 먼저 읽으면 현재 상태를 파악할 수 있습니다.  
-> 마지막 업데이트: 2026-05-27 (STEP 3 완료)
+> 마지막 업데이트: 2026-05-27 (STEP 6 완료)
 
 ---
 
@@ -59,6 +59,9 @@ Xcode 26.5 / Swift 6
 ### Phase 1 — STEP 1: Xcode 프로젝트 세팅 ✅
 ### Phase 1 — STEP 2: 에디터 기능 완성 ✅
 ### Phase 1 — STEP 3: 카테고리 관리 UI + 스마트 폴더 UI + 캘린더 뷰 완성 ✅
+### Phase 1 — STEP 4: 위치 자동 태깅 + POI 매칭 + macOS fallback 완성 ✅
+### Phase 1 — STEP 5: 메모 목록 + 카테고리 UI 완성 ✅
+### Phase 1 — STEP 6: 캘린더 뷰 완성 ✅
 
 **생성된 파일 구조:**
 ```
@@ -147,24 +150,17 @@ Locolog/
 
 ---
 
-## 다음 작업 (STEP 4)
+## 다음 작업 (Phase 1 완료 → Phase 2 시작)
 
-**목표: 위치 자동 태깅 + POI 매칭 완성**
+**Phase 1 완료. 다음은 STEP 7: Supabase 연동 + Google/Apple 로그인**
 
 ```
 우선순위 순서:
 
-1. [ ] 위치 태깅 완성
-         - 메모 작성 시 CoreLocation 자동 요청
-         - CLGeocoder → locationName + locationPOI 저장
-         - 에디터 하단 메타데이터 바: 위치명 + 시각 표시
-
-2. [ ] macOS 위치 fallback
-         - 10초 타임아웃 후 수동 입력 팝업
-         - "최근 사용 장소" 제안
-
-3. [ ] NoteRowView 위치 표시
-         - 메모 목록에서 POI명 / 주소 표시
+1. [ ] Supabase 프로젝트 생성 및 Secrets.swift 설정
+2. [ ] Apple Sign-In 구현 (App Store 필수)
+3. [ ] Google Sign-In 구현 (선택적)
+4. [ ] SettingsView 로그인 UI 연결
 ```
 
 ---
@@ -174,11 +170,11 @@ Locolog/
 ```
 STEP 2  에디터 기능 완성 + 시뮬레이터 검증     ✅ 완료
 STEP 3  카테고리 관리 UI + 스마트 폴더 UI      ✅ 완료
-STEP 4  위치 자동 태깅 + POI 매칭 완성         ← 현재
-STEP 5  메모 목록 + 카테고리 UI 완성
-STEP 6  캘린더 뷰 완성
+STEP 4  위치 자동 태깅 + POI 매칭 완성         ✅ 완료
+STEP 5  메모 목록 + 카테고리 UI 완성           ✅ 완료
+STEP 6  캘린더 뷰 완성                         ✅ 완료
 ─────── Phase 1 완료 ───────
-STEP 7  Supabase 연동 + Google/Apple 로그인
+STEP 7  Supabase 연동 + Google/Apple 로그인    ← 현재
 STEP 8  오프라인-온라인 동기화 (SyncManager, isDirty 기반)
 STEP 9  고급 필터 + 스마트 폴더
 STEP 10 알림 + Google Calendar 연동 (선택적)
@@ -188,6 +184,18 @@ STEP 12 지도 뷰 (MapKit)
 STEP 13 이미지 첨부 + 내보내기
 STEP 14 iOS 홈 위젯 (WidgetKit)
 ```
+
+---
+
+## macOS 목표 UI (STEP 12 타겟)
+
+PlaceCal 스타일 3-패널 레이아웃:
+- 좌측 사이드바: 캘린더 / 지도 / 전체 메모 / 스마트 폴더 / 카테고리
+- 중앙 패널: 지도(MapKit) + 달력 그리드 동시 표시
+- 우측 패널: 선택된 메모 상세 (장소, 연결 일정, 첨부파일, 생성 정보)
+
+> STEP 12(MapKit) 구현 시 이 레이아웃을 목표로 삼는다.
+> 현재는 사이드바 → 메모 목록/캘린더 → 에디터 구조 유지.
 
 ---
 

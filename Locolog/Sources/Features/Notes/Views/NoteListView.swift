@@ -13,6 +13,7 @@ struct NoteListView: View {
     @State private var searchText = ""
     @State private var showCategoryForm = false
     @State private var showSmartFolderForm = false
+    @State private var sortOrder: NoteSortOrder = .updatedAt
     // iOS 카테고리 칩 선택 상태
     @State private var iOSSelectedCategoryId: UUID? = nil
 
@@ -31,7 +32,7 @@ struct NoteListView: View {
         }
         #else
         switch selectedItem {
-        case .allNotes:
+        case .allNotes, .calendar:
             break
         case .category(let cat):
             result = result.filter { $0.categoryId == cat.id }
@@ -64,7 +65,21 @@ struct NoteListView: View {
                 ($0.locationPOI?.localizedCaseInsensitiveContains(q) ?? false)
             }
         }
+
+        switch sortOrder {
+        case .updatedAt:
+            result.sort { $0.updatedAt > $1.updatedAt }
+        case .createdAt:
+            result.sort { $0.createdAt > $1.createdAt }
+        case .title:
+            result.sort { $0.displayTitle.localizedCompare($1.displayTitle) == .orderedAscending }
+        }
         return result
+    }
+
+    private func category(for note: Note) -> Category? {
+        guard let catId = note.categoryId else { return nil }
+        return categories.first { $0.id == catId }
     }
 
     private var navigationTitle: String {
@@ -77,6 +92,7 @@ struct NoteListView: View {
         #else
         switch selectedItem {
         case .allNotes: return "전체 메모"
+        case .calendar: return "캘린더"
         case .category(let cat): return cat.name
         case .smartFolder(let sf): return sf.name
         }
@@ -94,6 +110,17 @@ struct NoteListView: View {
                 .navigationBarTitleDisplayMode(.large)
                 .searchable(text: $searchText, prompt: "메모, 장소 검색")
                 .toolbar {
+                    ToolbarItem(placement: .topBarLeading) {
+                        Menu {
+                            Picker("정렬", selection: $sortOrder) {
+                                ForEach(NoteSortOrder.allCases) { order in
+                                    Text(order.rawValue).tag(order)
+                                }
+                            }
+                        } label: {
+                            Image(systemName: "arrow.up.arrow.down")
+                        }
+                    }
                     ToolbarItem(placement: .topBarTrailing) {
                         Menu {
                             Button { showCategoryForm = true } label: {
@@ -124,6 +151,14 @@ struct NoteListView: View {
                     Button(action: createNote) {
                         Image(systemName: "square.and.pencil")
                     }
+                }
+                ToolbarItem(placement: .automatic) {
+                    Picker("정렬", selection: $sortOrder) {
+                        ForEach(NoteSortOrder.allCases) { order in
+                            Text(order.rawValue).tag(order)
+                        }
+                    }
+                    .pickerStyle(.menu)
                 }
             }
         #endif
@@ -159,12 +194,14 @@ struct NoteListView: View {
     #if os(iOS)
     private var iosList: some View {
         List(filteredNotes) { note in
-            NavigationLink(value: note) { NoteRowView(note: note) }
-                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                    Button(role: .destructive) { deleteNote(note) } label: {
-                        Label("삭제", systemImage: "trash")
-                    }
+            NavigationLink(value: note) {
+                NoteRowView(note: note, category: category(for: note))
+            }
+            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                Button(role: .destructive) { deleteNote(note) } label: {
+                    Label("삭제", systemImage: "trash")
                 }
+            }
         }
         .listStyle(.plain)
     }
@@ -201,7 +238,7 @@ struct NoteListView: View {
     #if !os(iOS)
     private var macOSList: some View {
         List(filteredNotes, selection: $selectedNote) { note in
-            NoteRowView(note: note)
+            NoteRowView(note: note, category: category(for: note))
                 .tag(note)
                 .swipeActions(edge: .trailing) {
                     Button(role: .destructive) { deleteNote(note) } label: {
@@ -260,6 +297,16 @@ struct NoteListView: View {
         if selectedNote?.id == note.id { selectedNote = nil }
         #endif
     }
+}
+
+// MARK: - 정렬 옵션
+
+enum NoteSortOrder: String, CaseIterable, Identifiable {
+    case updatedAt = "수정일"
+    case createdAt = "생성일"
+    case title = "가나다"
+
+    var id: String { rawValue }
 }
 
 // MARK: - iOS TabView에서 selectedNote 없이 사용

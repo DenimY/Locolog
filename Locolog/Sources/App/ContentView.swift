@@ -1,8 +1,9 @@
 import SwiftUI
 
-/// 사이드바 선택 상태 — 전체 메모 / 카테고리 / 스마트 폴더
+/// 사이드바 선택 상태 — 전체 메모 / 캘린더 / 카테고리 / 스마트 폴더
 enum SidebarItem: Hashable {
     case allNotes
+    case calendar
     case category(Category)
     case smartFolder(SmartFolder)
 }
@@ -46,7 +47,11 @@ struct MainSplitView: View {
         NavigationSplitView {
             SidebarView(selectedItem: $selectedItem)
         } content: {
-            NoteListView(selectedItem: selectedItem, selectedNote: $selectedNote)
+            if case .calendar = selectedItem {
+                CalendarView(selectedNote: $selectedNote)
+            } else {
+                NoteListView(selectedItem: selectedItem, selectedNote: $selectedNote)
+            }
         } detail: {
             if let note = selectedNote {
                 NoteEditorView(note: note)

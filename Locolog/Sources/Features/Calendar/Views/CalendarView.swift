@@ -2,7 +2,9 @@ import SwiftUI
 import SwiftData
 
 struct CalendarView: View {
+    @Binding var selectedNote: Note?
     @Query(sort: \Note.createdAt, order: .reverse) private var notes: [Note]
+    @Query(sort: \Category.position) private var categories: [Category]
     @State private var selectedDate: Date = Date()
 
     private var calendar = Calendar.current
@@ -14,7 +16,6 @@ struct CalendarView: View {
         }
     }
 
-    /// 날짜별 메모 수 (히트맵용)
     private var noteCountByDate: [Date: Int] {
         Dictionary(grouping: notes.filter { !$0.isDeleted }, by: {
             calendar.startOfDay(for: $0.createdAt)
@@ -22,39 +23,69 @@ struct CalendarView: View {
     }
 
     var body: some View {
+        #if os(iOS)
         NavigationStack {
-            VStack(spacing: 0) {
-                // 달력
-                MonthCalendarView(
-                    selectedDate: $selectedDate,
-                    noteCountByDate: noteCountByDate
-                )
-                .padding()
-
-                Divider()
-
-                // 선택된 날짜의 메모 목록
-                if notesOnSelectedDate.isEmpty {
-                    ContentUnavailableView(
-                        "메모 없음",
-                        systemImage: "note.text",
-                        description: Text(selectedDate.formatted(date: .complete, time: .omitted))
-                    )
-                } else {
-                    List(notesOnSelectedDate) { note in
-                        NavigationLink(value: note) {
-                            NoteRowView(note: note)
-                        }
-                    }
-                    .listStyle(.plain)
-                }
-            }
-            .navigationTitle("캘린더")
-            #if os(iOS)
-            .navigationBarTitleDisplayMode(.large)
-            #endif
-            .navigationDestination(for: Note.self) { NoteEditorView(note: $0) }
+            mainContent
+                .navigationTitle("캘린더")
+                .navigationBarTitleDisplayMode(.large)
+                .navigationDestination(for: Note.self) { NoteEditorView(note: $0) }
         }
+        #else
+        mainContent
+            .navigationTitle("캘린더")
+        #endif
+    }
+
+    private var mainContent: some View {
+        VStack(spacing: 0) {
+            MonthCalendarView(
+                selectedDate: $selectedDate,
+                noteCountByDate: noteCountByDate
+            )
+            .padding()
+
+            Divider()
+
+            if notesOnSelectedDate.isEmpty {
+                ContentUnavailableView(
+                    "메모 없음",
+                    systemImage: "note.text",
+                    description: Text(selectedDate.formatted(date: .complete, time: .omitted))
+                )
+            } else {
+                noteList
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var noteList: some View {
+        #if os(iOS)
+        List(notesOnSelectedDate) { note in
+            NavigationLink(value: note) {
+                NoteRowView(note: note, category: category(for: note))
+            }
+        }
+        .listStyle(.plain)
+        #else
+        List(notesOnSelectedDate, selection: $selectedNote) { note in
+            NoteRowView(note: note, category: category(for: note))
+                .tag(note)
+        }
+        .listStyle(.plain)
+        #endif
+    }
+
+    private func category(for note: Note) -> Category? {
+        guard let catId = note.categoryId else { return nil }
+        return categories.first { $0.id == catId }
+    }
+}
+
+// iOS TabView / 독립 사용 시
+extension CalendarView {
+    init() {
+        self._selectedNote = .constant(nil)
     }
 }
 
@@ -82,7 +113,6 @@ struct MonthCalendarView: View {
 
     var body: some View {
         VStack(spacing: 8) {
-            // 월 이동
             HStack {
                 Button { changeMonth(by: -1) } label: {
                     Image(systemName: "chevron.left")
@@ -96,7 +126,6 @@ struct MonthCalendarView: View {
                 }
             }
 
-            // 요일 헤더
             LazyVGrid(columns: columns) {
                 ForEach(weekdaySymbols, id: \.self) { symbol in
                     Text(symbol)
@@ -105,7 +134,6 @@ struct MonthCalendarView: View {
                 }
             }
 
-            // 날짜 그리드
             LazyVGrid(columns: columns, spacing: 6) {
                 ForEach(daysInMonth.indices, id: \.self) { index in
                     if let date = daysInMonth[index] {
@@ -151,7 +179,6 @@ private struct DayCell: View {
                     )
                 )
 
-            // 히트맵 점
             Circle()
                 .fill(noteCount > 0 ? Color.accentColor.opacity(min(0.3 + Double(noteCount) * 0.15, 1.0)) : .clear)
                 .frame(width: 4, height: 4)

@@ -1,0 +1,75 @@
+name: Locolog
+options:
+  bundleIdPrefix: com.locolog
+  deploymentTarget:
+    iOS: "17.0"
+    macOS: "14.0"
+  xcodeVersion: "16"
+  createIntermediateGroups: true
+
+packages:
+  supabase-swift:
+    url: https://github.com/supabase/supabase-swift
+    from: "2.0.0"
+  swift-markdown-ui:
+    url: https://github.com/gonzalezreal/swift-markdown-ui
+    from: "2.0.0"
+  Highlightr:
+    url: https://github.com/raspu/Highlightr
+    from: "2.1.2"
+
+targets:
+  Locolog:
+    type: application
+    platform: [iOS, macOS]
+    sources:
+      - Locolog/Sources
+      - Locolog/Resources
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.locolog.app
+        SWIFT_VERSION: "6.0"
+        MARKETING_VERSION: "1.0.0"
+        CURRENT_PROJECT_VERSION: "1"
+        DEVELOPMENT_TEAM: ""
+      configs:
+        Debug:
+          DEBUG_INFORMATION_FORMAT: dwarf
+        Release:
+          DEBUG_INFORMATION_FORMAT: dwarf-with-dsym
+    dependencies:
+      - package: supabase-swift
+        product: Supabase
+      - package: swift-markdown-ui
+        product: MarkdownUI
+      - package: Highlightr
+    info:
+      path: Locolog/Resources/Info.plist
+      properties:
+        CFBundleDisplayName: Locolog
+        NSLocationWhenInUseUsageDescription: "메모 작성 시 현재 위치를 자동으로 기록합니다."
+        NSUserNotificationsUsageDescription: "메모 알림을 보내기 위해 사용됩니다."
+        UILaunchScreen:
+          UIColorName: ""
+        NSAppTransportSecurity:
+          NSAllowsArbitraryLoads: false
+    entitlements:
+      path: Locolog/Resources/Locolog.entitlements
+      properties:
+        com.apple.security.app-sandbox: true
+        com.apple.security.network.client: true
+        com.apple.security.personal-information.location: true
+
+  LocologTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources: LocologTests
+    dependencies:
+      - target: Locolog_iOS
+
+  LocologUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources: LocologUITests
+    dependencies:
+      - target: Locolog_iOS

@@ -1,0 +1,46 @@
+# Xcode
+*.xcodeproj/xcuserdata/
+*.xcworkspace/xcuserdata/
+*.xcworkspace/xcshareddata/
+DerivedData/
+*.moved-aside
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+
+# Swift Package Manager
+.build/
+.swiftpm/
+Packages/
+Package.resolved
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+*.icloud
+
+# Xcode Build
+build/
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# CocoaPods (사용 안 하지만 혹시)
+Pods/
+Podfile.lock
+
+# Env & Secrets
+.env
+*.env.local
+Secrets.swift
+
+# Editor
+.idea/
+*.swp
+*~

@@ -1,7 +1,7 @@
 # Locolog — 개발 컨텍스트 (에이전트 인수인계)
 
 > 새 대화에서 이 파일을 먼저 읽으면 현재 상태를 파악할 수 있습니다.  
-> 마지막 업데이트: 2026-05-27
+> 마지막 업데이트: 2026-05-27 (STEP 2 완료)
 
 ---
 
@@ -49,6 +49,7 @@
 ✅ BUILD SUCCEEDED
 타겟: Locolog_iOS (iPhone 15 Pro Simulator)
 Xcode 26.5 / Swift 6
+마지막 확인: 2026-05-27 (STEP 2 완료 후)
 ```
 
 ---
@@ -56,6 +57,7 @@ Xcode 26.5 / Swift 6
 ## 완료된 작업
 
 ### Phase 1 — STEP 1: Xcode 프로젝트 세팅 ✅
+### Phase 1 — STEP 2: 에디터 기능 완성 ✅
 
 **생성된 파일 구조:**
 ```
@@ -114,22 +116,57 @@ Locolog/
 
 ---
 
-## 다음 작업 (STEP 2)
+### Phase 1 — STEP 2 완료 내용
 
-**목표: 에디터 기능 완성 + 시뮬레이터 실제 동작 검증**
+**HighlightrCodeHighlighter.swift** (신규 생성)
+- `HighlightrCodeSyntaxHighlighter: CodeSyntaxHighlighter` 구현
+- Dark: "atom-one-dark" / Light: "xcode" 테마
+- iOS: `\.uiKit`, macOS: `\.appKit` 플랫폼별 AttributedString 변환
+
+**NoteEditorView.swift** 업데이트
+- 새 메모 생성 시 키보드 자동 포커스
+- 편집 ↔ 프리뷰 전환 0.15s opacity 애니메이션
+- 프리뷰 모드에 `HighlightrCodeSyntaxHighlighter` + `.markdownTheme(.gitHub)` 적용
+- 위치 로딩 중 ProgressView 표시
+
+**NoteListView.swift** 업데이트
+- iOS: `NavigationStack(path:)` + `NavigationLink(value:)` + `navigationDestination(for:)`
+- 스와이프 삭제 (soft delete: `isDeleted = true, isDirty = true`)
+- `ContentUnavailableView` 빈 상태 화면
+
+**수정된 빌드 에러들**
+- `ShapeStyle has no member 'accent'` → `Color.accentColor` 로 교체
+- Swift 6 data race in LocationManager → `nonisolated` 메서드 밖에서 status 값 읽기
+- `HighlightrCodeSyntaxHighlighter` 파일 누락 → `xcodegen generate` 재실행으로 해결
+- 코드 하이라이터 dot syntax 에러 → 직접 인스턴스화로 해결
+
+**문서 추가**
+- `README.md`: 앱 설명, 기능 표, 빌드 방법, 프로젝트 구조, 로드맵
+- `CLAUDE.md`: 에이전트 행동 규칙 (세션 시작/종료 절차, 개발 규칙, 커밋 컨벤션)
+
+---
+
+## 다음 작업 (STEP 3)
+
+**목표: 카테고리 관리 UI + 스마트 폴더 UI**
 
 ```
 우선순위 순서:
 
-1. [ ] 시뮬레이터에서 앱 실행 (Cmd+R) → 화면 흐름 확인
-2. [ ] Highlightr 코드 블록 렌더링 연결
-         NoteEditorView 프리뷰 모드에서 코드 블록이 실제로 강조되는지 확인
-3. [ ] 마크다운 에디터 UX 다듬기
-         - 편집 모드 ↔ 미리보기 모드 전환 자연스럽게
-         - 새 메모 생성 시 키보드 자동 포커스
-4. [ ] 목록에서 첫 줄이 제목으로 표시되는지 확인
-5. [ ] 코드 툴바가 키보드 올라올 때 정확히 붙는지 확인
-6. [ ] 위치 권한 요청 → POI + 주소 저장 확인
+1. [ ] 카테고리 관리 UI
+         - 카테고리 추가/수정/삭제
+         - 색상 선택 (앱 내 팔레트)
+         - 사이드바/탭에서 카테고리별 필터링
+
+2. [ ] 스마트 폴더 UI
+         - 필터 조건(위치 + 카테고리 + 태그) 설정 화면
+         - 생성된 스마트 폴더를 사이드바에 고정
+         - SmartFolder 모델 → NoteFilter JSON 직렬화 활용
+
+3. [ ] 캘린더 뷰 완성
+         - 히트맵 달력 날짜 탭 → 해당 날짜 메모 목록 표시
+         - 월 이동 (prev/next) 버튼
+         - 오늘 날짜 하이라이트
 ```
 
 ---
@@ -137,8 +174,8 @@ Locolog/
 ## 이후 로드맵 (순서대로)
 
 ```
-STEP 2  에디터 기능 완성 + 시뮬레이터 검증     ← 현재
-STEP 3  개발자 코드 툴바 완성 (이미 구조 있음)
+STEP 2  에디터 기능 완성 + 시뮬레이터 검증     ✅ 완료
+STEP 3  카테고리 관리 UI + 스마트 폴더 UI      ← 현재
 STEP 4  위치 자동 태깅 + POI 매칭 완성
 STEP 5  메모 목록 + 카테고리 UI 완성
 STEP 6  캘린더 뷰 완성

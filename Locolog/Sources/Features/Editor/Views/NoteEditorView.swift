@@ -5,31 +5,42 @@ import MarkdownUI
 struct NoteEditorView: View {
     @Bindable var note: Note
     @Environment(\.modelContext) private var context
+    @Environment(\.colorScheme) private var colorScheme
     @StateObject private var locationManager = LocationManager.shared
 
     @State private var isPreviewMode = false
     @FocusState private var isEditorFocused: Bool
 
-    // 자동저장: 0.3초 디바운스
     @State private var saveTask: Task<Void, Never>?
 
     var body: some View {
         VStack(spacing: 0) {
-            // 에디터 / 프리뷰 전환
-            if isPreviewMode {
-                previewContent
-            } else {
+            ZStack {
                 editorContent
-            }
+                    .opacity(isPreviewMode ? 0 : 1)
 
-            // 하단 메타데이터 바
+                previewContent
+                    .opacity(isPreviewMode ? 1 : 0)
+            }
+            .animation(.easeInOut(duration: 0.15), value: isPreviewMode)
+
             metadataBar
         }
+        .navigationTitle(note.displayTitle.isEmpty ? "새 메모" : note.displayTitle)
+        #if os(iOS)
+        .navigationBarTitleDisplayMode(.inline)
+        #endif
         .toolbar { toolbarItems }
-        .task { await fetchLocationIfNeeded() }
+        .onAppear {
+            if note.content.isEmpty {
+                isEditorFocused = true
+            }
+            Task { await fetchLocationIfNeeded() }
+        }
     }
 
     // MARK: - Editor
+
     private var editorContent: some View {
         TextEditor(text: $note.content)
             .font(AppTheme.noteBodyFont)
@@ -37,24 +48,35 @@ struct NoteEditorView: View {
             .focused($isEditorFocused)
             .onChange(of: note.content) { _, _ in scheduleAutoSave() }
             #if os(iOS)
-            .toolbar(content: { codeToolbar })
+            .toolbar { codeToolbar }
             #endif
     }
 
     // MARK: - Preview
+
     private var previewContent: some View {
         ScrollView {
-            Markdown(note.content)
+            Markdown(note.content.isEmpty ? "_내용을 입력하세요_" : note.content)
+                .markdownCodeSyntaxHighlighter(HighlightrCodeSyntaxHighlighter(colorScheme: colorScheme))
+                .markdownTheme(.gitHub)
                 .padding(AppTheme.editorHPadding)
                 .frame(maxWidth: .infinity, alignment: .leading)
         }
     }
 
     // MARK: - Metadata Bar
+
     private var metadataBar: some View {
-        HStack(spacing: 12) {
+        HStack(spacing: 8) {
             if let location = note.displayLocation {
                 Label(location, systemImage: "location.fill")
+                    .font(AppTheme.listMetaFont)
+                    .foregroundStyle(.secondary)
+                    .lineLimit(1)
+            } else if case .loading = locationManager.status {
+                ProgressView()
+                    .scaleEffect(0.7)
+                Text("위치 가져오는 중...")
                     .font(AppTheme.listMetaFont)
                     .foregroundStyle(.secondary)
             }
@@ -69,19 +91,26 @@ struct NoteEditorView: View {
     }
 
     // MARK: - Toolbar
+
     @ToolbarContentBuilder
     private var toolbarItems: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
             Button {
-                isPreviewMode.toggle()
+                withAnimation(.easeInOut(duration: 0.15)) {
+                    isPreviewMode.toggle()
+                }
+                if !isPreviewMode { isEditorFocused = true }
             } label: {
-                Label(isPreviewMode ? "편집" : "미리보기",
-                      systemImage: isPreviewMode ? "pencil" : "eye")
+                Label(
+                    isPreviewMode ? "편집" : "미리보기",
+                    systemImage: isPreviewMode ? "pencil" : "eye"
+                )
             }
         }
     }
 
-    // MARK: - 자동저장 (디바운스 0.3s)
+    // MARK: - Auto-save (0.3s debounce)
+
     private func scheduleAutoSave() {
         saveTask?.cancel()
         saveTask = Task {
@@ -93,34 +122,32 @@ struct NoteEditorView: View {
         }
     }
 
-    // MARK: - 위치 요청
+    // MARK: - Location
+
     private func fetchLocationIfNeeded() async {
         guard note.locationName == nil else { return }
         await locationManager.requestLocation()
-        if case .ready = locationManager.status {
-            note.locationName = locationManager.locationName
-            note.locationPOI = locationManager.locationPOI
-            note.locationLat = locationManager.currentLocation?.coordinate.latitude
-            note.locationLng = locationManager.currentLocation?.coordinate.longitude
-            note.isDirty = true
-            try? context.save()
-        }
+        guard case .ready = locationManager.status else { return }
+        note.locationName  = locationManager.locationName
+        note.locationPOI   = locationManager.locationPOI
+        note.locationLat   = locationManager.currentLocation?.coordinate.latitude
+        note.locationLng   = locationManager.currentLocation?.coordinate.longitude
+        note.isDirty = true
+        try? context.save()
     }
 }
 
-// MARK: - iOS: Input Accessory View (코드 툴바)
+// MARK: - iOS: 키보드 위 코드 툴바
+
 #if os(iOS)
 extension NoteEditorView {
+    @ToolbarContentBuilder
     private var codeToolbar: some ToolbarContent {
         ToolbarItemGroup(placement: .keyboard) {
-            CodeAccessoryToolbar(onInsert: insertText)
+            CodeAccessoryToolbar { snippet in
+                note.content += snippet
+            }
         }
-    }
-
-    private func insertText(_ text: String) {
-        // TextEditor에 직접 텍스트 삽입 (커서 위치)
-        // SwiftUI TextEditor는 커서 위치 접근이 제한적 → 임시로 끝에 추가
-        note.content += text
     }
 }
 #endif

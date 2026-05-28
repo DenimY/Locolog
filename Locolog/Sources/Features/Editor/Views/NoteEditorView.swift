@@ -13,6 +13,7 @@ struct NoteEditorView: View {
     @State private var saveTask: Task<Void, Never>?
     @Query private var allTags: [Tag]
     @State private var showReminderPicker = false
+    @State private var showAIPanel = false
 
     #if os(macOS)
     @State private var showLocationPicker = false
@@ -37,6 +38,12 @@ struct NoteEditorView: View {
         #endif
         .toolbar { toolbarItems }
         .sheet(isPresented: $showReminderPicker) { reminderSheet }
+        .sheet(isPresented: $showAIPanel) {
+            AICommandView(note: note) { result in
+                note.content += "\n\n" + result
+                scheduleAutoSave()
+            }
+        }
         .onAppear {
             if note.content.isEmpty { isEditorFocused = true }
             Task { await fetchLocationIfNeeded() }
@@ -181,6 +188,12 @@ struct NoteEditorView: View {
             Button { showReminderPicker = true } label: {
                 Image(systemName: note.reminderAt != nil ? "bell.fill" : "bell")
                     .foregroundStyle(note.reminderAt != nil ? Color.accentColor : .primary)
+            }
+        }
+        ToolbarItem(placement: .primaryAction) {
+            Button { showAIPanel = true } label: {
+                Image(systemName: "sparkles")
+                    .foregroundStyle(AIManager.shared.activeProvider != nil ? Color.accentColor : .secondary)
             }
         }
     }

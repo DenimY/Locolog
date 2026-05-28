@@ -82,8 +82,13 @@ struct CalendarView: View {
     }
 }
 
-// iOS TabView / 독립 사용 시
+// 명시적 init 정의
 extension CalendarView {
+    init(selectedNote: Binding<Note?>) {
+        self._selectedNote = selectedNote
+    }
+
+    // iOS TabView / 독립 사용 시
     init() {
         self._selectedNote = .constant(nil)
     }

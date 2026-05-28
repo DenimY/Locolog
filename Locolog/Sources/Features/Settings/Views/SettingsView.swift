@@ -195,7 +195,9 @@ struct NotificationSettingsView: View {
                         Text("\(hour)시").tag(hour)
                     }
                 }
+                #if os(iOS)
                 .pickerStyle(.wheel)
+                #endif
             }
         }
         .navigationTitle("알림")
@@ -240,18 +242,81 @@ struct AISettingsView: View {
     @AppStorage("openAIAPIKey")   private var openAIKey   = ""
     @AppStorage("geminiAPIKey")   private var geminiKey   = ""
 
+    private var activeProvider: AIProvider? {
+        for provider in AIProvider.allCases {
+            let key = UserDefaults.standard.string(forKey: provider.keyStorageKey) ?? ""
+            if !key.trimmingCharacters(in: .whitespaces).isEmpty { return provider }
+        }
+        return nil
+    }
+
     var body: some View {
         Form {
+            // 현재 활성 프로바이더 표시
             Section {
-                SecureField("Claude API Key", text: $claudeKey)
-                SecureField("OpenAI API Key", text: $openAIKey)
-                SecureField("Gemini API Key", text: $geminiKey)
+                if let provider = activeProvider {
+                    HStack(spacing: 8) {
+                        Image(systemName: provider.iconName)
+                            .foregroundStyle(Color.accentColor)
+                        Text("\(provider.rawValue) 활성화됨")
+                            .fontWeight(.medium)
+                        Spacer()
+                        Image(systemName: "checkmark.circle.fill")
+                            .foregroundStyle(.green)
+                    }
+                } else {
+                    HStack(spacing: 8) {
+                        Image(systemName: "exclamationmark.triangle.fill")
+                            .foregroundStyle(.orange)
+                        Text("API 키를 입력하면 AI 기능이 활성화됩니다")
+                            .foregroundStyle(.secondary)
+                    }
+                }
             } header: {
-                Text("AI 연동")
+                Text("상태")
+            }
+
+            // API 키 입력
+            Section {
+                HStack {
+                    Image(systemName: AIProvider.claude.iconName)
+                        .frame(width: 20)
+                        .foregroundStyle(.purple)
+                    SecureField("Claude API Key", text: $claudeKey)
+                }
+                HStack {
+                    Image(systemName: AIProvider.openAI.iconName)
+                        .frame(width: 20)
+                        .foregroundStyle(.green)
+                    SecureField("OpenAI API Key", text: $openAIKey)
+                }
+                HStack {
+                    Image(systemName: AIProvider.gemini.iconName)
+                        .frame(width: 20)
+                        .foregroundStyle(.blue)
+                    SecureField("Gemini API Key", text: $geminiKey)
+                }
+            } header: {
+                Text("API 키")
             } footer: {
-                Text("API 키는 이 기기에만 저장되며 서버로 전송되지 않습니다. AI 기능은 선택 사항입니다.")
+                Text("API 키는 이 기기에만 저장되며 서버로 전송되지 않습니다.\nClaude → OpenAI → Gemini 순서로 우선 적용됩니다.\nAI 기능은 선택 사항입니다.")
+            }
+
+            // 사용 가능한 명령어 안내
+            Section {
+                ForEach(AICommand.allCases) { command in
+                    Label(command.rawValue, systemImage: command.icon)
+                        .font(.subheadline)
+                }
+            } header: {
+                Text("사용 가능한 AI 명령어")
+            } footer: {
+                Text("메모 편집 화면의 ✦ 버튼을 눌러 AI 도구를 사용하세요.")
             }
         }
         .navigationTitle("AI 설정")
+        #if os(iOS)
+        .navigationBarTitleDisplayMode(.large)
+        #endif
     }
 }

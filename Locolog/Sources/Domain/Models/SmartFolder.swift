@@ -29,6 +29,7 @@ struct NoteFilter: Codable {
     var categoryId: UUID?
     var tagNames: [String] = []
     var locationName: String?
+    var hasLocation: Bool?
     var dateFrom: Date?
     var dateTo: Date?
 }

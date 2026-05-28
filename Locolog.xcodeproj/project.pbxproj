@@ -13,6 +13,7 @@
 		07A8F66B3D6B14EE3CCDFF05 /* Highlightr in Frameworks */ = {isa = PBXBuildFile; productRef = 43564C17DD706D0C0E3D7764 /* Highlightr */; };
 		08F7016C50AA76CAB11C4E55 /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710727F99137F9B531A1604E /* AppTheme.swift */; };
 		0CE7B04F9A5E8AF1F0D78762 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661A0E0045096E7D7C61B836 /* ContentView.swift */; };
+		0E49487228749DA040459775 /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D3AACED9CB869F7F1BFB328 /* Secrets.swift */; };
 		11BE27E19ED914FAB2697AE4 /* LocologApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12CD83A1B8A6465CCA4F4202 /* LocologApp.swift */; };
 		129FABFA6D28865F1B03C4B6 /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = D8AFA0F8AEB1F9DBCCD1C89A /* MarkdownUI */; };
 		17A5C37C8BD2D4548CC6F73A /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F7A5632AF8E7479600755E /* Note.swift */; };
@@ -30,6 +31,7 @@
 		42C66A50C012DF515518DBBC /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DE38D26DA8433708023FAF5 /* RootView.swift */; };
 		4512D08C2389FC35335986F0 /* NoteRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178696157A8A65AA84018F05 /* NoteRowView.swift */; };
 		47B9AD838B23A454C98DB4C3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661A0E0045096E7D7C61B836 /* ContentView.swift */; };
+		49DD41DCEDE84E04D074D570 /* SyncManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48719F4B03D0F5140DDCE4C6 /* SyncManager.swift */; };
 		4AE18313E56F9632BD067232 /* LocologUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F91950F0F6D748A8DBD513A8 /* LocologUITests.swift */; };
 		4B6147E7ACFB225383DF7E3A /* LocationPickerSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE8C19D7A7BED66A1743C53 /* LocationPickerSheet.swift */; };
 		4B71FDF16AED48BADBA0C6EB /* SidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7919F5E27B7E93E9511A6E6 /* SidebarView.swift */; };
@@ -48,10 +50,15 @@
 		9D2872154218C6ACA6431D56 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE6D14F6F6183BE915C1DB27 /* SearchView.swift */; };
 		9D2A3826308ABA28A86F4307 /* LocationPickerSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE8C19D7A7BED66A1743C53 /* LocationPickerSheet.swift */; };
 		A2BB4665D4E1E7D090A9B623 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005C8CC2FFDF9F584E8FD583 /* SettingsView.swift */; };
+		A6EAD5688BB0D9A5F42BF8B5 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46761BC8F584408F069BB484 /* AuthManager.swift */; };
+		AA91F1C9FBFAC18E5B1C5243 /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D3AACED9CB869F7F1BFB328 /* Secrets.swift */; };
 		AB6E371FAAE227DB3FDE4897 /* CategoryFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D0641B262D377510528237 /* CategoryFormView.swift */; };
 		ADAE6BA91C4FE20834FD2BBF /* NoteRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178696157A8A65AA84018F05 /* NoteRowView.swift */; };
+		ADDB3D9C72DEFBC51F375AA6 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46761BC8F584408F069BB484 /* AuthManager.swift */; };
 		B2816AA03B91E7DE54A2BD3C /* CodeAccessoryToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355723C94FA4D49FD237DC5C /* CodeAccessoryToolbar.swift */; };
+		B6CEC3C0AA09808C35974826 /* SyncManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48719F4B03D0F5140DDCE4C6 /* SyncManager.swift */; };
 		B748189AB681DBE24C5F8A9C /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = DB1C537C8F8A9EC2F3903F4C /* Supabase */; };
+		BBD3F7A560A4BFAB2F872B25 /* SupabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3571A9A9994E85D83C1E0264 /* SupabaseService.swift */; };
 		C6DAC54EBECF397DD6247725 /* SmartFolderFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8C9008C17836E22544D4F63 /* SmartFolderFormView.swift */; };
 		C824915F8DF8DAB552DBD186 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 18D27B9A2A900AA36E9AD888 /* Supabase */; };
 		CAA11490488CE6C403E7EED6 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4FB7377E124E5A101E6C327 /* Category.swift */; };
@@ -60,6 +67,7 @@
 		E01DCF327A9C86FA77335D39 /* SmartFolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4886117789F0CFFE4F93C886 /* SmartFolder.swift */; };
 		E6BCC213E519BE184A382734 /* CodeAccessoryToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355723C94FA4D49FD237DC5C /* CodeAccessoryToolbar.swift */; };
 		F03C7BC021C87DB72EC42C6C /* Highlightr in Frameworks */ = {isa = PBXBuildFile; productRef = 09BC81781221D1BC0DD78359 /* Highlightr */; };
+		F0A8C75080704901F739CE28 /* SupabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3571A9A9994E85D83C1E0264 /* SupabaseService.swift */; };
 		F1546DDE2145CB64177C1906 /* CategoryFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D0641B262D377510528237 /* CategoryFormView.swift */; };
 /* End PBXBuildFile section */
 
@@ -89,9 +97,13 @@
 		1CD433701FEC6F760E67535D /* NoteListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListView.swift; sourceTree = "<group>"; };
 		2F066448DFC77DB16C96B434 /* Locolog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Locolog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		355723C94FA4D49FD237DC5C /* CodeAccessoryToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeAccessoryToolbar.swift; sourceTree = "<group>"; };
+		3571A9A9994E85D83C1E0264 /* SupabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupabaseService.swift; sourceTree = "<group>"; };
+		46761BC8F584408F069BB484 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		47D0AF9DA9AD2C0C5B0410C4 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		48719F4B03D0F5140DDCE4C6 /* SyncManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncManager.swift; sourceTree = "<group>"; };
 		4886117789F0CFFE4F93C886 /* SmartFolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartFolder.swift; sourceTree = "<group>"; };
 		5B421C5389142D5FA7DD15B1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		5D3AACED9CB869F7F1BFB328 /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
 		661A0E0045096E7D7C61B836 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		710727F99137F9B531A1604E /* AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
 		74D0641B262D377510528237 /* CategoryFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryFormView.swift; sourceTree = "<group>"; };
@@ -160,6 +172,16 @@
 				74D0641B262D377510528237 /* CategoryFormView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		1A52720742A3E18439E82FDB /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				46761BC8F584408F069BB484 /* AuthManager.swift */,
+				5D3AACED9CB869F7F1BFB328 /* Secrets.swift */,
+				3571A9A9994E85D83C1E0264 /* SupabaseService.swift */,
+			);
+			path = Auth;
 			sourceTree = "<group>";
 		};
 		1AF40B746206AD77031D3879 /* Views */ = {
@@ -241,6 +263,14 @@
 				8DE38D26DA8433708023FAF5 /* RootView.swift */,
 			);
 			path = App;
+			sourceTree = "<group>";
+		};
+		56262DFF5550261DCA8E65B0 /* Sync */ = {
+			isa = PBXGroup;
+			children = (
+				48719F4B03D0F5140DDCE4C6 /* SyncManager.swift */,
+			);
+			path = Sync;
 			sourceTree = "<group>";
 		};
 		58A563694B67A789F3648AF9 /* Search */ = {
@@ -346,6 +376,8 @@
 		DA4A4AF6E2F2441F94D5C100 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				1A52720742A3E18439E82FDB /* Auth */,
+				56262DFF5550261DCA8E65B0 /* Sync */,
 				7FD52919882462C5E060D5A0 /* Theme */,
 				076D341E1D17116725D2840F /* Utils */,
 			);
@@ -578,6 +610,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0601CD48CC63A86CDA6C589F /* AppTheme.swift in Sources */,
+				ADDB3D9C72DEFBC51F375AA6 /* AuthManager.swift in Sources */,
 				6629BDBB3DE6DF12FD515AB2 /* CalendarView.swift in Sources */,
 				500B1F1E8FD50F0C73301F83 /* Category.swift in Sources */,
 				AB6E371FAAE227DB3FDE4897 /* CategoryFormView.swift in Sources */,
@@ -594,10 +627,13 @@
 				20056E39D84BD94362CFD8BF /* OnboardingView.swift in Sources */,
 				42C66A50C012DF515518DBBC /* RootView.swift in Sources */,
 				9D2872154218C6ACA6431D56 /* SearchView.swift in Sources */,
+				0E49487228749DA040459775 /* Secrets.swift in Sources */,
 				04FEC0C7A101D002A713DE23 /* SettingsView.swift in Sources */,
 				4B71FDF16AED48BADBA0C6EB /* SidebarView.swift in Sources */,
 				624E8E0448545AA105CB06E3 /* SmartFolder.swift in Sources */,
 				3D1126241C1031A4E984B9AD /* SmartFolderFormView.swift in Sources */,
+				F0A8C75080704901F739CE28 /* SupabaseService.swift in Sources */,
+				49DD41DCEDE84E04D074D570 /* SyncManager.swift in Sources */,
 				21E3C4F29A7C1E3DD0C0BCF0 /* Tag.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -615,6 +651,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				08F7016C50AA76CAB11C4E55 /* AppTheme.swift in Sources */,
+				A6EAD5688BB0D9A5F42BF8B5 /* AuthManager.swift in Sources */,
 				6330F63D1AA185858183E757 /* CalendarView.swift in Sources */,
 				CAA11490488CE6C403E7EED6 /* Category.swift in Sources */,
 				F1546DDE2145CB64177C1906 /* CategoryFormView.swift in Sources */,
@@ -631,10 +668,13 @@
 				4B91F6715FB9144D991B3DCA /* OnboardingView.swift in Sources */,
 				703FB262CC3FF1143A26B392 /* RootView.swift in Sources */,
 				D0682B1E1DFADD85DC2E894B /* SearchView.swift in Sources */,
+				AA91F1C9FBFAC18E5B1C5243 /* Secrets.swift in Sources */,
 				A2BB4665D4E1E7D090A9B623 /* SettingsView.swift in Sources */,
 				591A4F4246D6ECBBE6FDBE7C /* SidebarView.swift in Sources */,
 				E01DCF327A9C86FA77335D39 /* SmartFolder.swift in Sources */,
 				C6DAC54EBECF397DD6247725 /* SmartFolderFormView.swift in Sources */,
+				BBD3F7A560A4BFAB2F872B25 /* SupabaseService.swift in Sources */,
+				B6CEC3C0AA09808C35974826 /* SyncManager.swift in Sources */,
 				95CD7E11C466B783B17F38FE /* Tag.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

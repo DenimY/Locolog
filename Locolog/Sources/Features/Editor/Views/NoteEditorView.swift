@@ -153,6 +153,7 @@ struct NoteEditorView: View {
             note.isDirty = true
             syncTags()
             try? context.save()
+            SyncManager.shared.scheduleSync(context: context)
         }
     }
 

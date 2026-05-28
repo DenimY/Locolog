@@ -1,4 +1,5 @@
 import SwiftUI
+import AuthenticationServices
 
 struct SettingsView: View {
     var body: some View {
@@ -55,25 +56,111 @@ struct SettingsView: View {
     }
 }
 
-// MARK: - Placeholder Views (Phase 2~3에서 구현)
+// MARK: - 계정 관리
+
 struct AccountView: View {
+    @ObservedObject private var authManager = AuthManager.shared
+    @State private var isLoading = false
+    @State private var errorMessage: String?
+
     var body: some View {
         Form {
-            Section {
-                // Phase 2: Apple / Google 로그인 (동등 위계)
-                Button {
-                } label: {
-                    Label("Apple로 로그인하여 동기화", systemImage: "applelogo")
+            switch authManager.authState {
+            case .loading:
+                Section {
+                    HStack {
+                        Spacer()
+                        ProgressView()
+                        Spacer()
+                    }
                 }
-                Button {
-                } label: {
-                    Label("Google로 로그인하여 동기화", systemImage: "g.circle")
-                }
-            } footer: {
-                Text("로그인하면 iPhone과 Mac 간에 메모가 동기화됩니다.")
+            case .signedOut:
+                signedOutSection
+            case .signedIn(_, let email):
+                signedInSection(email: email)
             }
         }
         .navigationTitle("계정")
+        #if os(iOS)
+        .navigationBarTitleDisplayMode(.large)
+        #endif
+    }
+
+    private var signedOutSection: some View {
+        Group {
+            Section {
+                Button {
+                    Task { await signInWithApple() }
+                } label: {
+                    if isLoading {
+                        HStack {
+                            ProgressView().scaleEffect(0.8)
+                            Text("로그인 중...")
+                        }
+                    } else {
+                        Label("Apple로 로그인하여 동기화", systemImage: "applelogo")
+                    }
+                }
+                .disabled(isLoading)
+
+                Button {
+                    // Google Sign-In: STEP 8에서 구현
+                } label: {
+                    Label("Google로 로그인하여 동기화", systemImage: "g.circle")
+                }
+                .foregroundStyle(.secondary)
+                .disabled(true)
+            } footer: {
+                Text("로그인하면 iPhone과 Mac 간에 메모가 자동으로 동기화됩니다.")
+            }
+
+            if let error = errorMessage {
+                Section {
+                    Text(error)
+                        .foregroundStyle(.red)
+                        .font(.callout)
+                }
+            }
+        }
+    }
+
+    private func signedInSection(email: String?) -> some View {
+        Group {
+            Section {
+                if let email {
+                    LabeledContent("계정", value: email)
+                }
+                LabeledContent("동기화 상태", value: "활성화")
+            }
+            Section {
+                Button(role: .destructive) {
+                    Task { await signOut() }
+                } label: {
+                    Label("로그아웃", systemImage: "rectangle.portrait.and.arrow.right")
+                }
+            }
+        }
+    }
+
+    private func signInWithApple() async {
+        isLoading = true
+        errorMessage = nil
+        do {
+            try await authManager.signInWithApple()
+        } catch {
+            if (error as? ASAuthorizationError)?.code != .canceled {
+                errorMessage = error.localizedDescription
+            }
+        }
+        isLoading = false
+    }
+
+    private func signOut() async {
+        do {
+            try await authManager.signOut()
+        } catch {
+            errorMessage = error.localizedDescription
+        }
     }
 }
 

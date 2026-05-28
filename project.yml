@@ -60,6 +60,8 @@ targets:
         com.apple.security.app-sandbox: true
         com.apple.security.network.client: true
         com.apple.security.personal-information.location: true
+        com.apple.developer.applesignin:
+          - Default
 
   LocologTests:
     type: bundle.unit-test

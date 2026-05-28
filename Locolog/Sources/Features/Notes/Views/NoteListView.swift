@@ -54,6 +54,16 @@ struct NoteListView: View {
                     }
                 }
             }
+            if f.hasLocation == true {
+                result = result.filter { $0.locationName != nil || $0.locationPOI != nil }
+            }
+            if let from = f.dateFrom {
+                result = result.filter { $0.createdAt >= from }
+            }
+            if let to = f.dateTo {
+                let endOfDay = Calendar.current.date(byAdding: .day, value: 1, to: Calendar.current.startOfDay(for: to)) ?? to
+                result = result.filter { $0.createdAt < endOfDay }
+            }
         }
         #endif
 

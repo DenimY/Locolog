@@ -1,7 +1,7 @@
 # Locolog — 개발 컨텍스트 (에이전트 인수인계)
 
 > 새 대화에서 이 파일을 먼저 읽으면 현재 상태를 파악할 수 있습니다.  
-> 마지막 업데이트: 2026-05-27 (STEP 6 완료)
+> 마지막 업데이트: 2026-05-27 (STEP 9 완료)
 
 ---
 
@@ -62,6 +62,8 @@ Xcode 26.5 / Swift 6
 ### Phase 1 — STEP 4: 위치 자동 태깅 + POI 매칭 + macOS fallback 완성 ✅
 ### Phase 1 — STEP 5: 메모 목록 + 카테고리 UI 완성 ✅
 ### Phase 1 — STEP 6: 캘린더 뷰 완성 ✅
+### Phase 2 — STEP 7: Supabase 연동 + Apple Sign-In 구현 ✅
+### Phase 2 — STEP 8: 오프라인-온라인 동기화 (SyncManager) ✅
 
 **생성된 파일 구조:**
 ```
@@ -150,18 +152,23 @@ Locolog/
 
 ---
 
-## 다음 작업 (Phase 1 완료 → Phase 2 시작)
+## 다음 작업 (STEP 8)
 
-**Phase 1 완료. 다음은 STEP 7: Supabase 연동 + Google/Apple 로그인**
+**목표: 오프라인-온라인 동기화 (SyncManager, isDirty 기반)**
 
 ```
 우선순위 순서:
 
-1. [ ] Supabase 프로젝트 생성 및 Secrets.swift 설정
-2. [ ] Apple Sign-In 구현 (App Store 필수)
-3. [ ] Google Sign-In 구현 (선택적)
-4. [ ] SettingsView 로그인 UI 연결
+1. [ ] Supabase 프로젝트 생성 후 Secrets.swift에 실제 값 입력
+       (dashboard.supabase.com → Project Settings → API)
+2. [ ] Apple Developer 계정에서 Sign in with Apple 활성화
+       (Identifiers → App ID → Sign In with Apple 체크)
+3. [ ] SyncManager 구현 — isDirty = true인 Note를 Supabase에 upsert
+4. [ ] 앱 시작 시 원격 변경사항 pull
 ```
+
+> **현재 Supabase 상태**: Secrets.swift에 placeholder 값 — 빌드는 되지만 실제 인증/동기화 불가.
+> 실제 Supabase 프로젝트 URL/키 입력 후 STEP 8 진행.
 
 ---
 
@@ -174,10 +181,10 @@ STEP 4  위치 자동 태깅 + POI 매칭 완성         ✅ 완료
 STEP 5  메모 목록 + 카테고리 UI 완성           ✅ 완료
 STEP 6  캘린더 뷰 완성                         ✅ 완료
 ─────── Phase 1 완료 ───────
-STEP 7  Supabase 연동 + Google/Apple 로그인    ← 현재
-STEP 8  오프라인-온라인 동기화 (SyncManager, isDirty 기반)
-STEP 9  고급 필터 + 스마트 폴더
-STEP 10 알림 + Google Calendar 연동 (선택적)
+STEP 7  Supabase 연동 + Google/Apple 로그인    ✅ 완료
+STEP 8  오프라인-온라인 동기화 (SyncManager, isDirty 기반)  ✅ 완료
+STEP 9  고급 필터 + 스마트 폴더                             ✅ 완료
+STEP 10 알림 + Google Calendar 연동 (선택적)               ← 현재
 ─────── Phase 2 완료 ───────
 STEP 11 AI 연동 (BYOK: Claude / OpenAI / Gemini)
 STEP 12 지도 뷰 (MapKit)

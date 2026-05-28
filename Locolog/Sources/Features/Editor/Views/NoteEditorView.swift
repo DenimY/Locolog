@@ -12,6 +12,7 @@ struct NoteEditorView: View {
     @FocusState private var isEditorFocused: Bool
     @State private var saveTask: Task<Void, Never>?
     @Query private var allTags: [Tag]
+    @State private var showReminderPicker = false
 
     #if os(macOS)
     @State private var showLocationPicker = false
@@ -35,9 +36,11 @@ struct NoteEditorView: View {
         .navigationBarTitleDisplayMode(.inline)
         #endif
         .toolbar { toolbarItems }
+        .sheet(isPresented: $showReminderPicker) { reminderSheet }
         .onAppear {
             if note.content.isEmpty { isEditorFocused = true }
             Task { await fetchLocationIfNeeded() }
+            Task { await NotificationManager.shared.checkStatus() }
         }
         #if os(macOS)
         .sheet(isPresented: $showLocationPicker) {
@@ -83,6 +86,11 @@ struct NoteEditorView: View {
         HStack(spacing: 8) {
             locationInfo
             Spacer()
+            if let reminder = note.reminderAt {
+                Label(reminder.formatted(date: .abbreviated, time: .shortened), systemImage: "bell.fill")
+                    .font(AppTheme.listMetaFont)
+                    .foregroundStyle(reminder > Date() ? Color.accentColor : .secondary)
+            }
             Text(note.createdAt.formatted(date: .abbreviated, time: .shortened))
                 .font(AppTheme.listMetaFont)
                 .foregroundStyle(.secondary)
@@ -90,6 +98,35 @@ struct NoteEditorView: View {
         .padding(.horizontal, AppTheme.editorHPadding)
         .padding(.vertical, 8)
         .background(.bar)
+    }
+
+    // MARK: - 알림 시트
+
+    private var reminderSheet: some View {
+        ReminderPickerView(
+            reminderAt: note.reminderAt,
+            onSave: { date in
+                let old = note.reminderAt
+                note.reminderAt = date
+                note.isDirty = true
+                try? context.save()
+                if let date {
+                    Task { await setReminder(date: date) }
+                } else if old != nil {
+                    NotificationManager.shared.cancelReminder(for: note)
+                }
+            }
+        )
+    }
+
+    private func setReminder(date: Date) async {
+        let manager = NotificationManager.shared
+        if !manager.isAuthorized {
+            await manager.requestPermission()
+        }
+        if manager.isAuthorized {
+            manager.scheduleReminder(for: note)
+        }
     }
 
     @ViewBuilder
@@ -138,6 +175,12 @@ struct NoteEditorView: View {
                     isPreviewMode ? "편집" : "미리보기",
                     systemImage: isPreviewMode ? "pencil" : "eye"
                 )
+            }
+        }
+        ToolbarItem(placement: .primaryAction) {
+            Button { showReminderPicker = true } label: {
+                Image(systemName: note.reminderAt != nil ? "bell.fill" : "bell")
+                    .foregroundStyle(note.reminderAt != nil ? Color.accentColor : .primary)
             }
         }
     }

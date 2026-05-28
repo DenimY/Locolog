@@ -1,7 +1,7 @@
 # Locolog — 개발 컨텍스트 (에이전트 인수인계)
 
 > 새 대화에서 이 파일을 먼저 읽으면 현재 상태를 파악할 수 있습니다.  
-> 마지막 업데이트: 2026-05-27 (STEP 9 완료)
+> 마지막 업데이트: 2026-05-27 (STEP 10 완료, Phase 2 완료)
 
 ---
 
@@ -184,9 +184,9 @@ STEP 6  캘린더 뷰 완성                         ✅ 완료
 STEP 7  Supabase 연동 + Google/Apple 로그인    ✅ 완료
 STEP 8  오프라인-온라인 동기화 (SyncManager, isDirty 기반)  ✅ 완료
 STEP 9  고급 필터 + 스마트 폴더                             ✅ 완료
-STEP 10 알림 + Google Calendar 연동 (선택적)               ← 현재
+STEP 10 알림 + Google Calendar 연동 (선택적)               ✅ 완료
 ─────── Phase 2 완료 ───────
-STEP 11 AI 연동 (BYOK: Claude / OpenAI / Gemini)
+STEP 11 AI 연동 (BYOK: Claude / OpenAI / Gemini)           ← 현재 (Phase 3 시작)
 STEP 12 지도 뷰 (MapKit)
 STEP 13 이미지 첨부 + 내보내기
 STEP 14 iOS 홈 위젯 (WidgetKit)

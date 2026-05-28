@@ -26,13 +26,13 @@ struct SettingsView: View {
                 // 알림 & 캘린더
                 Section("알림 & 캘린더") {
                     NavigationLink {
-                        Text("알림 설정 (Phase 2)")
+                        NotificationSettingsView()
                     } label: {
                         Label("알림", systemImage: "bell")
                     }
 
                     NavigationLink {
-                        Text("Google 캘린더 연동 (Phase 2)")
+                        GoogleCalendarSettingsView()
                     } label: {
                         Label("Google 캘린더", systemImage: "calendar.badge.plus")
                     }
@@ -161,6 +161,77 @@ struct AccountView: View {
         } catch {
             errorMessage = error.localizedDescription
         }
+    }
+}
+
+// MARK: - 알림 설정
+
+struct NotificationSettingsView: View {
+    @ObservedObject private var notificationManager = NotificationManager.shared
+    @AppStorage("reminderDefaultHour") private var defaultHour = 9
+
+    var body: some View {
+        Form {
+            Section {
+                if notificationManager.isAuthorized {
+                    Label("알림 권한 허용됨", systemImage: "checkmark.circle.fill")
+                        .foregroundStyle(.green)
+                } else {
+                    Button {
+                        Task { await notificationManager.requestPermission() }
+                    } label: {
+                        Label("알림 권한 요청", systemImage: "bell.badge")
+                    }
+                }
+            } header: {
+                Text("권한")
+            } footer: {
+                Text("메모에 알림을 설정하려면 권한이 필요합니다.")
+            }
+
+            Section("기본 알림 시각") {
+                Picker("시각", selection: $defaultHour) {
+                    ForEach(0..<24, id: \.self) { hour in
+                        Text("\(hour)시").tag(hour)
+                    }
+                }
+                .pickerStyle(.wheel)
+            }
+        }
+        .navigationTitle("알림")
+        #if os(iOS)
+        .navigationBarTitleDisplayMode(.large)
+        #endif
+        .task { await notificationManager.checkStatus() }
+    }
+}
+
+// MARK: - Google 캘린더 설정 (인프라 준비, 연동은 Phase 3)
+
+struct GoogleCalendarSettingsView: View {
+    @AppStorage("googleCalendarEnabled") private var isEnabled = false
+
+    var body: some View {
+        Form {
+            Section {
+                Toggle(isOn: $isEnabled) {
+                    Label("Google 캘린더 연동", systemImage: "calendar.badge.plus")
+                }
+            } footer: {
+                Text("메모의 날짜와 위치를 Google 캘린더 일정과 연결합니다.\n연동 시 calendar.events 권한이 요청됩니다.")
+            }
+
+            if isEnabled {
+                Section("연결 상태") {
+                    Label("연동 준비 중 (추후 업데이트)", systemImage: "clock")
+                        .foregroundStyle(.secondary)
+                }
+            }
+        }
+        .navigationTitle("Google 캘린더")
+        #if os(iOS)
+        .navigationBarTitleDisplayMode(.large)
+        #endif
     }
 }
 

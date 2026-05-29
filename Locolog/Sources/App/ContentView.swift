@@ -29,7 +29,7 @@ struct MainTabView: View {
             CalendarView()
                 .tabItem { Label("캘린더", systemImage: "calendar") }
 
-            MapView()
+            NoteMapView()
                 .tabItem { Label("지도", systemImage: "map") }
 
             SearchView()
@@ -55,7 +55,7 @@ struct MainSplitView: View {
             case .calendar:
                 CalendarView(selectedNote: $selectedNote)
             case .map:
-                MapView(selectedNote: $selectedNote)
+                NoteMapView(selectedNote: $selectedNote)
             default:
                 NoteListView(selectedItem: selectedItem, selectedNote: $selectedNote)
             }

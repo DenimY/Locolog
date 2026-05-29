@@ -1,6 +1,7 @@
 import SwiftUI
 import SwiftData
 import MarkdownUI
+import PhotosUI
 
 struct NoteEditorView: View {
     @Bindable var note: Note
@@ -14,6 +15,8 @@ struct NoteEditorView: View {
     @Query private var allTags: [Tag]
     @State private var showReminderPicker = false
     @State private var showAIPanel = false
+    @State private var showExportSheet = false
+    @State private var selectedPhotoItems: [PhotosPickerItem] = []
 
     #if os(macOS)
     @State private var showLocationPicker = false
@@ -30,6 +33,14 @@ struct NoteEditorView: View {
             }
             .animation(.easeInOut(duration: 0.15), value: isPreviewMode)
 
+            // 이미지 첨부 바
+            if !note.attachmentURLs.isEmpty {
+                Divider()
+                AttachmentBar(urlStrings: note.attachmentURLs) { urlString in
+                    deleteAttachment(urlString)
+                }
+            }
+
             metadataBar
         }
         .navigationTitle(note.displayTitle.isEmpty ? "새 메모" : note.displayTitle)
@@ -43,6 +54,13 @@ struct NoteEditorView: View {
                 note.content += "\n\n" + result
                 scheduleAutoSave()
             }
+        }
+        .sheet(isPresented: $showExportSheet) {
+            ExportSheet(note: note)
+        }
+        .onChange(of: selectedPhotoItems) { _, items in
+            guard !items.isEmpty else { return }
+            Task { await addAttachments(from: items) }
         }
         .onAppear {
             if note.content.isEmpty { isEditorFocused = true }
@@ -196,6 +214,16 @@ struct NoteEditorView: View {
                     .foregroundStyle(AIManager.shared.activeProvider != nil ? Color.accentColor : .secondary)
             }
         }
+        ToolbarItem(placement: .primaryAction) {
+            PhotosPicker(selection: $selectedPhotoItems, maxSelectionCount: 10, matching: .images) {
+                Image(systemName: "photo.badge.plus")
+            }
+        }
+        ToolbarItem(placement: .primaryAction) {
+            Button { showExportSheet = true } label: {
+                Image(systemName: "square.and.arrow.up")
+            }
+        }
     }
 
     // MARK: - Auto-save (0.3s debounce)
@@ -226,6 +254,27 @@ struct NoteEditorView: View {
                 note.tags.append(tag)
             }
         }
+    }
+
+    // MARK: - 이미지 첨부
+
+    private func addAttachments(from items: [PhotosPickerItem]) async {
+        for item in items {
+            guard let data = try? await item.loadTransferable(type: Data.self) else { continue }
+            if let urlString = try? AttachmentManager.saveImage(data, for: note.id) {
+                note.attachmentURLs.append(urlString)
+            }
+        }
+        note.isDirty = true
+        try? context.save()
+        selectedPhotoItems = []
+    }
+
+    private func deleteAttachment(_ urlString: String) {
+        AttachmentManager.deleteAttachment(urlString: urlString)
+        note.attachmentURLs.removeAll { $0 == urlString }
+        note.isDirty = true
+        try? context.save()
     }
 
     // MARK: - Location

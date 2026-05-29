@@ -2,9 +2,9 @@ import SwiftUI
 import SwiftData
 import MapKit
 
-// MARK: - MapView
+// MARK: - NoteMapView
 
-struct MapView: View {
+struct NoteMapView: View {
     @Binding var selectedNote: Note?
     @Query(sort: \Note.createdAt, order: .reverse) private var allNotes: [Note]
     @Query(sort: \Category.position) private var categories: [Category]
@@ -151,7 +151,7 @@ struct MapView: View {
 
 // MARK: - iOS TabView 독립 사용
 
-extension MapView {
+extension NoteMapView {
     init() {
         self._selectedNote = .constant(nil)
     }

@@ -17,6 +17,7 @@ final class Note {
     var reminderLocationLng: Double?
     var isDeleted: Bool
     var isDirty: Bool               // 오프라인 수정 → 동기화 대기 여부
+    var attachmentURLs: [String]    // 로컬 파일 URL (Documents/NoteAttachments/)
     @Relationship(deleteRule: .nullify) var tags: [Tag]
 
     init(content: String = "", categoryId: UUID? = nil) {
@@ -27,6 +28,7 @@ final class Note {
         self.updatedAt = Date()
         self.isDeleted = false
         self.isDirty = true
+        self.attachmentURLs = []
         self.tags = []
     }
 

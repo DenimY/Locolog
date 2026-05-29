@@ -29,13 +29,17 @@
 		339A498B5FF769750BE6BFAD /* HighlightrCodeHighlighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD0B46E20EA05A7CE158D9CA /* HighlightrCodeHighlighter.swift */; };
 		3833F6FF0D1FADEF4BF0BAA2 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D0AF9DA9AD2C0C5B0410C4 /* LocationManager.swift */; };
 		3924FCA5AF6394FFC2ECF130 /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = D3B45BED6DFBE90929814402 /* MarkdownUI */; };
+		3C7562260C4DC2151C1237C3 /* AttachmentBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6440406A78F1F3F39DF0E923 /* AttachmentBar.swift */; };
 		3D1126241C1031A4E984B9AD /* SmartFolderFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8C9008C17836E22544D4F63 /* SmartFolderFormView.swift */; };
 		422CF2E2D30ADFBC77EE6F91 /* HighlightrCodeHighlighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD0B46E20EA05A7CE158D9CA /* HighlightrCodeHighlighter.swift */; };
+		4297B33E9021338F3ED06BE7 /* ExportManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9972EAE7CF72DCE5CA63142 /* ExportManager.swift */; };
 		42C0047BF8D7F01CD32135E6 /* AICommandView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88514EA26DF190B017BCEFBB /* AICommandView.swift */; };
 		42C66A50C012DF515518DBBC /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DE38D26DA8433708023FAF5 /* RootView.swift */; };
+		42E62F53B9246A47FF97417C /* AttachmentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BA0239411D4F81065BAA80B /* AttachmentManager.swift */; };
 		4512D08C2389FC35335986F0 /* NoteRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178696157A8A65AA84018F05 /* NoteRowView.swift */; };
 		47B9AD838B23A454C98DB4C3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661A0E0045096E7D7C61B836 /* ContentView.swift */; };
 		49DD41DCEDE84E04D074D570 /* SyncManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48719F4B03D0F5140DDCE4C6 /* SyncManager.swift */; };
+		4A27DEE65F96F304FE5008E8 /* ExportSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6053E5550C5855959C8D4E1 /* ExportSheet.swift */; };
 		4AE18313E56F9632BD067232 /* LocologUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F91950F0F6D748A8DBD513A8 /* LocologUITests.swift */; };
 		4B6147E7ACFB225383DF7E3A /* LocationPickerSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE8C19D7A7BED66A1743C53 /* LocationPickerSheet.swift */; };
 		4B71FDF16AED48BADBA0C6EB /* SidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7919F5E27B7E93E9511A6E6 /* SidebarView.swift */; };
@@ -49,6 +53,7 @@
 		6629BDBB3DE6DF12FD515AB2 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D123980EB550EC0AD907DE8 /* CalendarView.swift */; };
 		6BBEFF4D250D64F471ADB144 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 362C92BF131539B135A4FD89 /* MapView.swift */; };
 		703FB262CC3FF1143A26B392 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DE38D26DA8433708023FAF5 /* RootView.swift */; };
+		7D54D43D1C962E239997AB84 /* ExportSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6053E5550C5855959C8D4E1 /* ExportSheet.swift */; };
 		88D663CE874BA05278346DAE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9688689B7CAC2418AD63A56E /* Assets.xcassets */; };
 		88DCC6E38F55ED623CEA919C /* ReminderPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647E237B177556AE6F04BAC4 /* ReminderPickerView.swift */; };
 		8A34E5B020129B6E47548844 /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F7A5632AF8E7479600755E /* Note.swift */; };
@@ -67,14 +72,17 @@
 		B6CEC3C0AA09808C35974826 /* SyncManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48719F4B03D0F5140DDCE4C6 /* SyncManager.swift */; };
 		B748189AB681DBE24C5F8A9C /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = DB1C537C8F8A9EC2F3903F4C /* Supabase */; };
 		BBD3F7A560A4BFAB2F872B25 /* SupabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3571A9A9994E85D83C1E0264 /* SupabaseService.swift */; };
+		C3AF1F7A58659D8C9A94D83A /* AttachmentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BA0239411D4F81065BAA80B /* AttachmentManager.swift */; };
 		C41D50FA5AFA1581C796B2A3 /* ReminderPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647E237B177556AE6F04BAC4 /* ReminderPickerView.swift */; };
 		C6DAC54EBECF397DD6247725 /* SmartFolderFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8C9008C17836E22544D4F63 /* SmartFolderFormView.swift */; };
 		C824915F8DF8DAB552DBD186 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 18D27B9A2A900AA36E9AD888 /* Supabase */; };
 		CAA11490488CE6C403E7EED6 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4FB7377E124E5A101E6C327 /* Category.swift */; };
 		CE518A36D3B3E43733F4D43C /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D0AF9DA9AD2C0C5B0410C4 /* LocationManager.swift */; };
+		CED28C340935647CB91EBC71 /* AttachmentBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6440406A78F1F3F39DF0E923 /* AttachmentBar.swift */; };
 		D0682B1E1DFADD85DC2E894B /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE6D14F6F6183BE915C1DB27 /* SearchView.swift */; };
 		E01DCF327A9C86FA77335D39 /* SmartFolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4886117789F0CFFE4F93C886 /* SmartFolder.swift */; };
 		E6BCC213E519BE184A382734 /* CodeAccessoryToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355723C94FA4D49FD237DC5C /* CodeAccessoryToolbar.swift */; };
+		ED0EE01B82BE84E617DDD652 /* ExportManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9972EAE7CF72DCE5CA63142 /* ExportManager.swift */; };
 		F03C7BC021C87DB72EC42C6C /* Highlightr in Frameworks */ = {isa = PBXBuildFile; productRef = 09BC81781221D1BC0DD78359 /* Highlightr */; };
 		F0A8C75080704901F739CE28 /* SupabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3571A9A9994E85D83C1E0264 /* SupabaseService.swift */; };
 		F1546DDE2145CB64177C1906 /* CategoryFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D0641B262D377510528237 /* CategoryFormView.swift */; };
@@ -101,6 +109,7 @@
 /* Begin PBXFileReference section */
 		005C8CC2FFDF9F584E8FD583 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		072D64ADDBD800051FB4C6B8 /* LocologTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = LocologTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		0BA0239411D4F81065BAA80B /* AttachmentManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttachmentManager.swift; sourceTree = "<group>"; };
 		10CC5B25E5E6EC35A4950027 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		12CD83A1B8A6465CCA4F4202 /* LocologApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocologApp.swift; sourceTree = "<group>"; };
 		178696157A8A65AA84018F05 /* NoteRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteRowView.swift; sourceTree = "<group>"; };
@@ -116,6 +125,7 @@
 		4886117789F0CFFE4F93C886 /* SmartFolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartFolder.swift; sourceTree = "<group>"; };
 		5B421C5389142D5FA7DD15B1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		5D3AACED9CB869F7F1BFB328 /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
+		6440406A78F1F3F39DF0E923 /* AttachmentBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttachmentBar.swift; sourceTree = "<group>"; };
 		647E237B177556AE6F04BAC4 /* ReminderPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderPickerView.swift; sourceTree = "<group>"; };
 		661A0E0045096E7D7C61B836 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		710727F99137F9B531A1604E /* AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
@@ -132,7 +142,9 @@
 		A7C2EAB777BDA140BEC189E5 /* LocologTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocologTests.swift; sourceTree = "<group>"; };
 		BFE8C19D7A7BED66A1743C53 /* LocationPickerSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPickerSheet.swift; sourceTree = "<group>"; };
 		C4FB7377E124E5A101E6C327 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		D9972EAE7CF72DCE5CA63142 /* ExportManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportManager.swift; sourceTree = "<group>"; };
 		DD0B46E20EA05A7CE158D9CA /* HighlightrCodeHighlighter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightrCodeHighlighter.swift; sourceTree = "<group>"; };
+		E6053E5550C5855959C8D4E1 /* ExportSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportSheet.swift; sourceTree = "<group>"; };
 		E8C9008C17836E22544D4F63 /* SmartFolderFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartFolderFormView.swift; sourceTree = "<group>"; };
 		F5D39529E85FF2C538B25CBF /* Locolog.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Locolog.entitlements; sourceTree = "<group>"; };
 		F7919F5E27B7E93E9511A6E6 /* SidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarView.swift; sourceTree = "<group>"; };
@@ -268,6 +280,15 @@
 			path = Sources;
 			sourceTree = "<group>";
 		};
+		4A791EF059D56DFF9D139BFF /* Export */ = {
+			isa = PBXGroup;
+			children = (
+				D9972EAE7CF72DCE5CA63142 /* ExportManager.swift */,
+				4E52A0E33D35A69AA70D7E60 /* Views */,
+			);
+			path = Export;
+			sourceTree = "<group>";
+		};
 		4B9E5AB853D4EA99F1F015DA = {
 			isa = PBXGroup;
 			children = (
@@ -276,6 +297,14 @@
 				EEDD71002F60ABB535654027 /* LocologUITests */,
 				622FDB36EEAF418CD269F90A /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		4E52A0E33D35A69AA70D7E60 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E6053E5550C5855959C8D4E1 /* ExportSheet.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		4FCDE58582C917C9FC339752 /* App */ = {
@@ -338,6 +367,7 @@
 				44426BC85C7C5ACA808D4535 /* Calendar */,
 				2222855E87925F10B31CE167 /* Categories */,
 				BA996B959A7E13D9732CAE15 /* Editor */,
+				4A791EF059D56DFF9D139BFF /* Export */,
 				B493B1CD338B969D31D40F53 /* Map */,
 				C5539E911424A345BBB4372C /* Notes */,
 				9003882A44B42E086C4644D0 /* Onboarding */,
@@ -346,6 +376,14 @@
 				BDA6C5F2D9F0374113D94B92 /* SmartFolders */,
 			);
 			path = Features;
+			sourceTree = "<group>";
+		};
+		795686BB8762598DC3A76B67 /* Attachments */ = {
+			isa = PBXGroup;
+			children = (
+				0BA0239411D4F81065BAA80B /* AttachmentManager.swift */,
+			);
+			path = Attachments;
 			sourceTree = "<group>";
 		};
 		7FD52919882462C5E060D5A0 /* Theme */ = {
@@ -426,6 +464,7 @@
 			isa = PBXGroup;
 			children = (
 				603781486C7FF9566752E92F /* AI */,
+				795686BB8762598DC3A76B67 /* Attachments */,
 				1A52720742A3E18439E82FDB /* Auth */,
 				0A33131D51D028857B82A49B /* Notifications */,
 				56262DFF5550261DCA8E65B0 /* Sync */,
@@ -476,6 +515,7 @@
 		E4B2BEEA8CBAA4427B267E8F /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				6440406A78F1F3F39DF0E923 /* AttachmentBar.swift */,
 				355723C94FA4D49FD237DC5C /* CodeAccessoryToolbar.swift */,
 				DD0B46E20EA05A7CE158D9CA /* HighlightrCodeHighlighter.swift */,
 				647E237B177556AE6F04BAC4 /* ReminderPickerView.swift */,
@@ -680,12 +720,16 @@
 				42C0047BF8D7F01CD32135E6 /* AICommandView.swift in Sources */,
 				0ACD30D61ACB6775272D4952 /* AIManager.swift in Sources */,
 				0601CD48CC63A86CDA6C589F /* AppTheme.swift in Sources */,
+				CED28C340935647CB91EBC71 /* AttachmentBar.swift in Sources */,
+				C3AF1F7A58659D8C9A94D83A /* AttachmentManager.swift in Sources */,
 				ADDB3D9C72DEFBC51F375AA6 /* AuthManager.swift in Sources */,
 				6629BDBB3DE6DF12FD515AB2 /* CalendarView.swift in Sources */,
 				500B1F1E8FD50F0C73301F83 /* Category.swift in Sources */,
 				AB6E371FAAE227DB3FDE4897 /* CategoryFormView.swift in Sources */,
 				B2816AA03B91E7DE54A2BD3C /* CodeAccessoryToolbar.swift in Sources */,
 				47B9AD838B23A454C98DB4C3 /* ContentView.swift in Sources */,
+				ED0EE01B82BE84E617DDD652 /* ExportManager.swift in Sources */,
+				4A27DEE65F96F304FE5008E8 /* ExportSheet.swift in Sources */,
 				422CF2E2D30ADFBC77EE6F91 /* HighlightrCodeHighlighter.swift in Sources */,
 				CE518A36D3B3E43733F4D43C /* LocationManager.swift in Sources */,
 				9D2A3826308ABA28A86F4307 /* LocationPickerSheet.swift in Sources */,
@@ -726,12 +770,16 @@
 				32B9EDD6A54704B605AB2CC4 /* AICommandView.swift in Sources */,
 				04E7F832E711016C8DE5597E /* AIManager.swift in Sources */,
 				08F7016C50AA76CAB11C4E55 /* AppTheme.swift in Sources */,
+				3C7562260C4DC2151C1237C3 /* AttachmentBar.swift in Sources */,
+				42E62F53B9246A47FF97417C /* AttachmentManager.swift in Sources */,
 				A6EAD5688BB0D9A5F42BF8B5 /* AuthManager.swift in Sources */,
 				6330F63D1AA185858183E757 /* CalendarView.swift in Sources */,
 				CAA11490488CE6C403E7EED6 /* Category.swift in Sources */,
 				F1546DDE2145CB64177C1906 /* CategoryFormView.swift in Sources */,
 				E6BCC213E519BE184A382734 /* CodeAccessoryToolbar.swift in Sources */,
 				0CE7B04F9A5E8AF1F0D78762 /* ContentView.swift in Sources */,
+				4297B33E9021338F3ED06BE7 /* ExportManager.swift in Sources */,
+				7D54D43D1C962E239997AB84 /* ExportSheet.swift in Sources */,
 				339A498B5FF769750BE6BFAD /* HighlightrCodeHighlighter.swift in Sources */,
 				3833F6FF0D1FADEF4BF0BAA2 /* LocationManager.swift in Sources */,
 				4B6147E7ACFB225383DF7E3A /* LocationPickerSheet.swift in Sources */,

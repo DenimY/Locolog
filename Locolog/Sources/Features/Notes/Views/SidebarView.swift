@@ -21,6 +21,9 @@ struct SidebarView: View {
             Label("캘린더", systemImage: "calendar")
                 .tag(SidebarItem.calendar)
 
+            Label("지도", systemImage: "map")
+                .tag(SidebarItem.map)
+
             Section {
                 ForEach(categories) { category in
                     Label {

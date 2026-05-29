@@ -32,7 +32,7 @@ struct NoteListView: View {
         }
         #else
         switch selectedItem {
-        case .allNotes, .calendar:
+        case .allNotes, .calendar, .map:
             break
         case .category(let cat):
             result = result.filter { $0.categoryId == cat.id }
@@ -103,6 +103,7 @@ struct NoteListView: View {
         switch selectedItem {
         case .allNotes: return "전체 메모"
         case .calendar: return "캘린더"
+        case .map: return "지도"
         case .category(let cat): return cat.name
         case .smartFolder(let sf): return sf.name
         }

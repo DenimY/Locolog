@@ -40,12 +40,14 @@
 		4B6147E7ACFB225383DF7E3A /* LocationPickerSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE8C19D7A7BED66A1743C53 /* LocationPickerSheet.swift */; };
 		4B71FDF16AED48BADBA0C6EB /* SidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7919F5E27B7E93E9511A6E6 /* SidebarView.swift */; };
 		4B91F6715FB9144D991B3DCA /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10CC5B25E5E6EC35A4950027 /* OnboardingView.swift */; };
+		4E4CAF3BDA552951DB3FED4B /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 362C92BF131539B135A4FD89 /* MapView.swift */; };
 		500B1F1E8FD50F0C73301F83 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4FB7377E124E5A101E6C327 /* Category.swift */; };
 		579478F950D08D74D4372E3A /* NoteEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1652CCD7C0F138788EEF524 /* NoteEditorView.swift */; };
 		591A4F4246D6ECBBE6FDBE7C /* SidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7919F5E27B7E93E9511A6E6 /* SidebarView.swift */; };
 		624E8E0448545AA105CB06E3 /* SmartFolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4886117789F0CFFE4F93C886 /* SmartFolder.swift */; };
 		6330F63D1AA185858183E757 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D123980EB550EC0AD907DE8 /* CalendarView.swift */; };
 		6629BDBB3DE6DF12FD515AB2 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D123980EB550EC0AD907DE8 /* CalendarView.swift */; };
+		6BBEFF4D250D64F471ADB144 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 362C92BF131539B135A4FD89 /* MapView.swift */; };
 		703FB262CC3FF1143A26B392 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DE38D26DA8433708023FAF5 /* RootView.swift */; };
 		88D663CE874BA05278346DAE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9688689B7CAC2418AD63A56E /* Assets.xcassets */; };
 		88DCC6E38F55ED623CEA919C /* ReminderPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647E237B177556AE6F04BAC4 /* ReminderPickerView.swift */; };
@@ -106,6 +108,7 @@
 		2F066448DFC77DB16C96B434 /* Locolog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Locolog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		355723C94FA4D49FD237DC5C /* CodeAccessoryToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeAccessoryToolbar.swift; sourceTree = "<group>"; };
 		3571A9A9994E85D83C1E0264 /* SupabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupabaseService.swift; sourceTree = "<group>"; };
+		362C92BF131539B135A4FD89 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		46761BC8F584408F069BB484 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		469FCAC48FBCD7DAC8F11982 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		47D0AF9DA9AD2C0C5B0410C4 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
@@ -335,6 +338,7 @@
 				44426BC85C7C5ACA808D4535 /* Calendar */,
 				2222855E87925F10B31CE167 /* Categories */,
 				BA996B959A7E13D9732CAE15 /* Editor */,
+				B493B1CD338B969D31D40F53 /* Map */,
 				C5539E911424A345BBB4372C /* Notes */,
 				9003882A44B42E086C4644D0 /* Onboarding */,
 				58A563694B67A789F3648AF9 /* Search */,
@@ -383,6 +387,14 @@
 				46A6E121FFE589854962D7F8 /* Sources */,
 			);
 			path = Locolog;
+			sourceTree = "<group>";
+		};
+		B493B1CD338B969D31D40F53 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				E17670E43D6F2B2DBEAD9E50 /* Views */,
+			);
+			path = Map;
 			sourceTree = "<group>";
 		};
 		BA996B959A7E13D9732CAE15 /* Editor */ = {
@@ -439,6 +451,14 @@
 			children = (
 				BFE8C19D7A7BED66A1743C53 /* LocationPickerSheet.swift */,
 				A1652CCD7C0F138788EEF524 /* NoteEditorView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E17670E43D6F2B2DBEAD9E50 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				362C92BF131539B135A4FD89 /* MapView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -670,6 +690,7 @@
 				CE518A36D3B3E43733F4D43C /* LocationManager.swift in Sources */,
 				9D2A3826308ABA28A86F4307 /* LocationPickerSheet.swift in Sources */,
 				11BE27E19ED914FAB2697AE4 /* LocologApp.swift in Sources */,
+				4E4CAF3BDA552951DB3FED4B /* MapView.swift in Sources */,
 				8A34E5B020129B6E47548844 /* Note.swift in Sources */,
 				579478F950D08D74D4372E3A /* NoteEditorView.swift in Sources */,
 				02F133BC81451216C8D07E4B /* NoteListView.swift in Sources */,
@@ -715,6 +736,7 @@
 				3833F6FF0D1FADEF4BF0BAA2 /* LocationManager.swift in Sources */,
 				4B6147E7ACFB225383DF7E3A /* LocationPickerSheet.swift in Sources */,
 				319663A73744B3A0475F3D02 /* LocologApp.swift in Sources */,
+				6BBEFF4D250D64F471ADB144 /* MapView.swift in Sources */,
 				17A5C37C8BD2D4548CC6F73A /* Note.swift in Sources */,
 				9A8A27E95A5A121DD0DE6A89 /* NoteEditorView.swift in Sources */,
 				1DFC78A1441F57B485FC1B0B /* NoteListView.swift in Sources */,

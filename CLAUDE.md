@@ -23,16 +23,21 @@
 
 ## 개발 규칙
 
-### 파일 추가 시 반드시 xcodegen 재실행
+### 파일 추가 시 반드시 xcodegen 재실행 + 위젯 패치 적용
 
-터미널에서 Swift 파일을 추가하거나 삭제했다면 **반드시** 실행:
+터미널에서 Swift 파일을 추가하거나 삭제했다면 **반드시** 아래 순서로 실행:
 
 ```bash
-cd /Users/youkyungmu/Documents/Project/git/Locolog
+cd /Users/youkyungmu/Documents/Project/Locolog
 xcodegen generate
+
+# WidgetKit embed을 iOS 전용으로 제한 (macOS 빌드 에러 방지)
+sed -i '' '/LocologWidget.appex in Embed Foundation Extensions/s/settings = {/platformFilter = ios; settings = {/' \
+  Locolog.xcodeproj/project.pbxproj
 ```
 
-xcodegen 없이 추가된 파일은 Xcode 프로젝트에 포함되지 않아 빌드 에러가 발생한다.
+xcodegen 없이 추가된 파일은 Xcode 프로젝트에 포함되지 않아 빌드 에러가 발생한다.  
+위젯 패치를 빠뜨리면 macOS 빌드 시 "embedded content built for iOS" 에러가 발생한다.
 
 ### 빌드 확인 명령어
 

@@ -1,7 +1,7 @@
 # Locolog — 개발 컨텍스트 (에이전트 인수인계)
 
 > 새 대화에서 이 파일을 먼저 읽으면 현재 상태를 파악할 수 있습니다.  
-> 마지막 업데이트: 2026-05-29 (STEP 13 완료)
+> 마지막 업데이트: 2026-05-30 (STEP 14 완료, Phase 3 완료)
 
 ---
 
@@ -49,7 +49,7 @@
 ✅ BUILD SUCCEEDED
 타겟: Locolog_iOS (iPhone 17 Pro Simulator) + Locolog_macOS
 Xcode 26.5 / Swift 6
-마지막 확인: 2026-05-29 (STEP 13 완료 후)
+마지막 확인: 2026-05-30 (STEP 14 완료 후)
 ```
 
 ---
@@ -69,6 +69,7 @@ Xcode 26.5 / Swift 6
 ### Phase 3 — STEP 11: AI 연동 (BYOK: Claude / OpenAI / Gemini) ✅
 ### Phase 3 — STEP 12: 지도 뷰 (MapKit) ✅
 ### Phase 3 — STEP 13: 이미지 첨부 + 내보내기 ✅
+### Phase 3 — STEP 14: iOS 홈 위젯 (WidgetKit) ✅
 
 **생성된 파일 구조:**
 ```
@@ -165,21 +166,21 @@ Locolog/
 
 ---
 
-## 다음 작업 (STEP 14)
+## 다음 작업 (Phase 4 이후)
 
-**목표: iOS 홈 위젯 (WidgetKit)**
+**Phase 3 완료. 향후 작업 목록:**
 
 ```
-우선순위 순서:
-
-1. [ ] Widget Extension 타겟 추가 (project.yml)
-2. [ ] 최근 메모 위젯 (Small: 최신 메모 제목, Medium: 미리보기 포함)
-3. [ ] App Group 설정 — 앱 ↔ 위젯 SwiftData 공유
-4. [ ] 위젯 딥링크 (특정 메모 바로 열기)
+- 팀 공유 UI (SQL 스키마 완성됨, 클라이언트 미구현)
+- Google Sign-In
+- Google Calendar 실제 연동
+- 이미지 Supabase Storage 동기화
+- 위젯 딥링크 (특정 메모 바로 열기)
+- 위젯 Lock Screen (accessoryRectangular 등)
+- App Store 제출 준비 (스크린샷, 설명, 개인정보처리방침)
 ```
 
-> **이미지 첨부 참고**: 현재 로컬 저장 (Documents/NoteAttachments/) 전용.
-> 향후 Supabase Storage 연동으로 기기 간 동기화 예정.
+> **xcodegen 재실행 시 주의**: 위젯 embed platformFilter 패치 필수 (CLAUDE.md 참조)
 
 ---
 
@@ -200,7 +201,8 @@ STEP 10 알림 + Google Calendar 연동 (선택적)               ✅ 완료
 STEP 11 AI 연동 (BYOK: Claude / OpenAI / Gemini)           ✅ 완료
 STEP 12 지도 뷰 (MapKit)                                   ✅ 완료
 STEP 13 이미지 첨부 + 내보내기                             ✅ 완료
-STEP 14 iOS 홈 위젯 (WidgetKit)                            ← 현재
+STEP 14 iOS 홈 위젯 (WidgetKit)                            ✅ 완료
+─────── Phase 3 완료 ───────
 ```
 
 ---

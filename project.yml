@@ -31,7 +31,8 @@ targets:
         SWIFT_VERSION: "6.0"
         MARKETING_VERSION: "1.0.0"
         CURRENT_PROJECT_VERSION: "1"
-        DEVELOPMENT_TEAM: ""
+        DEVELOPMENT_TEAM: "97GKTL8822"
+        CODE_SIGN_STYLE: Automatic
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
       configs:
         Debug:
@@ -79,7 +80,8 @@ targets:
         SWIFT_VERSION: "6.0"
         MARKETING_VERSION: "1.0.0"
         CURRENT_PROJECT_VERSION: "1"
-        DEVELOPMENT_TEAM: ""
+        DEVELOPMENT_TEAM: "97GKTL8822"
+        CODE_SIGN_STYLE: Automatic
     info:
       path: LocologWidget/Info.plist
       properties:

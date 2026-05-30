@@ -171,6 +171,7 @@ Locolog/
 **Phase 3 완료. 향후 작업 목록:**
 
 ```
+- 친구 추가 기능 (명칭 미확정 / 이메일 초대 → 노트 공유, DB 스키마는 note_shares로 준비됨)
 - 팀 공유 UI (SQL 스키마 완성됨, 클라이언트 미구현)
 - Google Sign-In
 - Google Calendar 실제 연동

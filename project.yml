@@ -37,6 +37,10 @@ targets:
       configs:
         Debug:
           DEBUG_INFORMATION_FORMAT: dwarf
+          # macOS 로컬 개발 시 프로파일 없이 빌드 가능하도록 ad-hoc 서명
+          CODE_SIGN_IDENTITY[sdk=macosx*]: "-"
+          CODE_SIGNING_REQUIRED[sdk=macosx*]: NO
+          CODE_SIGNING_ALLOWED[sdk=macosx*]: NO
         Release:
           DEBUG_INFORMATION_FORMAT: dwarf-with-dsym
     dependencies:
@@ -45,9 +49,8 @@ targets:
       - package: swift-markdown-ui
         product: MarkdownUI
       - package: Highlightr
-      - target: LocologWidget
-        embed: true
-        platformFilter: ios
+      # LocologWidget: Xcode에서 iOS 타겟의 "Embed Foundation Extensions"에 수동 추가 필요
+      # (멀티플랫폼 타겟에서 자동 embed 시 macOS 빌드 서명 오류 발생)
     info:
       path: Locolog/Resources/Info.plist
       properties:

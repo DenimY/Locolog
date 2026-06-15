@@ -98,7 +98,7 @@
 		F03C7BC021C87DB72EC42C6C /* Highlightr in Frameworks */ = {isa = PBXBuildFile; productRef = 09BC81781221D1BC0DD78359 /* Highlightr */; };
 		F0A8C75080704901F739CE28 /* SupabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3571A9A9994E85D83C1E0264 /* SupabaseService.swift */; };
 		F1546DDE2145CB64177C1906 /* CategoryFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D0641B262D377510528237 /* CategoryFormView.swift */; };
-		F159CEB161CADAA60F8392E2 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = BABF8C7BADE15C88A5D60D14 /* Sparkle */; };
+		F159CEB161CADAA60F8392E2 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; platformFilter = macos; productRef = BABF8C7BADE15C88A5D60D14 /* Sparkle */; };
 		F3249B11BDB47EDA6F5791B3 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469FCAC48FBCD7DAC8F11982 /* NotificationManager.swift */; };
 		FD886CEC5AE0A57EAF736F39 /* WidgetNote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD0FC91FDC50720D99CEE9A /* WidgetNote.swift */; };
 /* End PBXBuildFile section */
@@ -304,7 +304,6 @@
 			children = (
 				4FCDE58582C917C9FC339752 /* App */,
 				DA4A4AF6E2F2441F94D5C100 /* Core */,
-				6D0252917D09C1033A9E019D /* Data */,
 				E8BDE41419C0F0D177034F4E /* Domain */,
 				717505175312B41AF5528E69 /* Features */,
 			);
@@ -391,13 +390,6 @@
 				E7FCA264328AD51441303A95 /* Views */,
 			);
 			path = AI;
-			sourceTree = "<group>";
-		};
-		6D0252917D09C1033A9E019D /* Data */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Data;
 			sourceTree = "<group>";
 		};
 		6FC9F7212BB0584AB108EB12 /* Widget */ = {

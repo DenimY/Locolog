@@ -1,7 +1,7 @@
 # Locolog — 개발 컨텍스트 (에이전트 인수인계)
 
 > 새 대화에서 이 파일을 먼저 읽으면 현재 상태를 파악할 수 있습니다.  
-> 마지막 업데이트: 2026-06-15 (macOS 배포 + UX 개선 작업)
+> 마지막 업데이트: 2026-06-15 (보안 강화 + Google Sign-In + 사이드바 UX 개선)
 
 ---
 
@@ -49,7 +49,7 @@
 ✅ BUILD SUCCEEDED
 타겟: Locolog_iOS (iPhone 17 Pro Simulator) + Locolog_macOS
 Xcode 26.5 / Swift 6
-마지막 확인: 2026-06-15 (macOS UX 개선 후)
+마지막 확인: 2026-06-15 (보안 강화 + Google Sign-In + 사이드바 UX 개선 후)
 ```
 
 ---
@@ -136,6 +136,47 @@ Locolog/
 
 ---
 
+## 이번 세션 완료 작업 (2026-06-15)
+
+### 보안 강화 & Google Sign-In 구현 ✅
+- **KeychainManager.swift** (신규): Security 프레임워크 기반 API 키 저장 (`kSecClassGenericPassword`)
+- **AIManager.swift**: `activeProvider`, `apiKey(for:)` → `UserDefaults` 대신 Keychain 사용
+- **SettingsView.swift**:
+  - iOS `AISettingsView`: `@AppStorage` → Keychain `@State` + `.onChange` 저장
+  - macOS `AITabView`: 동일하게 Keychain 기반으로 통일
+  - iOS `AccountView`: Google Sign-In 버튼 활성화 + `signInWithGoogle()` 추가
+  - macOS `AccountTabView`: Google Sign-In 버튼 활성화 + `signInWithGoogle()` 추가
+- **AuthManager.swift**:
+  - `signInWithGoogle()`: `ASWebAuthenticationSession` + Supabase OAuth 플로우
+  - `performWebAuth(url:callbackScheme:)`: async/await 래퍼
+  - `ASWebAuthenticationPresentationContextProviding` 채택
+  - `webAuthSession` 프로퍼티로 세션 생명주기 관리
+- **OnboardingView.swift**: Google Sign-In 버튼 활성화
+- **SyncManager.swift**: 
+  - `pull()` — `user_id` 필터 추가 (타 사용자 메모 접근 방지)
+  - `isFavorited` 동기화 (`NotePayload`, `NoteRecord` 필드 추가)
+
+### 사이드바 UX 개선 ✅
+- **SidebarView.swift**:
+  - 카테고리 드래그 재정렬 (`ForEach.onMove` + `category.position` SwiftData 저장)
+  - 태그 섹션 추가 (삭제되지 않은 노트의 태그만 표시)
+  - 고정 항목 드래그 재정렬 (`@AppStorage("navOrder")` 기반)
+- **ContentView.swift**:
+  - `SidebarItem.tag(String)` 케이스 추가
+  - `NavItem` enum 추가 (rawValue 기반 순서 관리)
+  - 앱 실행 시 `navOrder` 첫 번째 항목 자동 선택
+- **NoteListView.swift**: `.tag(tagName)` 필터 + 내비게이션 타이틀 추가
+
+### macOS 인라인 편집 ✅
+- `NavigationSplitView` detail 패널에 `NoteEditorView` 직접 표시 (Edit 버튼 없음)
+- `NoteEditorView` macOS 즐겨찾기 툴바 버튼 추가
+
+### 머지 충돌 해결 ✅
+- `SettingsView.swift`: HEAD(Keychain) + 원격(macOS TabView 재설계) 통합
+- `scripts/fix_pbxproj.py`: Sparkle `platformFilter maccatalyst → macos` (원격 버전 채택)
+
+---
+
 ### Phase 1 — STEP 2 완료 내용
 
 **HighlightrCodeHighlighter.swift** (신규 생성)
@@ -200,9 +241,13 @@ Locolog/
 ```
 - 친구 추가 기능 (명칭 미확정 / 이메일 초대 → 노트 공유, DB 스키마는 note_shares로 준비됨)
 - 팀 공유 UI (SQL 스키마 완성됨, 클라이언트 미구현)
-- Google Sign-In
+- Google Sign-In ← 클라이언트 구현 완료, Supabase 대시보드 Google 공급자 활성화 필요
+  - Supabase Dashboard → Auth → Providers → Google 활성화
+  - Redirect URL 추가: com.locolog.app://auth-callback
 - Google Calendar 실제 연동
 - 이미지 Supabase Storage 동기화
+- isFavorited Supabase DB 마이그레이션 필요:
+  ALTER TABLE notes ADD COLUMN is_favorited boolean DEFAULT false;
 - 위젯 딥링크 (특정 메모 바로 열기)
 - 위젯 Lock Screen (accessoryRectangular 등)
 - App Store 제출 준비 (스크린샷, 설명, 개인정보처리방침)

@@ -17,9 +17,9 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
@@ -32,7 +32,7 @@
 	<key>SUFeedURL</key>
 	<string>https://github.com/DenimY/Locolog/releases/latest/download/appcast.xml</string>
 	<key>SUPublicEDKey</key>
-	<string>C4aGz07HSxK02sgIcbmYyF+5V5/n/BSkrIOSzPLIP50=</string>
+	<string>w1H71VoeiCSTkxyyab0wURmooYVdHpqfG5TsPuQlz3g=</string>
 	<key>UILaunchScreen</key>
 	<dict>
 		<key>UIColorName</key>

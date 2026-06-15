@@ -10,9 +10,13 @@ enum AuthState {
 
 enum AuthError: LocalizedError {
     case invalidCredential
+    case callbackFailed
 
     var errorDescription: String? {
-        "Apple 인증 정보를 처리할 수 없습니다."
+        switch self {
+        case .invalidCredential: return "인증 정보를 처리할 수 없습니다."
+        case .callbackFailed:    return "로그인 콜백을 처리할 수 없습니다."
+        }
     }
 }
 
@@ -21,7 +25,9 @@ final class AuthManager: NSObject, ObservableObject {
     static let shared = AuthManager()
 
     @Published var authState: AuthState = .loading
+
     private var appleSignInContinuation: CheckedContinuation<ASAuthorization, Error>?
+    private var webAuthSession: ASWebAuthenticationSession?
 
     var isSignedIn: Bool {
         if case .signedIn = authState { return true }
@@ -70,6 +76,45 @@ final class AuthManager: NSObject, ObservableObject {
         authState = .signedIn(userId: session.user.id.uuidString, email: session.user.email)
     }
 
+    // MARK: - Google Sign-In
+
+    func signInWithGoogle() async throws {
+        let redirectURL = URL(string: "com.locolog.app://auth-callback")!
+
+        let oauthURL = try await supabase.auth.getOAuthSignInURL(
+            provider: .google,
+            redirectTo: redirectURL
+        )
+
+        let callbackURL = try await performWebAuth(url: oauthURL, callbackScheme: "com.locolog.app")
+
+        let session = try await supabase.auth.session(from: callbackURL)
+        authState = .signedIn(userId: session.user.id.uuidString, email: session.user.email)
+    }
+
+    // ASWebAuthenticationSession 실행 후 콜백 URL 반환
+    private func performWebAuth(url: URL, callbackScheme: String) async throws -> URL {
+        try await withCheckedThrowingContinuation { cont in
+            let session = ASWebAuthenticationSession(
+                url: url,
+                callbackURLScheme: callbackScheme
+            ) { [weak self] callbackURL, error in
+                self?.webAuthSession = nil
+                if let error {
+                    cont.resume(throwing: error)
+                } else if let callbackURL {
+                    cont.resume(returning: callbackURL)
+                } else {
+                    cont.resume(throwing: AuthError.callbackFailed)
+                }
+            }
+            session.presentationContextProvider = self
+            session.prefersEphemeralWebBrowserSession = false
+            self.webAuthSession = session
+            session.start()
+        }
+    }
+
     // MARK: - Sign Out
 
     func signOut() async throws {
@@ -78,7 +123,7 @@ final class AuthManager: NSObject, ObservableObject {
     }
 }
 
-// MARK: - ASAuthorizationControllerDelegate
+// MARK: - ASAuthorizationControllerDelegate (Apple Sign-In)
 
 extension AuthManager: ASAuthorizationControllerDelegate {
     nonisolated func authorizationController(
@@ -102,10 +147,20 @@ extension AuthManager: ASAuthorizationControllerDelegate {
     }
 }
 
-// MARK: - ASAuthorizationControllerPresentationContextProviding
+// MARK: - Presentation Context (Apple Sign-In + Google Web Auth)
 
-extension AuthManager: ASAuthorizationControllerPresentationContextProviding {
+extension AuthManager: ASAuthorizationControllerPresentationContextProviding,
+                       ASWebAuthenticationPresentationContextProviding {
+
     nonisolated func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+        anchor()
+    }
+
+    nonisolated func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
+        anchor()
+    }
+
+    private nonisolated func anchor() -> ASPresentationAnchor {
         MainActor.assumeIsolated {
             #if os(macOS)
             return NSApp.keyWindow ?? NSWindow()

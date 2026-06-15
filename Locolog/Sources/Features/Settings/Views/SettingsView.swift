@@ -122,12 +122,15 @@ struct AccountView: View {
                 .disabled(isLoading)
 
                 Button {
-                    // Google Sign-In: STEP 8에서 구현
+                    Task { await signInWithGoogle() }
                 } label: {
-                    Label("Google로 로그인하여 동기화", systemImage: "g.circle")
+                    if isLoading {
+                        EmptyView()
+                    } else {
+                        Label("Google로 로그인하여 동기화", systemImage: "g.circle")
+                    }
                 }
-                .foregroundStyle(.secondary)
-                .disabled(true)
+                .disabled(isLoading)
             } footer: {
                 Text("로그인하면 iPhone과 Mac 간에 메모가 자동으로 동기화됩니다.")
             }
@@ -167,6 +170,20 @@ struct AccountView: View {
             try await authManager.signInWithApple()
         } catch {
             if (error as? ASAuthorizationError)?.code != .canceled {
+                errorMessage = error.localizedDescription
+            }
+        }
+        isLoading = false
+    }
+
+    private func signInWithGoogle() async {
+        isLoading = true
+        errorMessage = nil
+        do {
+            try await authManager.signInWithGoogle()
+        } catch {
+            let webAuthError = error as? ASWebAuthenticationSessionError
+            if webAuthError?.code != .canceledLogin {
                 errorMessage = error.localizedDescription
             }
         }
@@ -256,15 +273,14 @@ struct GoogleCalendarSettingsView: View {
 }
 
 struct AISettingsView: View {
-    @AppStorage("claudeAPIKey")   private var claudeKey   = ""
-    @AppStorage("openAIAPIKey")   private var openAIKey   = ""
-    @AppStorage("geminiAPIKey")   private var geminiKey   = ""
+    @State private var claudeKey = KeychainManager.load(forKey: "claudeAPIKey")
+    @State private var openAIKey = KeychainManager.load(forKey: "openAIAPIKey")
+    @State private var geminiKey = KeychainManager.load(forKey: "geminiAPIKey")
 
     private var activeProvider: AIProvider? {
-        for provider in AIProvider.allCases {
-            let key = UserDefaults.standard.string(forKey: provider.keyStorageKey) ?? ""
-            if !key.trimmingCharacters(in: .whitespaces).isEmpty { return provider }
-        }
+        if !claudeKey.trimmingCharacters(in: .whitespaces).isEmpty { return .claude }
+        if !openAIKey.trimmingCharacters(in: .whitespaces).isEmpty { return .openAI }
+        if !geminiKey.trimmingCharacters(in: .whitespaces).isEmpty { return .gemini }
         return nil
     }
 
@@ -301,18 +317,21 @@ struct AISettingsView: View {
                         .frame(width: 20)
                         .foregroundStyle(.purple)
                     SecureField("Claude API Key", text: $claudeKey)
+                        .onChange(of: claudeKey) { _, v in KeychainManager.save(v, forKey: "claudeAPIKey") }
                 }
                 HStack {
                     Image(systemName: AIProvider.openAI.iconName)
                         .frame(width: 20)
                         .foregroundStyle(.green)
                     SecureField("OpenAI API Key", text: $openAIKey)
+                        .onChange(of: openAIKey) { _, v in KeychainManager.save(v, forKey: "openAIAPIKey") }
                 }
                 HStack {
                     Image(systemName: AIProvider.gemini.iconName)
                         .frame(width: 20)
                         .foregroundStyle(.blue)
                     SecureField("Gemini API Key", text: $geminiKey)
+                        .onChange(of: geminiKey) { _, v in KeychainManager.save(v, forKey: "geminiAPIKey") }
                 }
             } header: {
                 Text("API 키")

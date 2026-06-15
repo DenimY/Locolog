@@ -56,6 +56,7 @@
 		6629BDBB3DE6DF12FD515AB2 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D123980EB550EC0AD907DE8 /* CalendarView.swift */; };
 		6BBEFF4D250D64F471ADB144 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 362C92BF131539B135A4FD89 /* MapView.swift */; };
 		703FB262CC3FF1143A26B392 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DE38D26DA8433708023FAF5 /* RootView.swift */; };
+		707CC0FFEE19D0CFD3093BA9 /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 623C1A1AC9044FC382C9FB6E /* KeychainManager.swift */; };
 		7A5243BBBB64291577DEEEFC /* MapCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CAD40D981D0D0B20DF4828 /* MapCalendarView.swift */; };
 		7D54D43D1C962E239997AB84 /* ExportSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6053E5550C5855959C8D4E1 /* ExportSheet.swift */; };
 		88B22A623A1671A6E38817F0 /* MapCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CAD40D981D0D0B20DF4828 /* MapCalendarView.swift */; };
@@ -71,6 +72,7 @@
 		A6EAD5688BB0D9A5F42BF8B5 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46761BC8F584408F069BB484 /* AuthManager.swift */; };
 		AA91F1C9FBFAC18E5B1C5243 /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D3AACED9CB869F7F1BFB328 /* Secrets.swift */; };
 		AB6E371FAAE227DB3FDE4897 /* CategoryFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D0641B262D377510528237 /* CategoryFormView.swift */; };
+		AB746FF238FDD2992BDA081C /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 623C1A1AC9044FC382C9FB6E /* KeychainManager.swift */; };
 		ADAE6BA91C4FE20834FD2BBF /* NoteRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178696157A8A65AA84018F05 /* NoteRowView.swift */; };
 		ADDB3D9C72DEFBC51F375AA6 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46761BC8F584408F069BB484 /* AuthManager.swift */; };
 		B2816AA03B91E7DE54A2BD3C /* CodeAccessoryToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355723C94FA4D49FD237DC5C /* CodeAccessoryToolbar.swift */; };
@@ -94,7 +96,7 @@
 		F03C7BC021C87DB72EC42C6C /* Highlightr in Frameworks */ = {isa = PBXBuildFile; productRef = 09BC81781221D1BC0DD78359 /* Highlightr */; };
 		F0A8C75080704901F739CE28 /* SupabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3571A9A9994E85D83C1E0264 /* SupabaseService.swift */; };
 		F1546DDE2145CB64177C1906 /* CategoryFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D0641B262D377510528237 /* CategoryFormView.swift */; };
-		F159CEB161CADAA60F8392E2 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; platformFilter = macos; productRef = BABF8C7BADE15C88A5D60D14 /* Sparkle */; };
+		F159CEB161CADAA60F8392E2 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = BABF8C7BADE15C88A5D60D14 /* Sparkle */; };
 		F3249B11BDB47EDA6F5791B3 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469FCAC48FBCD7DAC8F11982 /* NotificationManager.swift */; };
 		FD886CEC5AE0A57EAF736F39 /* WidgetNote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD0FC91FDC50720D99CEE9A /* WidgetNote.swift */; };
 /* End PBXBuildFile section */
@@ -131,11 +133,13 @@
 		362C92BF131539B135A4FD89 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		46761BC8F584408F069BB484 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		469FCAC48FBCD7DAC8F11982 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		47C11886FCCBA6F08E574FC2 /* Locolog_macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Locolog_macOS.entitlements; sourceTree = "<group>"; };
 		47D0AF9DA9AD2C0C5B0410C4 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		48719F4B03D0F5140DDCE4C6 /* SyncManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncManager.swift; sourceTree = "<group>"; };
 		4886117789F0CFFE4F93C886 /* SmartFolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartFolder.swift; sourceTree = "<group>"; };
 		5B421C5389142D5FA7DD15B1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		5D3AACED9CB869F7F1BFB328 /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
+		623C1A1AC9044FC382C9FB6E /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
 		6440406A78F1F3F39DF0E923 /* AttachmentBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttachmentBar.swift; sourceTree = "<group>"; };
 		647E237B177556AE6F04BAC4 /* ReminderPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderPickerView.swift; sourceTree = "<group>"; };
 		661A0E0045096E7D7C61B836 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -200,6 +204,7 @@
 		076D341E1D17116725D2840F /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				623C1A1AC9044FC382C9FB6E /* KeychainManager.swift */,
 				47D0AF9DA9AD2C0C5B0410C4 /* LocationManager.swift */,
 			);
 			path = Utils;
@@ -277,6 +282,7 @@
 			children = (
 				9688689B7CAC2418AD63A56E /* Assets.xcassets */,
 				5B421C5389142D5FA7DD15B1 /* Info.plist */,
+				47C11886FCCBA6F08E574FC2 /* Locolog_macOS.entitlements */,
 				F5D39529E85FF2C538B25CBF /* Locolog.entitlements */,
 			);
 			path = Resources;
@@ -802,6 +808,7 @@
 				ED0EE01B82BE84E617DDD652 /* ExportManager.swift in Sources */,
 				4A27DEE65F96F304FE5008E8 /* ExportSheet.swift in Sources */,
 				422CF2E2D30ADFBC77EE6F91 /* HighlightrCodeHighlighter.swift in Sources */,
+				AB746FF238FDD2992BDA081C /* KeychainManager.swift in Sources */,
 				CE518A36D3B3E43733F4D43C /* LocationManager.swift in Sources */,
 				9D2A3826308ABA28A86F4307 /* LocationPickerSheet.swift in Sources */,
 				11BE27E19ED914FAB2697AE4 /* LocologApp.swift in Sources */,
@@ -865,6 +872,7 @@
 				4297B33E9021338F3ED06BE7 /* ExportManager.swift in Sources */,
 				7D54D43D1C962E239997AB84 /* ExportSheet.swift in Sources */,
 				339A498B5FF769750BE6BFAD /* HighlightrCodeHighlighter.swift in Sources */,
+				707CC0FFEE19D0CFD3093BA9 /* KeychainManager.swift in Sources */,
 				3833F6FF0D1FADEF4BF0BAA2 /* LocationManager.swift in Sources */,
 				4B6147E7ACFB225383DF7E3A /* LocationPickerSheet.swift in Sources */,
 				319663A73744B3A0475F3D02 /* LocologApp.swift in Sources */,

@@ -55,10 +55,12 @@ final class SyncManager: ObservableObject {
     // MARK: - Pull (Supabase → 로컬)
 
     private func pull(context: ModelContext) async {
+        guard let userId = supabase.auth.currentUser?.id else { return }
         do {
             let records: [NoteRecord] = try await supabase
                 .from("notes")
                 .select()
+                .eq("user_id", value: userId.uuidString)
                 .execute()
                 .value
 
@@ -79,6 +81,7 @@ final class SyncManager: ObservableObject {
                         local.locationPOI  = record.locationPoi
                         local.reminderAt   = record.reminderAt
                         local.isDeleted    = record.isDeleted
+                        local.isFavorited  = record.isFavorited ?? local.isFavorited
                         local.isDirty      = false
                     }
                 } else {
@@ -93,6 +96,7 @@ final class SyncManager: ObservableObject {
                     note.locationPOI  = record.locationPoi
                     note.reminderAt   = record.reminderAt
                     note.isDeleted    = record.isDeleted
+                    note.isFavorited  = record.isFavorited ?? false
                     note.isDirty      = false
                     context.insert(note)
                 }
@@ -119,6 +123,7 @@ private struct NotePayload: Encodable {
     let locationPoi: String?
     let reminderAt: Date?
     let isDeleted: Bool
+    let isFavorited: Bool
     let isPublic: Bool
 
     enum CodingKeys: String, CodingKey {
@@ -134,6 +139,7 @@ private struct NotePayload: Encodable {
         case locationPoi  = "location_poi"
         case reminderAt   = "reminder_at"
         case isDeleted    = "is_deleted"
+        case isFavorited  = "is_favorited"
         case isPublic     = "is_public"
     }
 
@@ -150,6 +156,7 @@ private struct NotePayload: Encodable {
         self.locationPoi  = note.locationPOI
         self.reminderAt   = note.reminderAt
         self.isDeleted    = note.isDeleted
+        self.isFavorited  = note.isFavorited
         self.isPublic     = false
     }
 }
@@ -166,6 +173,7 @@ private struct NoteRecord: Decodable {
     let locationPoi: String?
     let reminderAt: Date?
     let isDeleted: Bool
+    let isFavorited: Bool?
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -179,5 +187,6 @@ private struct NoteRecord: Decodable {
         case locationPoi  = "location_poi"
         case reminderAt   = "reminder_at"
         case isDeleted    = "is_deleted"
+        case isFavorited  = "is_favorited"
     }
 }

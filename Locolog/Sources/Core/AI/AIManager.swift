@@ -99,17 +99,13 @@ final class AIManager: ObservableObject {
     // MARK: - Active Provider (Claude → OpenAI → Gemini 우선순위)
 
     var activeProvider: AIProvider? {
-        for provider in AIProvider.allCases {
-            let key = UserDefaults.standard.string(forKey: provider.keyStorageKey) ?? ""
-            if !key.trimmingCharacters(in: .whitespaces).isEmpty {
-                return provider
-            }
+        AIProvider.allCases.first {
+            !KeychainManager.load(forKey: $0.keyStorageKey).trimmingCharacters(in: .whitespaces).isEmpty
         }
-        return nil
     }
 
     func apiKey(for provider: AIProvider) -> String {
-        UserDefaults.standard.string(forKey: provider.keyStorageKey) ?? ""
+        KeychainManager.load(forKey: provider.keyStorageKey)
     }
 
     // MARK: - Execute Command

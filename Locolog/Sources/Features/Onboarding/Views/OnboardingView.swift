@@ -1,9 +1,11 @@
 import SwiftUI
+import AuthenticationServices
 
 struct OnboardingView: View {
     @Binding var isPresented: Bool
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
-    @State private var isSyncLoading = false
+    @State private var isAppleLoading = false
+    @State private var isGoogleLoading = false
 
     var body: some View {
         VStack(spacing: 40) {
@@ -44,33 +46,58 @@ struct OnboardingView: View {
                         .clipShape(RoundedRectangle(cornerRadius: 14))
                 }
 
-                // Apple 계정 연결 — 보조, 작게
+                // Apple 계정 연결
                 Button {
-                    Task { await signInForSync() }
+                    Task { await signInWithApple() }
                 } label: {
-                    if isSyncLoading {
+                    if isAppleLoading {
                         ProgressView().scaleEffect(0.8)
                     } else {
-                        Text("Apple로 시작하기 (동기화)")
+                        Label("Apple로 시작하기 (동기화)", systemImage: "applelogo")
                             .font(.subheadline)
                             .foregroundStyle(.secondary)
                     }
                 }
-                .disabled(isSyncLoading)
+                .disabled(isAppleLoading || isGoogleLoading)
+
+                // Google 계정 연결
+                Button {
+                    Task { await signInWithGoogle() }
+                } label: {
+                    if isGoogleLoading {
+                        ProgressView().scaleEffect(0.8)
+                    } else {
+                        Label("Google로 시작하기 (동기화)", systemImage: "g.circle")
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                    }
+                }
+                .disabled(isAppleLoading || isGoogleLoading)
             }
             .padding(.horizontal, 24)
             .padding(.bottom, 40)
         }
     }
 
-    private func signInForSync() async {
-        isSyncLoading = true
+    private func signInWithApple() async {
+        isAppleLoading = true
         do {
             try await AuthManager.shared.signInWithApple()
         } catch {
             // 취소하거나 실패해도 로컬로 계속 진행 가능
         }
-        isSyncLoading = false
+        isAppleLoading = false
+        hasCompletedOnboarding = true
+    }
+
+    private func signInWithGoogle() async {
+        isGoogleLoading = true
+        do {
+            try await AuthManager.shared.signInWithGoogle()
+        } catch {
+            // 취소하거나 실패해도 로컬로 계속 진행 가능
+        }
+        isGoogleLoading = false
         hasCompletedOnboarding = true
     }
 }

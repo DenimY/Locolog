@@ -83,7 +83,7 @@ struct MainSplitView: View {
     @ViewBuilder
     private var detailPanel: some View {
         if let note = selectedNote {
-            NoteDetailPanel(note: note)
+            NoteEditorView(note: note)
         } else {
             EmptyDetailView()
         }

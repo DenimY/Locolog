@@ -224,6 +224,17 @@ struct NoteEditorView: View {
                 Image(systemName: "square.and.arrow.up")
             }
         }
+        #if os(macOS)
+        ToolbarItem(placement: .primaryAction) {
+            Button {
+                note.isFavorited.toggle()
+                try? context.save()
+            } label: {
+                Image(systemName: note.isFavorited ? "star.fill" : "star")
+                    .foregroundStyle(note.isFavorited ? Color.yellow : .primary)
+            }
+        }
+        #endif
     }
 
     // MARK: - Auto-save (0.3s debounce)

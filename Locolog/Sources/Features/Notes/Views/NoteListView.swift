@@ -367,8 +367,39 @@ struct NoteListView: View {
         List(filteredNotes, selection: $selectedNote) { note in
             NoteRowView(note: note, category: category(for: note))
                 .tag(note)
-                .swipeActions(edge: .trailing) {
-                    Button(role: .destructive) { deleteNote(note) } label: {
+                .contextMenu {
+                    Button {
+                        createNote()
+                    } label: {
+                        Label("새 메모", systemImage: "square.and.pencil")
+                    }
+                    Divider()
+                    Button {
+                        note.isFavorited.toggle()
+                        note.isDirty = true
+                        try? context.save()
+                    } label: {
+                        Label(
+                            note.isFavorited ? "즐겨찾기 해제" : "즐겨찾기 추가",
+                            systemImage: note.isFavorited ? "star.slash" : "star"
+                        )
+                    }
+                    Menu("노트 타입 변경") {
+                        ForEach(NoteType.allCases, id: \.rawValue) { type in
+                            Button {
+                                note.noteType = type
+                                note.isDirty = true
+                                try? context.save()
+                            } label: {
+                                Label(type.label, systemImage: type.icon)
+                            }
+                            .disabled(note.noteType == type)
+                        }
+                    }
+                    Divider()
+                    Button(role: .destructive) {
+                        deleteNote(note)
+                    } label: {
                         Label("삭제", systemImage: "trash")
                     }
                 }

@@ -46,6 +46,8 @@ targets:
           CODE_SIGNING_ALLOWED[sdk=macosx*]: NO
         Release:
           DEBUG_INFORMATION_FORMAT: dwarf-with-dsym
+          CODE_SIGN_ENTITLEMENTS[sdk=macosx*]: Locolog/Resources/Locolog_macOS.entitlements
+          ENABLE_HARDENED_RUNTIME[sdk=macosx*]: YES
     dependencies:
       - package: supabase-swift
         product: Supabase

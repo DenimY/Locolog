@@ -11,6 +11,9 @@ struct NoteEditorView: View {
 
     @State private var isPreviewMode = false
     @FocusState private var isEditorFocused: Bool
+
+    // 파일별 뷰 모드 키
+    private var previewKey: String { "previewMode_\(note.id.uuidString)" }
     @State private var saveTask: Task<Void, Never>?
     @Query private var allTags: [Tag]
     @State private var showReminderPicker = false
@@ -63,9 +66,13 @@ struct NoteEditorView: View {
             Task { await addAttachments(from: items) }
         }
         .onAppear {
+            isPreviewMode = UserDefaults.standard.bool(forKey: previewKey)
             if note.content.isEmpty { isEditorFocused = true }
             Task { await fetchLocationIfNeeded() }
             Task { await NotificationManager.shared.checkStatus() }
+        }
+        .onChange(of: note.id) { _, _ in
+            isPreviewMode = UserDefaults.standard.bool(forKey: previewKey)
         }
         #if os(macOS)
         .sheet(isPresented: $showLocationPicker) {
@@ -95,14 +102,67 @@ struct NoteEditorView: View {
 
     // MARK: - Preview
 
+    @ViewBuilder
     private var previewContent: some View {
-        ScrollView {
-            Markdown(note.content.isEmpty ? "_내용을 입력하세요_" : note.content)
-                .markdownCodeSyntaxHighlighter(HighlightrCodeSyntaxHighlighter(colorScheme: colorScheme))
-                .markdownTheme(.gitHub)
-                .padding(AppTheme.editorHPadding)
-                .frame(maxWidth: .infinity, alignment: .leading)
+        if note.noteType == .log {
+            LogRendererView(content: note.content)
+        } else {
+            ScrollView {
+                Markdown(note.content.isEmpty ? "_내용을 입력하세요_" : note.content)
+                    .markdownCodeSyntaxHighlighter(HighlightrCodeSyntaxHighlighter(colorScheme: colorScheme))
+                    .markdownTheme(adaptiveMarkdownTheme)
+                    .padding(AppTheme.editorHPadding)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            #if os(macOS)
+            .background(Color(.textBackgroundColor))
+            #endif
         }
+    }
+
+    private var adaptiveMarkdownTheme: Theme {
+        colorScheme == .dark ? darkMarkdownTheme : .gitHub
+    }
+
+    private var darkMarkdownTheme: Theme {
+        Theme()
+            .text { ForegroundColor(.primary) }
+            .link { ForegroundColor(Color(red: 0.4, green: 0.7, blue: 1.0)) }
+            .heading1 { label in
+                label
+                    .markdownTextStyle { FontWeight(.bold); FontSize(.em(1.8)) }
+                    .markdownMargin(top: 16, bottom: 8)
+            }
+            .heading2 { label in
+                label
+                    .markdownTextStyle { FontWeight(.semibold); FontSize(.em(1.4)) }
+                    .markdownMargin(top: 14, bottom: 6)
+            }
+            .heading3 { label in
+                label
+                    .markdownTextStyle { FontWeight(.semibold); FontSize(.em(1.1)) }
+                    .markdownMargin(top: 12, bottom: 4)
+            }
+            .code {
+                FontFamilyVariant(.monospaced)
+                BackgroundColor(Color.white.opacity(0.1))
+                ForegroundColor(Color(red: 0.95, green: 0.55, blue: 0.55))
+            }
+            .codeBlock { config in
+                config.label
+                    .markdownTextStyle { FontFamilyVariant(.monospaced); FontSize(.em(0.9)) }
+                    .padding(12)
+                    .background(RoundedRectangle(cornerRadius: 8).fill(Color(red: 0.13, green: 0.14, blue: 0.16)))
+                    .markdownMargin(top: 8, bottom: 8)
+            }
+            .blockquote { config in
+                config.label
+                    .padding(.leading, 12)
+                    .overlay(alignment: .leading) {
+                        Rectangle().fill(Color.white.opacity(0.3)).frame(width: 3)
+                    }
+                    .markdownTextStyle { ForegroundColor(.secondary) }
+            }
     }
 
     // MARK: - Metadata Bar
@@ -191,9 +251,46 @@ struct NoteEditorView: View {
 
     @ToolbarContentBuilder
     private var toolbarItems: some ToolbarContent {
+        // 블록 삽입 메뉴
+        ToolbarItem(placement: .primaryAction) {
+            Menu {
+                Section("텍스트") {
+                    Button("제목 1")          { insertBlock("# ") }
+                    Button("제목 2")          { insertBlock("## ") }
+                    Button("제목 3")          { insertBlock("### ") }
+                }
+                Section("목록") {
+                    Button("글머리 기호")     { insertBlock("- ") }
+                    Button("번호 목록")       { insertBlock("1. ") }
+                    Button("할 일 체크박스") { insertBlock("- [ ] ") }
+                }
+                Section("삽입") {
+                    Button("코드 블록")       { insertBlock("```\n\n```") }
+                    Button("인용")           { insertBlock("> ") }
+                    Button("구분선")         { insertBlock("\n---\n") }
+                }
+                Divider()
+                Section("노트 타입") {
+                    ForEach(NoteType.allCases, id: \.rawValue) { type in
+                        Button {
+                            note.noteType = type
+                            note.isDirty = true
+                            try? context.save()
+                        } label: {
+                            Label(type.label, systemImage: type.icon)
+                        }
+                        .disabled(note.noteType == type)
+                    }
+                }
+            } label: {
+                Image(systemName: "plus.circle")
+            }
+        }
+        // 편집/미리보기 토글
         ToolbarItem(placement: .primaryAction) {
             Button {
                 withAnimation(.easeInOut(duration: 0.15)) { isPreviewMode.toggle() }
+                UserDefaults.standard.set(isPreviewMode, forKey: previewKey)
                 if !isPreviewMode { isEditorFocused = true }
             } label: {
                 Label(
@@ -235,6 +332,15 @@ struct NoteEditorView: View {
             }
         }
         #endif
+    }
+
+    // MARK: - 블록 삽입
+
+    private func insertBlock(_ text: String) {
+        let separator = note.content.isEmpty || note.content.hasSuffix("\n") ? "" : "\n"
+        note.content += separator + text
+        scheduleAutoSave()
+        if !isPreviewMode { isEditorFocused = true }
     }
 
     // MARK: - Auto-save (0.3s debounce)

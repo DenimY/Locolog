@@ -83,17 +83,19 @@ else:
     print(f"✅ Sparkle를 iOS 타겟에서 제거했습니다. (UUID: {ios_sparkle_uuids})")
 
 # ──────────────────────────────────────────────
-# 3. Sparkle PBXBuildFile의 platformFilter = maccatalyst 제거
-#    (xcodegen이 platformFilter: macOS → maccatalyst로 잘못 매핑하는 버그 수정)
-#    iOS BuildFile은 이미 제거했으므로 남은 항목은 macOS 전용
-#    → platformFilter 제거 시 native macOS 빌드에서 정상 링크됨
+# 3. macOS 타겟의 Sparkle platformFilter 수정
+#    xcodegen이 macOS → maccatalyst 로 잘못 생성하는 버그 수정
 # ──────────────────────────────────────────────
-content = re.sub(
-    r'(isa = PBXBuildFile; )platformFilter = maccatalyst; (productRef = \w+ /\* Sparkle \*/)',
-    r'\1\2',
+fixed, count = re.subn(
+    r'(platformFilter = )maccatalyst(; productRef = \w+ /\* Sparkle \*/)',
+    r'\1macos\2',
     content
 )
-print("✅ Sparkle PBXBuildFile platformFilter 교정 완료")
+if count:
+    content = fixed
+    print(f"✅ Sparkle platformFilter: maccatalyst → macos ({count}개)")
+else:
+    print("ℹ️  Sparkle platformFilter 패치 불필요 (이미 macos)")
 
 with open(pbxproj_path, 'w') as f:
     f.write(content)

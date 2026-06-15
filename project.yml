@@ -32,8 +32,8 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.locolog.app
         SWIFT_VERSION: "6.0"
-        MARKETING_VERSION: "1.0.0"
-        CURRENT_PROJECT_VERSION: "1"
+        MARKETING_VERSION: "1.1.0"
+        CURRENT_PROJECT_VERSION: "2"
         DEVELOPMENT_TEAM: "97GKTL8822"
         CODE_SIGN_STYLE: Automatic
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
@@ -46,6 +46,8 @@ targets:
           CODE_SIGNING_ALLOWED[sdk=macosx*]: NO
         Release:
           DEBUG_INFORMATION_FORMAT: dwarf-with-dsym
+          CODE_SIGN_ENTITLEMENTS[sdk=macosx*]: Locolog/Resources/Locolog_macOS.entitlements
+          ENABLE_HARDENED_RUNTIME[sdk=macosx*]: YES
     dependencies:
       - package: supabase-swift
         product: Supabase
@@ -61,8 +63,10 @@ targets:
       path: Locolog/Resources/Info.plist
       properties:
         CFBundleDisplayName: Locolog
+        CFBundleShortVersionString: "$(MARKETING_VERSION)"
+        CFBundleVersion: "$(CURRENT_PROJECT_VERSION)"
         SUFeedURL: "https://github.com/DenimY/Locolog/releases/latest/download/appcast.xml"
-        SUPublicEDKey: "C4aGz07HSxK02sgIcbmYyF+5V5/n/BSkrIOSzPLIP50="
+        SUPublicEDKey: "w1H71VoeiCSTkxyyab0wURmooYVdHpqfG5TsPuQlz3g="
         NSLocationWhenInUseUsageDescription: "메모 작성 시 현재 위치를 자동으로 기록합니다."
         NSUserNotificationsUsageDescription: "메모 알림을 보내기 위해 사용됩니다."
         UILaunchScreen:
@@ -89,8 +93,8 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.locolog.app.widget
         SWIFT_VERSION: "6.0"
-        MARKETING_VERSION: "1.0.0"
-        CURRENT_PROJECT_VERSION: "1"
+        MARKETING_VERSION: "1.1.0"
+        CURRENT_PROJECT_VERSION: "2"
         DEVELOPMENT_TEAM: "97GKTL8822"
         CODE_SIGN_STYLE: Automatic
     info:

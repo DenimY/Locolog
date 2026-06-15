@@ -14,9 +14,16 @@ struct NoteRowView: View {
             }
 
             VStack(alignment: .leading, spacing: 4) {
-                Text(note.displayTitle)
-                    .font(AppTheme.listTitleFont)
-                    .lineLimit(1)
+                HStack(spacing: 4) {
+                    if note.noteType == .log {
+                        Image(systemName: "terminal")
+                            .font(.caption2)
+                            .foregroundStyle(.secondary)
+                    }
+                    Text(note.displayTitle)
+                        .font(AppTheme.listTitleFont)
+                        .lineLimit(1)
+                }
 
                 if !note.displayPreview.isEmpty {
                     Text(note.displayPreview)

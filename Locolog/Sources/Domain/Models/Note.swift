@@ -1,6 +1,26 @@
 import Foundation
 import SwiftData
 
+// MARK: - Note Type
+
+enum NoteType: String, CaseIterable {
+    case markdown = "markdown"
+    case log      = "log"
+
+    var label: String {
+        switch self {
+        case .markdown: return "마크다운"
+        case .log:      return "터미널 로그"
+        }
+    }
+    var icon: String {
+        switch self {
+        case .markdown: return "doc.richtext"
+        case .log:      return "terminal"
+        }
+    }
+}
+
 @Model
 final class Note {
     var id: UUID
@@ -19,9 +39,15 @@ final class Note {
     var isFavorited: Bool           // 즐겨찾기
     var isDirty: Bool               // 오프라인 수정 → 동기화 대기 여부
     var attachmentURLs: [String]    // 로컬 파일 URL (Documents/NoteAttachments/)
+    var noteTypeRaw: String = NoteType.markdown.rawValue
     @Relationship(deleteRule: .nullify) var tags: [Tag]
 
-    init(content: String = "", categoryId: UUID? = nil) {
+    var noteType: NoteType {
+        get { NoteType(rawValue: noteTypeRaw) ?? .markdown }
+        set { noteTypeRaw = newValue.rawValue }
+    }
+
+    init(content: String = "", categoryId: UUID? = nil, noteType: NoteType = .markdown) {
         self.id = UUID()
         self.content = content
         self.categoryId = categoryId
@@ -31,6 +57,7 @@ final class Note {
         self.isFavorited = false
         self.isDirty = true
         self.attachmentURLs = []
+        self.noteTypeRaw = noteType.rawValue
         self.tags = []
     }
 

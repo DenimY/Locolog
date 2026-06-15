@@ -1,7 +1,7 @@
 # Locolog — 개발 컨텍스트 (에이전트 인수인계)
 
 > 새 대화에서 이 파일을 먼저 읽으면 현재 상태를 파악할 수 있습니다.  
-> 마지막 업데이트: 2026-05-30 (STEP 14 완료, Phase 3 완료)
+> 마지막 업데이트: 2026-06-15 (macOS 배포 + UX 개선 작업)
 
 ---
 
@@ -49,7 +49,7 @@
 ✅ BUILD SUCCEEDED
 타겟: Locolog_iOS (iPhone 17 Pro Simulator) + Locolog_macOS
 Xcode 26.5 / Swift 6
-마지막 확인: 2026-05-30 (STEP 14 완료 후)
+마지막 확인: 2026-06-15 (macOS UX 개선 후)
 ```
 
 ---
@@ -163,6 +163,33 @@ Locolog/
 **문서 추가**
 - `README.md`: 앱 설명, 기능 표, 빌드 방법, 프로젝트 구조, 로드맵
 - `CLAUDE.md`: 에이전트 행동 규칙 (세션 시작/종료 절차, 개발 규칙, 커밋 컨벤션)
+
+---
+
+## 추가 완료된 작업 (2026-06 macOS 배포 + UX 개선)
+
+### macOS Developer ID DMG 배포 ✅
+- `ExportOptions.plist` 생성 (Developer ID export)
+- `Locolog_macOS.entitlements` — 네트워크·위치·파일 권한, Apple Sign-In 제외 (Developer ID용)
+- `project.yml`: `ENABLE_HARDENED_RUNTIME`, `CODE_SIGN_ENTITLEMENTS` 추가
+- `scripts/fix_pbxproj.py`:
+  - Sparkle를 iOS 타겟에서 완전 제거 (섹션 2)
+  - Sparkle `platformFilter maccatalyst → macos` 자동 패치 (섹션 3, 신규)
+- `create-dmg` + `xcrun notarytool` + `xcrun stapler` 로 공증 DMG 생성 완료
+
+### macOS UX 개선 ✅
+- **NoteType 추가**: `Note.swift`에 `NoteType` enum (markdown/log), `noteTypeRaw` 필드
+- **LogRendererView**: 터미널 스타일 뷰어 — ANSI 제거, 레벨 뱃지(ERR/WRN/INF/DBG)
+- **NoteEditorView 개선**:
+  - 파일별 preview 모드 `UserDefaults` 저장/복원
+  - 다크모드 `adaptiveMarkdownTheme` (dark: 커스텀, light: gitHub)
+  - `+` 블럭 삽입 메뉴 (Obsidian/Notion 스타일: 제목/목록/코드/인용/노트타입)
+- **NoteListView**: macOS 오른쪽 클릭 `contextMenu` (새 메모/즐겨찾기/노트타입/삭제)
+- **NoteRowView**: 로그 타입 메모에 터미널 아이콘 표시
+- **SettingsView 전면 재설계**:
+  - macOS: `TabView` 기반 네이티브 설정창 (계정/AI/알림/정보 탭)
+  - iOS: 기존 `NavigationStack + Form` 유지
+  - `#if os(macOS)` 분기로 플랫폼별 완전히 다른 UI
 
 ---
 

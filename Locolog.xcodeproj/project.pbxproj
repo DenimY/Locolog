@@ -55,6 +55,7 @@
 		6330F63D1AA185858183E757 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D123980EB550EC0AD907DE8 /* CalendarView.swift */; };
 		6629BDBB3DE6DF12FD515AB2 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D123980EB550EC0AD907DE8 /* CalendarView.swift */; };
 		6BBEFF4D250D64F471ADB144 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 362C92BF131539B135A4FD89 /* MapView.swift */; };
+		6CCC0A8027B7CF4EF014FCC5 /* LogRendererView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB776EE61894E544936A73DA /* LogRendererView.swift */; };
 		703FB262CC3FF1143A26B392 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DE38D26DA8433708023FAF5 /* RootView.swift */; };
 		707CC0FFEE19D0CFD3093BA9 /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 623C1A1AC9044FC382C9FB6E /* KeychainManager.swift */; };
 		7A5243BBBB64291577DEEEFC /* MapCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CAD40D981D0D0B20DF4828 /* MapCalendarView.swift */; };
@@ -89,6 +90,7 @@
 		CE518A36D3B3E43733F4D43C /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D0AF9DA9AD2C0C5B0410C4 /* LocationManager.swift */; };
 		CED28C340935647CB91EBC71 /* AttachmentBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6440406A78F1F3F39DF0E923 /* AttachmentBar.swift */; };
 		D0682B1E1DFADD85DC2E894B /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE6D14F6F6183BE915C1DB27 /* SearchView.swift */; };
+		D5B2535B6AD5A34A497B2859 /* LogRendererView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB776EE61894E544936A73DA /* LogRendererView.swift */; };
 		E01DCF327A9C86FA77335D39 /* SmartFolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4886117789F0CFFE4F93C886 /* SmartFolder.swift */; };
 		E6BCC213E519BE184A382734 /* CodeAccessoryToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355723C94FA4D49FD237DC5C /* CodeAccessoryToolbar.swift */; };
 		EA864F3205DDCE023354E543 /* LocologWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 833F00FCCADCB01A2C377D0A /* LocologWidgetBundle.swift */; };
@@ -168,6 +170,7 @@
 		E2CAD40D981D0D0B20DF4828 /* MapCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCalendarView.swift; sourceTree = "<group>"; };
 		E6053E5550C5855959C8D4E1 /* ExportSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportSheet.swift; sourceTree = "<group>"; };
 		E8C9008C17836E22544D4F63 /* SmartFolderFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartFolderFormView.swift; sourceTree = "<group>"; };
+		EB776EE61894E544936A73DA /* LogRendererView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogRendererView.swift; sourceTree = "<group>"; };
 		ECFD697EF5A141E8C7AD60FD /* LocologWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocologWidget.swift; sourceTree = "<group>"; };
 		F5D39529E85FF2C538B25CBF /* Locolog.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Locolog.entitlements; sourceTree = "<group>"; };
 		F7919F5E27B7E93E9511A6E6 /* SidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarView.swift; sourceTree = "<group>"; };
@@ -301,6 +304,7 @@
 			children = (
 				4FCDE58582C917C9FC339752 /* App */,
 				DA4A4AF6E2F2441F94D5C100 /* Core */,
+				6D0252917D09C1033A9E019D /* Data */,
 				E8BDE41419C0F0D177034F4E /* Domain */,
 				717505175312B41AF5528E69 /* Features */,
 			);
@@ -387,6 +391,13 @@
 				E7FCA264328AD51441303A95 /* Views */,
 			);
 			path = AI;
+			sourceTree = "<group>";
+		};
+		6D0252917D09C1033A9E019D /* Data */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Data;
 			sourceTree = "<group>";
 		};
 		6FC9F7212BB0584AB108EB12 /* Widget */ = {
@@ -527,6 +538,7 @@
 			isa = PBXGroup;
 			children = (
 				BFE8C19D7A7BED66A1743C53 /* LocationPickerSheet.swift */,
+				EB776EE61894E544936A73DA /* LogRendererView.swift */,
 				A1652CCD7C0F138788EEF524 /* NoteEditorView.swift */,
 			);
 			path = Views;
@@ -812,6 +824,7 @@
 				CE518A36D3B3E43733F4D43C /* LocationManager.swift in Sources */,
 				9D2A3826308ABA28A86F4307 /* LocationPickerSheet.swift in Sources */,
 				11BE27E19ED914FAB2697AE4 /* LocologApp.swift in Sources */,
+				6CCC0A8027B7CF4EF014FCC5 /* LogRendererView.swift in Sources */,
 				88B22A623A1671A6E38817F0 /* MapCalendarView.swift in Sources */,
 				4E4CAF3BDA552951DB3FED4B /* MapView.swift in Sources */,
 				8A34E5B020129B6E47548844 /* Note.swift in Sources */,
@@ -876,6 +889,7 @@
 				3833F6FF0D1FADEF4BF0BAA2 /* LocationManager.swift in Sources */,
 				4B6147E7ACFB225383DF7E3A /* LocationPickerSheet.swift in Sources */,
 				319663A73744B3A0475F3D02 /* LocologApp.swift in Sources */,
+				D5B2535B6AD5A34A497B2859 /* LogRendererView.swift in Sources */,
 				7A5243BBBB64291577DEEEFC /* MapCalendarView.swift in Sources */,
 				6BBEFF4D250D64F471ADB144 /* MapView.swift in Sources */,
 				17A5C37C8BD2D4548CC6F73A /* Note.swift in Sources */,
@@ -921,7 +935,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = LocologWidget/LocologWidget.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 97GKTL8822;
 				INFOPLIST_FILE = LocologWidget/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -929,7 +943,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.locolog.app.widget;
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 6.0;
@@ -963,7 +977,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 97GKTL8822;
 				INFOPLIST_FILE = Locolog/Resources/Info.plist;
@@ -971,7 +985,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.locolog.app;
 				PRODUCT_NAME = Locolog;
 				SDKROOT = macosx;
@@ -1063,7 +1077,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = LocologWidget/LocologWidget.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 97GKTL8822;
 				INFOPLIST_FILE = LocologWidget/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1071,7 +1085,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.locolog.app.widget;
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 6.0;
@@ -1105,7 +1119,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 97GKTL8822;
 				INFOPLIST_FILE = Locolog/Resources/Info.plist;
@@ -1113,7 +1127,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.locolog.app;
 				PRODUCT_NAME = Locolog;
 				SDKROOT = iphoneos;
@@ -1183,17 +1197,19 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Locolog/Resources/Locolog.entitlements;
+				"CODE_SIGN_ENTITLEMENTS[sdk=macosx*]" = Locolog/Resources/Locolog_macOS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 97GKTL8822;
+				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
 				INFOPLIST_FILE = Locolog/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.locolog.app;
 				PRODUCT_NAME = Locolog;
 				SDKROOT = macosx;
@@ -1206,17 +1222,19 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Locolog/Resources/Locolog.entitlements;
+				"CODE_SIGN_ENTITLEMENTS[sdk=macosx*]" = Locolog/Resources/Locolog_macOS.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 97GKTL8822;
+				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
 				INFOPLIST_FILE = Locolog/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.locolog.app;
 				PRODUCT_NAME = Locolog;
 				SDKROOT = iphoneos;

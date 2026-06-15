@@ -65,6 +65,8 @@ struct NoteListView: View {
             result = result.filter { $0.categoryId == cat.id }
         case .smartFolder(let sf):
             result = applySmartFolderFilter(sf.filter, to: result)
+        case .tag(let tagName):
+            result = result.filter { $0.parsedTagNames.contains(tagName) }
         }
         #endif
 
@@ -142,8 +144,9 @@ struct NoteListView: View {
         case .map:                return "지도"
         case .favorites:          return "즐겨찾기"
         case .trash:              return "휴지통"
-        case .category(let cat):  return cat.name
-        case .smartFolder(let sf):return sf.name
+        case .category(let cat):   return cat.name
+        case .smartFolder(let sf): return sf.name
+        case .tag(let tagName):    return "#\(tagName)"
         }
         #endif
     }

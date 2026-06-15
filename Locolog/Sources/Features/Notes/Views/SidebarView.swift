@@ -6,7 +6,10 @@ struct SidebarView: View {
     @Binding var selectedItem: SidebarItem
     @Query(sort: \Category.position) private var categories: [Category]
     @Query(sort: \SmartFolder.position) private var smartFolders: [SmartFolder]
+    @Query(sort: \Tag.name) private var allTags: [Tag]
     @Environment(\.modelContext) private var context
+
+    @AppStorage("navOrder") private var navOrderString: String = "calendar,map,allNotes,favorites"
 
     @State private var showCategoryForm = false
     @State private var showSmartFolderForm = false
@@ -14,30 +17,46 @@ struct SidebarView: View {
     @State private var editingSmartFolder: SmartFolder?
     @State private var showSettings = false
 
+    // AppStorage 문자열을 [NavItem]으로 변환
+    private var navItems: [NavItem] {
+        var parsed = navOrderString.split(separator: ",")
+            .compactMap { NavItem(rawValue: String($0).trimmingCharacters(in: .whitespaces)) }
+        for item in NavItem.allCases where !parsed.contains(item) {
+            parsed.append(item)
+        }
+        return parsed
+    }
+
+    // 삭제되지 않은 메모가 있는 태그만 표시
+    private var usedTags: [Tag] {
+        allTags.filter { tag in tag.notes.contains { !$0.isDeleted } }
+    }
+
     var body: some View {
         List(selection: Binding<SidebarItem?>(
             get: { selectedItem },
             set: { selectedItem = $0 ?? .allNotes }
         )) {
 
-            // MARK: - 상단 내비게이션
+            // MARK: - 상단 고정 항목 (드래그 정렬 가능)
 
             Section {
-                Label("캘린더", systemImage: "calendar")
-                    .tag(SidebarItem.calendar)
-
-                Label("지도로 보기", systemImage: "map")
-                    .tag(SidebarItem.map)
-
-                Label("모든 메모", systemImage: "tray.full")
-                    .tag(SidebarItem.allNotes)
-
-                Label("즐겨찾기", systemImage: "star.fill")
-                    .foregroundStyle(selectedItem == .favorites ? Color.primary : Color.yellow)
-                    .tag(SidebarItem.favorites)
+                ForEach(navItems, id: \.rawValue) { item in
+                    Label(item.title, systemImage: item.icon)
+                        .foregroundStyle(
+                            item == .favorites && selectedItem != .favorites
+                                ? Color.yellow : Color.primary
+                        )
+                        .tag(item.sidebarItem)
+                }
+                .onMove { from, to in
+                    var items = navItems
+                    items.move(fromOffsets: from, toOffset: to)
+                    navOrderString = items.map { $0.rawValue }.joined(separator: ",")
+                }
             }
 
-            // MARK: - 카테고리
+            // MARK: - 카테고리 (드래그 정렬 가능)
 
             Section {
                 ForEach(categories) { category in
@@ -63,6 +82,14 @@ struct SidebarView: View {
                         }
                     }
                 }
+                .onMove { from, to in
+                    var items = categories
+                    items.move(fromOffsets: from, toOffset: to)
+                    for (idx, cat) in items.enumerated() {
+                        cat.position = idx
+                    }
+                    try? context.save()
+                }
 
                 Button {
                     editingCategory = nil
@@ -74,7 +101,23 @@ struct SidebarView: View {
                 }
                 .buttonStyle(.plain)
             } header: {
-                Text("캘린더")
+                Text("카테고리")
+            }
+
+            // MARK: - 태그
+
+            if !usedTags.isEmpty {
+                Section {
+                    ForEach(usedTags, id: \.name) { tag in
+                        Label("#\(tag.name)", systemImage: "tag.fill")
+                            .foregroundStyle(
+                                selectedItem == .tag(tag.name) ? Color.primary : Color.purple
+                            )
+                            .tag(SidebarItem.tag(tag.name))
+                    }
+                } header: {
+                    Text("태그")
+                }
             }
 
             // MARK: - 스마트 폴더
@@ -116,7 +159,6 @@ struct SidebarView: View {
         }
         .listStyle(.sidebar)
         .navigationTitle("Locolog")
-        // 하단: 설정, 휴지통
         .safeAreaInset(edge: .bottom) {
             bottomBar
         }

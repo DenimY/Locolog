@@ -9,6 +9,39 @@ enum SidebarItem: Hashable {
     case trash
     case category(Category)
     case smartFolder(SmartFolder)
+    case tag(String)
+}
+
+/// macOS 사이드바 상단 고정 항목 (순서 저장 대상)
+enum NavItem: String, CaseIterable {
+    case calendar, map, allNotes, favorites
+
+    var sidebarItem: SidebarItem {
+        switch self {
+        case .calendar:  return .calendar
+        case .map:       return .map
+        case .allNotes:  return .allNotes
+        case .favorites: return .favorites
+        }
+    }
+
+    var title: String {
+        switch self {
+        case .calendar:  return "캘린더"
+        case .map:       return "지도로 보기"
+        case .allNotes:  return "모든 메모"
+        case .favorites: return "즐겨찾기"
+        }
+    }
+
+    var icon: String {
+        switch self {
+        case .calendar:  return "calendar"
+        case .map:       return "map"
+        case .allNotes:  return "tray.full"
+        case .favorites: return "star.fill"
+        }
+    }
 }
 
 struct ContentView: View {
@@ -40,11 +73,15 @@ struct MainTabView: View {
     }
 }
 
-// MARK: - macOS: PlaceCal 스타일 3-패널
+// MARK: - macOS: 3-패널
 
 #if os(macOS)
 struct MainSplitView: View {
-    @State private var selectedItem: SidebarItem = .calendar
+    @State private var selectedItem: SidebarItem = {
+        let stored = UserDefaults.standard.string(forKey: "navOrder") ?? "calendar,map,allNotes,favorites"
+        let first = stored.split(separator: ",").first.map(String.init)?.trimmingCharacters(in: .whitespaces) ?? "calendar"
+        return NavItem(rawValue: first)?.sidebarItem ?? .calendar
+    }()
     @State private var selectedNote: Note? = nil
 
     var body: some View {
@@ -67,14 +104,10 @@ struct MainSplitView: View {
             MapCalendarView(selectedNote: $selectedNote)
         case .map:
             NoteMapView(selectedNote: $selectedNote)
-        case .allNotes:
-            NoteListView(selectedItem: selectedItem, selectedNote: $selectedNote)
-        case .favorites:
+        case .allNotes, .favorites, .category, .smartFolder, .tag:
             NoteListView(selectedItem: selectedItem, selectedNote: $selectedNote)
         case .trash:
             TrashView(selectedNote: $selectedNote)
-        case .category, .smartFolder:
-            NoteListView(selectedItem: selectedItem, selectedNote: $selectedNote)
         }
     }
 

@@ -57,8 +57,10 @@ struct NoteListView: View {
         }
         #else
         switch selectedItem {
-        case .allNotes, .calendar, .map:
+        case .allNotes, .calendar, .map, .trash:
             break
+        case .favorites:
+            result = result.filter { $0.isFavorited }
         case .category(let cat):
             result = result.filter { $0.categoryId == cat.id }
         case .smartFolder(let sf):
@@ -138,6 +140,8 @@ struct NoteListView: View {
         case .allNotes:           return "전체 메모"
         case .calendar:           return "캘린더"
         case .map:                return "지도"
+        case .favorites:          return "즐겨찾기"
+        case .trash:              return "휴지통"
         case .category(let cat):  return cat.name
         case .smartFolder(let sf):return sf.name
         }

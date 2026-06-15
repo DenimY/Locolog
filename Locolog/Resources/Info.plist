@@ -29,6 +29,10 @@
 	<string>메모 작성 시 현재 위치를 자동으로 기록합니다.</string>
 	<key>NSUserNotificationsUsageDescription</key>
 	<string>메모 알림을 보내기 위해 사용됩니다.</string>
+	<key>SUFeedURL</key>
+	<string>https://github.com/DenimY/Locolog/releases/latest/download/appcast.xml</string>
+	<key>SUPublicEDKey</key>
+	<string>C4aGz07HSxK02sgIcbmYyF+5V5/n/BSkrIOSzPLIP50=</string>
 	<key>UILaunchScreen</key>
 	<dict>
 		<key>UIColorName</key>

@@ -1,8 +1,19 @@
 import SwiftUI
 import SwiftData
+#if os(macOS)
+import Sparkle
+#endif
 
 @main
 struct LocologApp: App {
+    #if os(macOS)
+    private let updaterController = SPUStandardUpdaterController(
+        startingUpdater: true,
+        updaterDelegate: nil,
+        userDriverDelegate: nil
+    )
+    #endif
+
     let container: ModelContainer = {
         let schema = Schema([
             Note.self,

@@ -1,7 +1,18 @@
 import SwiftUI
 import AuthenticationServices
+#if os(macOS)
+import Sparkle
+#endif
 
 struct SettingsView: View {
+    #if os(macOS)
+    private let updater = SPUStandardUpdaterController(
+        startingUpdater: false,
+        updaterDelegate: nil,
+        userDriverDelegate: nil
+    ).updater
+    #endif
+
     var body: some View {
         NavigationStack {
             Form {
@@ -40,7 +51,14 @@ struct SettingsView: View {
 
                 // 정보
                 Section("정보") {
-                    LabeledContent("버전", value: "1.0.0")
+                    LabeledContent("버전", value: Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0.0")
+                    #if os(macOS)
+                    Button {
+                        updater.checkForUpdates()
+                    } label: {
+                        Label("업데이트 확인", systemImage: "arrow.clockwise.circle")
+                    }
+                    #endif
                     NavigationLink {
                         Text("오픈소스 라이센스")
                     } label: {

@@ -16,6 +16,7 @@ final class Note {
     var reminderLocationLat: Double?
     var reminderLocationLng: Double?
     var isDeleted: Bool
+    var isFavorited: Bool           // 즐겨찾기
     var isDirty: Bool               // 오프라인 수정 → 동기화 대기 여부
     var attachmentURLs: [String]    // 로컬 파일 URL (Documents/NoteAttachments/)
     @Relationship(deleteRule: .nullify) var tags: [Tag]
@@ -27,6 +28,7 @@ final class Note {
         self.createdAt = Date()
         self.updatedAt = Date()
         self.isDeleted = false
+        self.isFavorited = false
         self.isDirty = true
         self.attachmentURLs = []
         self.tags = []

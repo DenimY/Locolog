@@ -17,6 +17,9 @@ packages:
   Highlightr:
     url: https://github.com/raspu/Highlightr
     from: "2.1.2"
+  Sparkle:
+    url: https://github.com/sparkle-project/Sparkle
+    from: "2.0.0"
 
 targets:
   Locolog:
@@ -49,12 +52,17 @@ targets:
       - package: swift-markdown-ui
         product: MarkdownUI
       - package: Highlightr
+      - package: Sparkle
+        product: Sparkle
+        platformFilter: macOS
       # LocologWidget: Xcode에서 iOS 타겟의 "Embed Foundation Extensions"에 수동 추가 필요
       # (멀티플랫폼 타겟에서 자동 embed 시 macOS 빌드 서명 오류 발생)
     info:
       path: Locolog/Resources/Info.plist
       properties:
         CFBundleDisplayName: Locolog
+        SUFeedURL: "https://github.com/DenimY/Locolog/releases/latest/download/appcast.xml"
+        SUPublicEDKey: "C4aGz07HSxK02sgIcbmYyF+5V5/n/BSkrIOSzPLIP50="
         NSLocationWhenInUseUsageDescription: "메모 작성 시 현재 위치를 자동으로 기록합니다."
         NSUserNotificationsUsageDescription: "메모 알림을 보내기 위해 사용됩니다."
         UILaunchScreen:

@@ -30,14 +30,12 @@
 ```bash
 cd /Users/youkyungmu/Documents/Project/Locolog
 xcodegen generate
-
-# WidgetKit embed을 iOS 전용으로 제한 (macOS 빌드 에러 방지)
-sed -i '' '/LocologWidget.appex in Embed Foundation Extensions/s/settings = {/platformFilter = ios; settings = {/' \
-  Locolog.xcodeproj/project.pbxproj
+python3 scripts/fix_pbxproj.py
 ```
 
-xcodegen 없이 추가된 파일은 Xcode 프로젝트에 포함되지 않아 빌드 에러가 발생한다.  
-위젯 패치를 빠뜨리면 macOS 빌드 시 "embedded content built for iOS" 에러가 발생한다.
+`scripts/fix_pbxproj.py` 가 다음을 자동으로 처리한다:
+- WidgetKit embed을 iOS 전용으로 제한 (macOS 빌드 에러 방지)
+- Sparkle를 iOS 타겟에서 완전히 제거 (iOS에는 Sparkle 없음)
 
 ### 빌드 확인 명령어
 

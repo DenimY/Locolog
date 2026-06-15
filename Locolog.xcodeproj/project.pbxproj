@@ -56,10 +56,13 @@
 		6629BDBB3DE6DF12FD515AB2 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D123980EB550EC0AD907DE8 /* CalendarView.swift */; };
 		6BBEFF4D250D64F471ADB144 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 362C92BF131539B135A4FD89 /* MapView.swift */; };
 		703FB262CC3FF1143A26B392 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DE38D26DA8433708023FAF5 /* RootView.swift */; };
+		7A5243BBBB64291577DEEEFC /* MapCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CAD40D981D0D0B20DF4828 /* MapCalendarView.swift */; };
 		7D54D43D1C962E239997AB84 /* ExportSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6053E5550C5855959C8D4E1 /* ExportSheet.swift */; };
+		88B22A623A1671A6E38817F0 /* MapCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CAD40D981D0D0B20DF4828 /* MapCalendarView.swift */; };
 		88D663CE874BA05278346DAE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9688689B7CAC2418AD63A56E /* Assets.xcassets */; };
 		88DCC6E38F55ED623CEA919C /* ReminderPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647E237B177556AE6F04BAC4 /* ReminderPickerView.swift */; };
 		8A34E5B020129B6E47548844 /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F7A5632AF8E7479600755E /* Note.swift */; };
+		9066F00255B533FF533EDB0F /* NoteDetailPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E10C9983C4AB2CC022617A3 /* NoteDetailPanel.swift */; };
 		95CD7E11C466B783B17F38FE /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9317E40BE96F5541285F3DE3 /* Tag.swift */; };
 		9A8A27E95A5A121DD0DE6A89 /* NoteEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1652CCD7C0F138788EEF524 /* NoteEditorView.swift */; };
 		9D2872154218C6ACA6431D56 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE6D14F6F6183BE915C1DB27 /* SearchView.swift */; };
@@ -72,6 +75,7 @@
 		ADDB3D9C72DEFBC51F375AA6 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46761BC8F584408F069BB484 /* AuthManager.swift */; };
 		B2816AA03B91E7DE54A2BD3C /* CodeAccessoryToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355723C94FA4D49FD237DC5C /* CodeAccessoryToolbar.swift */; };
 		B39509AD8B2BA00E0A245EFE /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469FCAC48FBCD7DAC8F11982 /* NotificationManager.swift */; };
+		B52519D38F31D4DC0C290A17 /* NoteDetailPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E10C9983C4AB2CC022617A3 /* NoteDetailPanel.swift */; };
 		B6CEC3C0AA09808C35974826 /* SyncManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48719F4B03D0F5140DDCE4C6 /* SyncManager.swift */; };
 		B748189AB681DBE24C5F8A9C /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = DB1C537C8F8A9EC2F3903F4C /* Supabase */; };
 		BBD3F7A560A4BFAB2F872B25 /* SupabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3571A9A9994E85D83C1E0264 /* SupabaseService.swift */; };
@@ -90,6 +94,7 @@
 		F03C7BC021C87DB72EC42C6C /* Highlightr in Frameworks */ = {isa = PBXBuildFile; productRef = 09BC81781221D1BC0DD78359 /* Highlightr */; };
 		F0A8C75080704901F739CE28 /* SupabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3571A9A9994E85D83C1E0264 /* SupabaseService.swift */; };
 		F1546DDE2145CB64177C1906 /* CategoryFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D0641B262D377510528237 /* CategoryFormView.swift */; };
+		F159CEB161CADAA60F8392E2 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; platformFilter = macos; productRef = BABF8C7BADE15C88A5D60D14 /* Sparkle */; };
 		F3249B11BDB47EDA6F5791B3 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469FCAC48FBCD7DAC8F11982 /* NotificationManager.swift */; };
 		FD886CEC5AE0A57EAF736F39 /* WidgetNote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD0FC91FDC50720D99CEE9A /* WidgetNote.swift */; };
 /* End PBXBuildFile section */
@@ -137,6 +142,7 @@
 		710727F99137F9B531A1604E /* AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
 		74D0641B262D377510528237 /* CategoryFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryFormView.swift; sourceTree = "<group>"; };
 		7D123980EB550EC0AD907DE8 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
+		7E10C9983C4AB2CC022617A3 /* NoteDetailPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteDetailPanel.swift; sourceTree = "<group>"; };
 		833F00FCCADCB01A2C377D0A /* LocologWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocologWidgetBundle.swift; sourceTree = "<group>"; };
 		8583C7EA3D072A891130AE3A /* Locolog.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Locolog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		88514EA26DF190B017BCEFBB /* AICommandView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AICommandView.swift; sourceTree = "<group>"; };
@@ -155,6 +161,7 @@
 		C4FB7377E124E5A101E6C327 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		D9972EAE7CF72DCE5CA63142 /* ExportManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportManager.swift; sourceTree = "<group>"; };
 		DD0B46E20EA05A7CE158D9CA /* HighlightrCodeHighlighter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightrCodeHighlighter.swift; sourceTree = "<group>"; };
+		E2CAD40D981D0D0B20DF4828 /* MapCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCalendarView.swift; sourceTree = "<group>"; };
 		E6053E5550C5855959C8D4E1 /* ExportSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportSheet.swift; sourceTree = "<group>"; };
 		E8C9008C17836E22544D4F63 /* SmartFolderFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartFolderFormView.swift; sourceTree = "<group>"; };
 		ECFD697EF5A141E8C7AD60FD /* LocologWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocologWidget.swift; sourceTree = "<group>"; };
@@ -183,6 +190,7 @@
 				C824915F8DF8DAB552DBD186 /* Supabase in Frameworks */,
 				129FABFA6D28865F1B03C4B6 /* MarkdownUI in Frameworks */,
 				07A8F66B3D6B14EE3CCDFF05 /* Highlightr in Frameworks */,
+				F159CEB161CADAA60F8392E2 /* Sparkle in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -259,6 +267,7 @@
 			isa = PBXGroup;
 			children = (
 				7D123980EB550EC0AD907DE8 /* CalendarView.swift */,
+				E2CAD40D981D0D0B20DF4828 /* MapCalendarView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -540,6 +549,7 @@
 		E443AAFA10BAE388040CA3B5 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				7E10C9983C4AB2CC022617A3 /* NoteDetailPanel.swift */,
 				1CD433701FEC6F760E67535D /* NoteListView.swift */,
 				178696157A8A65AA84018F05 /* NoteRowView.swift */,
 				F7919F5E27B7E93E9511A6E6 /* SidebarView.swift */,
@@ -667,6 +677,7 @@
 				18D27B9A2A900AA36E9AD888 /* Supabase */,
 				D8AFA0F8AEB1F9DBCCD1C89A /* MarkdownUI */,
 				43564C17DD706D0C0E3D7764 /* Highlightr */,
+				BABF8C7BADE15C88A5D60D14 /* Sparkle */,
 			);
 			productName = Locolog_macOS;
 			productReference = 2F066448DFC77DB16C96B434 /* Locolog.app */;
@@ -727,6 +738,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				8654214E9FDEEBBCC94A42BE /* XCRemoteSwiftPackageReference "Highlightr" */,
+				5C7553D245CF79FBBD3E8A89 /* XCRemoteSwiftPackageReference "Sparkle" */,
 				4AFFAFE364FE7CF4E1BD9F07 /* XCRemoteSwiftPackageReference "supabase-swift" */,
 				7A5EDB1F7D75D845F9749C7B /* XCRemoteSwiftPackageReference "swift-markdown-ui" */,
 			);
@@ -793,8 +805,10 @@
 				CE518A36D3B3E43733F4D43C /* LocationManager.swift in Sources */,
 				9D2A3826308ABA28A86F4307 /* LocationPickerSheet.swift in Sources */,
 				11BE27E19ED914FAB2697AE4 /* LocologApp.swift in Sources */,
+				88B22A623A1671A6E38817F0 /* MapCalendarView.swift in Sources */,
 				4E4CAF3BDA552951DB3FED4B /* MapView.swift in Sources */,
 				8A34E5B020129B6E47548844 /* Note.swift in Sources */,
+				B52519D38F31D4DC0C290A17 /* NoteDetailPanel.swift in Sources */,
 				579478F950D08D74D4372E3A /* NoteEditorView.swift in Sources */,
 				02F133BC81451216C8D07E4B /* NoteListView.swift in Sources */,
 				4512D08C2389FC35335986F0 /* NoteRowView.swift in Sources */,
@@ -854,8 +868,10 @@
 				3833F6FF0D1FADEF4BF0BAA2 /* LocationManager.swift in Sources */,
 				4B6147E7ACFB225383DF7E3A /* LocationPickerSheet.swift in Sources */,
 				319663A73744B3A0475F3D02 /* LocologApp.swift in Sources */,
+				7A5243BBBB64291577DEEEFC /* MapCalendarView.swift in Sources */,
 				6BBEFF4D250D64F471ADB144 /* MapView.swift in Sources */,
 				17A5C37C8BD2D4548CC6F73A /* Note.swift in Sources */,
+				9066F00255B533FF533EDB0F /* NoteDetailPanel.swift in Sources */,
 				9A8A27E95A5A121DD0DE6A89 /* NoteEditorView.swift in Sources */,
 				1DFC78A1441F57B485FC1B0B /* NoteListView.swift in Sources */,
 				ADAE6BA91C4FE20834FD2BBF /* NoteRowView.swift in Sources */,
@@ -1285,6 +1301,14 @@
 				minimumVersion = 2.0.0;
 			};
 		};
+		5C7553D245CF79FBBD3E8A89 /* XCRemoteSwiftPackageReference "Sparkle" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sparkle-project/Sparkle";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 		7A5EDB1F7D75D845F9749C7B /* XCRemoteSwiftPackageReference "swift-markdown-ui" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/gonzalezreal/swift-markdown-ui";
@@ -1318,6 +1342,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 8654214E9FDEEBBCC94A42BE /* XCRemoteSwiftPackageReference "Highlightr" */;
 			productName = Highlightr;
+		};
+		BABF8C7BADE15C88A5D60D14 /* Sparkle */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5C7553D245CF79FBBD3E8A89 /* XCRemoteSwiftPackageReference "Sparkle" */;
+			productName = Sparkle;
 		};
 		D3B45BED6DFBE90929814402 /* MarkdownUI */ = {
 			isa = XCSwiftPackageProductDependency;

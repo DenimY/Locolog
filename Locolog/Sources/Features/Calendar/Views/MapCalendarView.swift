@@ -46,6 +46,7 @@ struct MapCalendarView: View {
                 // 지도 (상단 45%)
                 mapSection
                     .frame(height: geo.size.height * 0.45)
+                    .clipped()
                 Divider()
                 // 캘린더 그리드 (하단 55%)
                 calendarSection
@@ -288,6 +289,7 @@ private struct DayCell: View {
                         .strokeBorder(Color.accentColor.opacity(0.4), lineWidth: 1)
                 }
             }
+            .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
     }

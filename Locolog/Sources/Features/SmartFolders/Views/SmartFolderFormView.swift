@@ -23,7 +23,7 @@ struct SmartFolderFormView: View {
         NavigationStack {
             Form {
                 Section("이름") {
-                    TextField("스마트 폴더 이름", text: $name)
+                    TextField("", text: $name, prompt: Text("스마트 폴더 이름"))
                 }
 
                 Section("필터 조건") {

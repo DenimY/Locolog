@@ -206,50 +206,50 @@ private struct AITabView: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 20) {
-            // 상태 배너
-            HStack(spacing: 10) {
-                if let p = activeProvider {
-                    Image(systemName: "checkmark.circle.fill").foregroundStyle(.green)
-                    Text("\(p.rawValue) 활성화됨").fontWeight(.medium)
-                } else {
-                    Image(systemName: "exclamationmark.triangle.fill").foregroundStyle(.orange)
-                    Text("API 키를 입력하면 AI 기능이 활성화됩니다").foregroundStyle(.secondary)
+        ScrollView {
+            VStack(alignment: .leading, spacing: 20) {
+                // 상태 배너
+                HStack(spacing: 10) {
+                    if let p = activeProvider {
+                        Image(systemName: "checkmark.circle.fill").foregroundStyle(.green)
+                        Text("\(p.rawValue) 활성화됨").fontWeight(.medium)
+                    } else {
+                        Image(systemName: "exclamationmark.triangle.fill").foregroundStyle(.orange)
+                        Text("API 키를 입력하면 AI 기능이 활성화됩니다").foregroundStyle(.secondary)
+                    }
+                    Spacer()
                 }
-                Spacer()
-            }
-            .padding(12)
-            .background(RoundedRectangle(cornerRadius: 10).fill(Color.secondary.opacity(0.1)))
+                .padding(12)
+                .background(RoundedRectangle(cornerRadius: 10).fill(Color.secondary.opacity(0.1)))
 
-            // API 키 입력
-            VStack(alignment: .leading, spacing: 4) {
-                Text("API 키").font(.headline)
-                Text("키는 이 기기에만 저장되며 서버로 전송되지 않습니다.")
-                    .font(.caption).foregroundStyle(.secondary)
-            }
+                // API 키 입력
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("API 키").font(.headline)
+                    Text("키는 이 기기에만 저장되며 서버로 전송되지 않습니다.")
+                        .font(.caption).foregroundStyle(.secondary)
+                }
 
-            VStack(spacing: 10) {
-                apiKeyRow(provider: .claude, binding: $claudeKey, key: "claudeAPIKey", color: .purple)
-                apiKeyRow(provider: .openAI, binding: $openAIKey, key: "openAIAPIKey", color: .green)
-                apiKeyRow(provider: .gemini, binding: $geminiKey, key: "geminiAPIKey", color: .blue)
-            }
+                VStack(spacing: 10) {
+                    apiKeyRow(provider: .claude, binding: $claudeKey, key: "claudeAPIKey", color: .purple)
+                    apiKeyRow(provider: .openAI, binding: $openAIKey, key: "openAIAPIKey", color: .green)
+                    apiKeyRow(provider: .gemini, binding: $geminiKey, key: "geminiAPIKey", color: .blue)
+                }
 
-            Divider()
+                Divider()
 
-            // 명령어 안내
-            VStack(alignment: .leading, spacing: 6) {
-                Text("사용 가능한 명령어").font(.headline)
-                ForEach(AICommand.allCases) { cmd in
-                    Label(cmd.rawValue, systemImage: cmd.icon)
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
+                // 명령어 안내
+                VStack(alignment: .leading, spacing: 6) {
+                    Text("사용 가능한 명령어").font(.headline)
+                    ForEach(AICommand.allCases) { cmd in
+                        Label(cmd.rawValue, systemImage: cmd.icon)
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                    }
                 }
             }
-
-            Spacer()
+            .padding(24)
+            .frame(maxWidth: .infinity, alignment: .topLeading)
         }
-        .padding(24)
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
     }
 
     private func apiKeyRow(provider: AIProvider, binding: Binding<String>, key: String, color: Color) -> some View {

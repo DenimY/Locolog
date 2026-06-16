@@ -21,7 +21,7 @@ struct CategoryFormView: View {
         NavigationStack {
             Form {
                 Section("이름") {
-                    TextField("카테고리 이름", text: $name)
+                    TextField("", text: $name, prompt: Text("카테고리 이름"))
                 }
                 Section("색상") {
                     LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 5), spacing: 12) {

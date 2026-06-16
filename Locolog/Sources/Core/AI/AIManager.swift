@@ -30,6 +30,7 @@ enum AICommand: String, CaseIterable, Identifiable {
     case summarize      = "요약"
     case improve        = "내용 개선"
     case translateEN    = "영어 번역"
+    case translateKO    = "한국어 번역"
     case suggestTags    = "태그 제안"
     case continueWrite  = "계속 쓰기"
 
@@ -40,6 +41,7 @@ enum AICommand: String, CaseIterable, Identifiable {
         case .summarize:     return "text.quote"
         case .improve:       return "wand.and.stars"
         case .translateEN:   return "globe"
+        case .translateKO:   return "character.koreanhangul"
         case .suggestTags:   return "tag"
         case .continueWrite: return "pencil.and.scribble"
         }
@@ -53,6 +55,8 @@ enum AICommand: String, CaseIterable, Identifiable {
             return "주어진 메모의 내용을 더 명확하고 자연스럽게 다듬어 주세요. 의미를 바꾸지 않고, 표현을 개선하세요. 원문과 같은 언어를 유지하세요."
         case .translateEN:
             return "주어진 메모를 영어로 번역해 주세요. 마크다운 형식을 유지하세요."
+        case .translateKO:
+            return "주어진 메모를 한국어로 번역해 주세요. 마크다운 형식을 유지하세요."
         case .suggestTags:
             return "주어진 메모의 내용을 분석하여 관련 태그를 5개 이내로 제안해 주세요. #태그명 형식으로, 줄바꿈 없이 공백으로 구분하여 태그만 나열하세요."
         case .continueWrite:

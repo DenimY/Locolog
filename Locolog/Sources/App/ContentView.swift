@@ -7,7 +7,6 @@ enum SidebarItem: Hashable {
     case allNotes
     case favorites
     case trash
-    case category(Category)
     case smartFolder(SmartFolder)
     case tag(String)
     case folder(Folder)
@@ -105,7 +104,7 @@ struct MainSplitView: View {
             MapCalendarView(selectedNote: $selectedNote)
         case .map:
             NoteMapView(selectedNote: $selectedNote)
-        case .allNotes, .favorites, .category, .smartFolder, .tag, .folder:
+        case .allNotes, .favorites, .smartFolder, .tag, .folder:
             NoteListView(selectedItem: selectedItem, selectedNote: $selectedNote)
         case .trash:
             TrashView(selectedNote: $selectedNote)

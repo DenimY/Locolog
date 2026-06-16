@@ -10,12 +10,28 @@ struct FolderFormView: View {
     var parentId: UUID? = nil
 
     @State private var name = ""
+    @State private var selectedColor: String? = nil
+
+    static let palette: [String] = [
+        "#4A90E2", "#5AC8FA", "#34C759", "#FF9500",
+        "#FF3B30", "#AF52DE", "#FF2D55", "#FFCC00",
+        "#8E8E93", "#636366"
+    ]
 
     var body: some View {
         NavigationStack {
             Form {
                 Section("이름") {
                     TextField("", text: $name, prompt: Text("폴더 이름"))
+                }
+                Section("색상") {
+                    LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 5), spacing: 12) {
+                        colorSwatch(nil)
+                        ForEach(Self.palette, id: \.self) { hex in
+                            colorSwatch(hex)
+                        }
+                    }
+                    .padding(.vertical, 4)
                 }
             }
             .navigationTitle(editing == nil ? "새 폴더" : "폴더 편집")
@@ -33,17 +49,39 @@ struct FolderFormView: View {
             }
         }
         .onAppear {
-            if let folder = editing { name = folder.name }
+            if let folder = editing {
+                name = folder.name
+                selectedColor = folder.colorHex
+            }
         }
+    }
+
+    @ViewBuilder
+    private func colorSwatch(_ hex: String?) -> some View {
+        Circle()
+            .fill(hex.flatMap { Color(hex: $0) } ?? Color.secondary.opacity(0.3))
+            .frame(width: 36, height: 36)
+            .overlay {
+                if hex == nil {
+                    Image(systemName: "slash.circle").foregroundStyle(.secondary)
+                }
+            }
+            .overlay(
+                Circle()
+                    .strokeBorder(selectedColor == hex ? Color.primary : .clear, lineWidth: 3)
+                    .padding(2)
+            )
+            .onTapGesture { selectedColor = hex }
     }
 
     private func save() {
         let trimmed = name.trimmingCharacters(in: .whitespaces)
         if let folder = editing {
             folder.name = trimmed
+            folder.colorHex = selectedColor
         } else {
             let siblingCount = allFolders.filter { $0.parentId == parentId }.count
-            let folder = Folder(name: trimmed, parentId: parentId, position: siblingCount)
+            let folder = Folder(name: trimmed, parentId: parentId, position: siblingCount, colorHex: selectedColor)
             context.insert(folder)
         }
         try? context.save()

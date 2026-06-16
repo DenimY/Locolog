@@ -5,14 +5,14 @@ import SwiftData
 struct NoteDetailPanel: View {
     @Bindable var note: Note
     @Environment(\.modelContext) private var context
-    @Query(sort: \Category.position) private var categories: [Category]
+    @Query private var allFolders: [Folder]
     @ObservedObject private var authManager = AuthManager.shared
 
     @State private var showEditor = false
 
-    private var category: Category? {
-        guard let id = note.categoryId else { return nil }
-        return categories.first { $0.id == id }
+    private var category: Folder? {
+        guard let id = note.folderId else { return nil }
+        return allFolders.first { $0.id == id }
     }
 
     var body: some View {
@@ -64,7 +64,7 @@ struct NoteDetailPanel: View {
             // 컬러 썸네일
             ZStack {
                 RoundedRectangle(cornerRadius: 12)
-                    .fill(category?.color ?? Color.accentColor)
+                    .fill(category?.colorHex != nil ? category!.color : Color.accentColor)
                     .frame(width: 56, height: 56)
                 Image(systemName: "note.text")
                     .font(.title2)
@@ -84,7 +84,7 @@ struct NoteDetailPanel: View {
                 if let cat = category {
                     Label(cat.name, systemImage: "folder.fill")
                         .font(.caption)
-                        .foregroundStyle(cat.color)
+                        .foregroundStyle(cat.colorHex != nil ? cat.color : .secondary)
                 }
             }
 

@@ -4,13 +4,13 @@ import SwiftData
 struct SmartFolderFormView: View {
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
-    @Query(sort: \Category.position) private var categories: [Category]
+    @Query private var allFolders: [Folder]
     @Query(sort: \SmartFolder.position) private var smartFolders: [SmartFolder]
 
     var editing: SmartFolder? = nil
 
     @State private var name = ""
-    @State private var selectedCategoryId: UUID? = nil
+    @State private var selectedFolderId: UUID? = nil
     @State private var locationName = ""
     @State private var hasLocation = false
     @State private var tagInput = ""
@@ -27,13 +27,13 @@ struct SmartFolderFormView: View {
                 }
 
                 Section("필터 조건") {
-                    // 카테고리
-                    Picker("카테고리", selection: $selectedCategoryId) {
+                    // 폴더
+                    Picker("폴더", selection: $selectedFolderId) {
                         Text("전체").tag(UUID?.none)
-                        ForEach(categories) { cat in
-                            Label(cat.name, systemImage: "folder.fill")
-                                .foregroundStyle(cat.color)
-                                .tag(Optional(cat.id))
+                        ForEach(sortedFolders) { folder in
+                            Label(folder.name, systemImage: "folder.fill")
+                                .foregroundStyle(folder.colorHex != nil ? folder.color : .secondary)
+                                .tag(Optional(folder.id))
                         }
                     }
 
@@ -129,11 +129,16 @@ struct SmartFolderFormView: View {
 
     // MARK: - 필터 미리보기
 
+    private var sortedFolders: [Folder] {
+        allFolders.sorted { $0.position < $1.position }
+    }
+
     private var filterPreview: some View {
         VStack(alignment: .leading, spacing: 6) {
-            if let catId = selectedCategoryId,
-               let cat = categories.first(where: { $0.id == catId }) {
-                Label(cat.name, systemImage: "folder.fill").foregroundStyle(cat.color)
+            if let folderId = selectedFolderId,
+               let folder = allFolders.first(where: { $0.id == folderId }) {
+                Label(folder.name, systemImage: "folder.fill")
+                    .foregroundStyle(folder.colorHex != nil ? folder.color : .secondary)
             }
             if !locationName.isEmpty {
                 Label(locationName, systemImage: "location")
@@ -155,7 +160,7 @@ struct SmartFolderFormView: View {
     }
 
     private var hasActiveFilter: Bool {
-        selectedCategoryId != nil || !locationName.isEmpty || hasLocation ||
+        selectedFolderId != nil || !locationName.isEmpty || hasLocation ||
         !selectedTags.isEmpty || hasDateFilter
     }
 
@@ -172,7 +177,7 @@ struct SmartFolderFormView: View {
         guard let sf = editing else { return }
         name = sf.name
         let f = sf.filter
-        selectedCategoryId = f.categoryId
+        selectedFolderId = f.folderId ?? f.categoryId
         locationName = f.locationName ?? ""
         hasLocation = f.hasLocation ?? false
         selectedTags = f.tagNames
@@ -186,7 +191,7 @@ struct SmartFolderFormView: View {
     private func save() {
         let trimmed = name.trimmingCharacters(in: .whitespaces)
         var filter = NoteFilter()
-        filter.categoryId   = selectedCategoryId
+        filter.folderId      = selectedFolderId
         filter.locationName = locationName.isEmpty ? nil : locationName
         filter.hasLocation  = hasLocation ? true : nil
         filter.tagNames     = selectedTags

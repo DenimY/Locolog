@@ -8,23 +8,23 @@ struct NoteListView: View {
 
     @Environment(\.modelContext) private var context
     @Query(sort: \Note.updatedAt, order: .reverse) private var allNotes: [Note]
-    @Query(sort: \Category.position) private var categories: [Category]
+    @Query private var allFolders: [Folder]
     @Query(sort: \SmartFolder.position) private var smartFolders: [SmartFolder]
 
     @State private var searchText = ""
     @State private var sortOrder: NoteSortOrder = .updatedAt
 
     // 생성/편집 공용 — nil이면 새로 만들기, non-nil이면 편집
-    @State private var editingCategory: Category? = nil
+    @State private var editingFolder: Folder? = nil
     @State private var editingSmartFolder: SmartFolder? = nil
-    @State private var showCategoryForm = false
+    @State private var showFolderForm = false
     @State private var showSmartFolderForm = false
 
     // iOS 전용
     #if os(iOS)
     @State private var navigationPath: [Note] = []
     @State private var filterMode: IOSFilterMode = .categories
-    @State private var iOSSelectedCategoryId: UUID? = nil
+    @State private var iOSSelectedFolderId: UUID? = nil
     @State private var iOSSelectedSmartFolderId: UUID? = nil
     @State private var iOSSelectedTag: String? = nil
 
@@ -42,8 +42,9 @@ struct NoteListView: View {
         #if os(iOS)
         switch filterMode {
         case .categories:
-            if let catId = iOSSelectedCategoryId {
-                result = result.filter { $0.categoryId == catId }
+            if let folderId = iOSSelectedFolderId {
+                let ids = folderAndDescendantIds(of: folderId)
+                result = result.filter { note in note.folderId.map(ids.contains) ?? false }
             }
         case .smartFolders:
             if let sfId = iOSSelectedSmartFolderId,
@@ -61,14 +62,13 @@ struct NoteListView: View {
             break
         case .favorites:
             result = result.filter { $0.isFavorited }
-        case .category(let cat):
-            result = result.filter { $0.categoryId == cat.id }
         case .smartFolder(let sf):
             result = applySmartFolderFilter(sf.filter, to: result)
         case .tag(let tagName):
             result = result.filter { $0.parsedTagNames.contains(tagName) }
         case .folder(let folder):
-            result = result.filter { $0.folderId == folder.id }
+            let ids = folderAndDescendantIds(of: folder.id)
+            result = result.filter { note in note.folderId.map(ids.contains) ?? false }
         }
         #endif
 
@@ -91,8 +91,9 @@ struct NoteListView: View {
 
     private func applySmartFolderFilter(_ f: NoteFilter, to notes: [Note]) -> [Note] {
         var result = notes
-        if let catId = f.categoryId {
-            result = result.filter { $0.categoryId == catId }
+        if let folderId = f.folderId ?? f.categoryId {
+            let ids = folderAndDescendantIds(of: folderId)
+            result = result.filter { note in note.folderId.map(ids.contains) ?? false }
         }
         if let loc = f.locationName, !loc.isEmpty {
             result = result.filter {
@@ -119,17 +120,37 @@ struct NoteListView: View {
         return result
     }
 
-    private func category(for note: Note) -> Category? {
-        guard let catId = note.categoryId else { return nil }
-        return categories.first { $0.id == catId }
+    private func folder(for note: Note) -> Folder? {
+        guard let folderId = note.folderId else { return nil }
+        return allFolders.first { $0.id == folderId }
+    }
+
+    private func rowColor(for note: Note) -> Color? {
+        guard let folder = folder(for: note), folder.colorHex != nil else { return nil }
+        return folder.color
+    }
+
+    /// 폴더 자신 + 모든 하위 폴더의 id 집합 (상위 폴더 선택 시 하위까지 모아보기)
+    private func folderAndDescendantIds(of rootId: UUID) -> Set<UUID> {
+        var ids: Set<UUID> = [rootId]
+        var frontier: [UUID] = [rootId]
+        while !frontier.isEmpty {
+            let children = allFolders.filter { folder in
+                guard let pid = folder.parentId else { return false }
+                return frontier.contains(pid)
+            }
+            frontier = children.map { $0.id }
+            ids.formUnion(frontier)
+        }
+        return ids
     }
 
     private var navigationTitle: String {
         #if os(iOS)
         switch filterMode {
         case .categories:
-            if let id = iOSSelectedCategoryId,
-               let cat = categories.first(where: { $0.id == id }) { return cat.name }
+            if let id = iOSSelectedFolderId,
+               let folder = allFolders.first(where: { $0.id == id }) { return folder.name }
             return "전체 메모"
         case .smartFolders:
             if let id = iOSSelectedSmartFolderId,
@@ -146,7 +167,6 @@ struct NoteListView: View {
         case .map:                return "지도"
         case .favorites:          return "즐겨찾기"
         case .trash:              return "휴지통"
-        case .category(let cat):   return cat.name
         case .smartFolder(let sf): return sf.name
         case .tag(let tagName):    return "#\(tagName)"
         case .folder(let folder):  return folder.name
@@ -177,10 +197,10 @@ struct NoteListView: View {
                     ToolbarItem(placement: .topBarTrailing) {
                         Menu {
                             Button {
-                                editingCategory = nil
-                                showCategoryForm = true
+                                editingFolder = nil
+                                showFolderForm = true
                             } label: {
-                                Label("카테고리 추가", systemImage: "folder.badge.plus")
+                                Label("새 폴더", systemImage: "folder.badge.plus")
                             }
                             Button {
                                 editingSmartFolder = nil
@@ -198,14 +218,14 @@ struct NoteListView: View {
                         }
                     }
                 }
-                .sheet(isPresented: $showCategoryForm) {
-                    CategoryFormView(editing: editingCategory)
+                .sheet(isPresented: $showFolderForm) {
+                    FolderFormView(editing: editingFolder)
                 }
                 .sheet(isPresented: $showSmartFolderForm) {
                     SmartFolderFormView(editing: editingSmartFolder)
                 }
                 .onChange(of: filterMode) { _, _ in
-                    iOSSelectedCategoryId   = nil
+                    iOSSelectedFolderId      = nil
                     iOSSelectedSmartFolderId = nil
                     iOSSelectedTag          = nil
                 }
@@ -272,20 +292,25 @@ struct NoteListView: View {
         .background(.regularMaterial)
     }
 
+    // 최상위 폴더만 칩으로 표시 (선택 시 하위 폴더까지 모아보기)
+    private var rootFolders: [Folder] {
+        allFolders.filter { $0.parentId == nil }.sorted { $0.position < $1.position }
+    }
+
     @ViewBuilder
     private var categoryChips: some View {
-        FilterChip(title: "전체", color: .secondary, isSelected: iOSSelectedCategoryId == nil) {
-            iOSSelectedCategoryId = nil
+        FilterChip(title: "전체", color: .secondary, isSelected: iOSSelectedFolderId == nil) {
+            iOSSelectedFolderId = nil
         }
-        ForEach(categories) { cat in
-            FilterChip(title: cat.name, color: cat.color, isSelected: iOSSelectedCategoryId == cat.id) {
-                iOSSelectedCategoryId = iOSSelectedCategoryId == cat.id ? nil : cat.id
+        ForEach(rootFolders) { folder in
+            FilterChip(title: folder.name, color: folder.color, isSelected: iOSSelectedFolderId == folder.id) {
+                iOSSelectedFolderId = iOSSelectedFolderId == folder.id ? nil : folder.id
             }
             .contextMenu {
-                Button { editingCategory = cat; showCategoryForm = true } label: {
+                Button { editingFolder = folder; showFolderForm = true } label: {
                     Label("편집", systemImage: "pencil")
                 }
-                Button(role: .destructive) { deleteCategory(cat) } label: {
+                Button(role: .destructive) { deleteFolder(folder) } label: {
                     Label("삭제", systemImage: "trash")
                 }
             }
@@ -351,7 +376,7 @@ struct NoteListView: View {
     private var iosList: some View {
         List(filteredNotes) { note in
             NavigationLink(value: note) {
-                NoteRowView(note: note, category: category(for: note))
+                NoteRowView(note: note, color: rowColor(for: note))
             }
             .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                 Button(role: .destructive) { deleteNote(note) } label: {
@@ -368,7 +393,7 @@ struct NoteListView: View {
     #if !os(iOS)
     private var macOSList: some View {
         List(filteredNotes, selection: $selectedNote) { note in
-            NoteRowView(note: note, category: category(for: note))
+            NoteRowView(note: note, color: rowColor(for: note))
                 .tag(note)
                 .draggable(NoteTransfer(noteId: note.id))
                 .contextMenu {
@@ -456,15 +481,16 @@ struct NoteListView: View {
     // MARK: - 액션
 
     private func createNote() {
-        let categoryId: UUID?
+        let folderId: UUID?
         #if os(iOS)
-        categoryId = filterMode == .categories ? iOSSelectedCategoryId : nil
+        folderId = filterMode == .categories ? iOSSelectedFolderId : nil
         #else
-        if case .category(let cat) = selectedItem { categoryId = cat.id }
-        else { categoryId = nil }
+        if case .folder(let folder) = selectedItem { folderId = folder.id }
+        else { folderId = nil }
         #endif
 
-        let note = Note(categoryId: categoryId)
+        let note = Note()
+        note.folderId = folderId
         context.insert(note)
         try? context.save()
 
@@ -485,9 +511,17 @@ struct NoteListView: View {
     }
 
     #if os(iOS)
-    private func deleteCategory(_ category: Category) {
-        if iOSSelectedCategoryId == category.id { iOSSelectedCategoryId = nil }
-        context.delete(category)
+    private func deleteFolder(_ folder: Folder) {
+        if iOSSelectedFolderId == folder.id { iOSSelectedFolderId = nil }
+        let folderId = folder.id
+        for child in allFolders where child.parentId == folderId {
+            child.parentId = folder.parentId
+        }
+        for note in allNotes where note.folderId == folderId {
+            note.folderId = nil
+            note.isDirty = true
+        }
+        context.delete(folder)
         try? context.save()
     }
 
@@ -526,7 +560,7 @@ private enum IOSFilterMode: String, CaseIterable, Identifiable {
     var id: String { rawValue }
     var label: String {
         switch self {
-        case .categories:   return "카테고리"
+        case .categories:   return "폴더"
         case .smartFolders: return "스마트폴더"
         case .tags:         return "태그"
         }

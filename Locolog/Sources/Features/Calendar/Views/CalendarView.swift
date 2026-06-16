@@ -4,7 +4,7 @@ import SwiftData
 struct CalendarView: View {
     @Binding var selectedNote: Note?
     @Query(sort: \Note.createdAt, order: .reverse) private var notes: [Note]
-    @Query(sort: \Category.position) private var categories: [Category]
+    @Query private var allFolders: [Folder]
     @State private var selectedDate: Date = Date()
 
     private var calendar = Calendar.current
@@ -63,22 +63,25 @@ struct CalendarView: View {
         #if os(iOS)
         List(notesOnSelectedDate) { note in
             NavigationLink(value: note) {
-                NoteRowView(note: note, category: category(for: note))
+                NoteRowView(note: note, color: rowColor(for: note))
             }
         }
         .listStyle(.plain)
         #else
         List(notesOnSelectedDate, selection: $selectedNote) { note in
-            NoteRowView(note: note, category: category(for: note))
+            NoteRowView(note: note, color: rowColor(for: note))
                 .tag(note)
         }
         .listStyle(.plain)
         #endif
     }
 
-    private func category(for note: Note) -> Category? {
-        guard let catId = note.categoryId else { return nil }
-        return categories.first { $0.id == catId }
+    private func rowColor(for note: Note) -> Color? {
+        guard let folderId = note.folderId,
+              let folder = allFolders.first(where: { $0.id == folderId }),
+              folder.colorHex != nil
+        else { return nil }
+        return folder.color
     }
 }
 

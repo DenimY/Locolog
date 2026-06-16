@@ -23,6 +23,7 @@ struct LocologApp: App {
 
     init() {
         Self.cleanUpLegacyPreviewModeKeys()
+        Self.migrateCategoriesToFolders(container: container)
     }
 
     /// 과거 버전에서 노트별 미리보기 모드를 UserDefaults에 "previewMode_<uuid>" 키로 저장했던
@@ -38,6 +39,47 @@ struct LocologApp: App {
             defaults.removeObject(forKey: key)
         }
         defaults.set(true, forKey: cleanedFlagKey)
+    }
+
+    /// 카테고리(평면, 메모당 1개)를 트리형 폴더로 흡수 통합한다.
+    /// 기존 Category와 동일한 id로 최상위 Folder를 생성해 categoryId 참조가
+    /// 그대로 folderId로 재사용될 수 있게 하고, 메모/스마트폴더의 참조도 옮긴다.
+    private static func migrateCategoriesToFolders(container: ModelContainer) {
+        let defaults = UserDefaults.standard
+        let flagKey = "didMigrateCategoriesToFolders"
+        guard !defaults.bool(forKey: flagKey) else { return }
+
+        let context = ModelContext(container)
+        guard let categories = try? context.fetch(FetchDescriptor<Category>()), !categories.isEmpty else {
+            defaults.set(true, forKey: flagKey)
+            return
+        }
+
+        for category in categories {
+            let folder = Folder(name: category.name, parentId: nil, position: category.position, colorHex: category.colorHex)
+            folder.id = category.id
+            context.insert(folder)
+        }
+
+        if let notes = try? context.fetch(FetchDescriptor<Note>()) {
+            for note in notes where note.folderId == nil && note.categoryId != nil {
+                note.folderId = note.categoryId
+            }
+        }
+
+        if let smartFolders = try? context.fetch(FetchDescriptor<SmartFolder>()) {
+            for sf in smartFolders {
+                var filter = sf.filter
+                guard filter.folderId == nil, let legacyCategoryId = filter.categoryId else { continue }
+                filter.folderId = legacyCategoryId
+                if let json = (try? JSONEncoder().encode(filter)).flatMap({ String(data: $0, encoding: .utf8) }) {
+                    sf.filterJSON = json
+                }
+            }
+        }
+
+        try? context.save()
+        defaults.set(true, forKey: flagKey)
     }
 
     let container: ModelContainer = {

@@ -26,7 +26,8 @@ final class SmartFolder {
 
 /// 복합 필터 조건
 struct NoteFilter: Codable {
-    var categoryId: UUID?
+    var categoryId: UUID?   // 레거시 — folderId로 대체됨 (마이그레이션 호환용)
+    var folderId: UUID?
     var tagNames: [String] = []
     var locationName: String?
     var hasLocation: Bool?

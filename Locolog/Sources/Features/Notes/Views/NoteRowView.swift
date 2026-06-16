@@ -2,13 +2,13 @@ import SwiftUI
 
 struct NoteRowView: View {
     let note: Note
-    var category: Category? = nil
+    var color: Color? = nil
 
     var body: some View {
         HStack(spacing: 10) {
-            if let cat = category {
+            if let color {
                 RoundedRectangle(cornerRadius: 1.5)
-                    .fill(cat.color)
+                    .fill(color)
                     .frame(width: 3)
                     .padding(.vertical, 2)
             }

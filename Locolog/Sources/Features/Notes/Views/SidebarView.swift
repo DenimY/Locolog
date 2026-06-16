@@ -4,7 +4,6 @@ import SwiftData
 
 struct SidebarView: View {
     @Binding var selectedItem: SidebarItem
-    @Query(sort: \Category.position) private var categories: [Category]
     @Query(sort: \SmartFolder.position) private var smartFolders: [SmartFolder]
     @Query(sort: \Tag.name) private var allTags: [Tag]
     @Query private var allFolders: [Folder]
@@ -12,10 +11,8 @@ struct SidebarView: View {
 
     @AppStorage("navOrder") private var navOrderString: String = "calendar,map,allNotes,favorites"
 
-    @State private var showCategoryForm = false
     @State private var showSmartFolderForm = false
     @State private var showFolderForm = false
-    @State private var editingCategory: Category?
     @State private var editingSmartFolder: SmartFolder?
     @State private var editingFolder: Folder?
     @State private var newFolderParentId: UUID?
@@ -105,54 +102,6 @@ struct SidebarView: View {
                 return fileNote(item.noteId, into: nil)
             }
 
-            // MARK: - 카테고리 (드래그 정렬 가능)
-
-            Section {
-                ForEach(categories) { category in
-                    HStack(spacing: 8) {
-                        Circle()
-                            .fill(category.color)
-                            .frame(width: 10, height: 10)
-                        Text(category.name)
-                    }
-                    .tag(SidebarItem.category(category))
-                    .contextMenu {
-                        Button {
-                            editingCategory = category
-                            showCategoryForm = true
-                        } label: {
-                            Label("편집", systemImage: "pencil")
-                        }
-                        Divider()
-                        Button(role: .destructive) {
-                            deleteCategory(category)
-                        } label: {
-                            Label("삭제", systemImage: "trash")
-                        }
-                    }
-                }
-                .onMove { from, to in
-                    var items = categories
-                    items.move(fromOffsets: from, toOffset: to)
-                    for (idx, cat) in items.enumerated() {
-                        cat.position = idx
-                    }
-                    try? context.save()
-                }
-
-                Button {
-                    editingCategory = nil
-                    showCategoryForm = true
-                } label: {
-                    Label("카테고리 추가", systemImage: "plus")
-                        .foregroundStyle(.secondary)
-                        .font(.callout)
-                }
-                .buttonStyle(.plain)
-            } header: {
-                Text("카테고리")
-            }
-
             // MARK: - 태그
 
             if !usedTags.isEmpty {
@@ -211,9 +160,6 @@ struct SidebarView: View {
         .safeAreaInset(edge: .bottom) {
             bottomBar
         }
-        .sheet(isPresented: $showCategoryForm) {
-            CategoryFormView(editing: editingCategory)
-        }
         .sheet(isPresented: $showSmartFolderForm) {
             SmartFolderFormView(editing: editingSmartFolder)
         }
@@ -230,7 +176,11 @@ struct SidebarView: View {
 
     @ViewBuilder
     private func folderRow(_ folder: Folder) -> some View {
-        Label(folder.name, systemImage: "folder")
+        HStack(spacing: 8) {
+            Image(systemName: "folder")
+                .foregroundStyle(folder.colorHex != nil ? folder.color : Color.secondary)
+            Text(folder.name)
+        }
             .tag(SidebarItem.folder(folder))
             .contextMenu {
                 Button {
@@ -300,14 +250,6 @@ struct SidebarView: View {
     }
 
     // MARK: - 액션
-
-    private func deleteCategory(_ category: Category) {
-        if case .category(let sel) = selectedItem, sel.id == category.id {
-            selectedItem = .allNotes
-        }
-        context.delete(category)
-        try? context.save()
-    }
 
     private func deleteSmartFolder(_ folder: SmartFolder) {
         if case .smartFolder(let sel) = selectedItem, sel.id == folder.id {

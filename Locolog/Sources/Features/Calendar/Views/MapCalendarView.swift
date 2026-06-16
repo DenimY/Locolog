@@ -14,7 +14,7 @@ struct MapCalendarView: View {
     @Environment(\.locale) private var locale
 
     @Query(sort: \Note.createdAt, order: .reverse) private var allNotes: [Note]
-    @Query(sort: \Category.position) private var categories: [Category]
+    @Query private var allFolders: [Folder]
 
     @State private var selectedDate: Date = Date()
     @State private var displayMonth: Date = Date()
@@ -164,7 +164,7 @@ struct MapCalendarView: View {
                             isSelected: Calendar.current.isDate(date, inSameDayAs: selectedDate),
                             isToday: Calendar.current.isDateInToday(date),
                             notes: notes(on: date),
-                            categories: categories
+                            folders: allFolders
                         ) {
                             selectedDate = date
                             // 그날 노트가 하나면 바로 선택
@@ -227,11 +227,12 @@ struct MapCalendarView: View {
     }
 
     private func categoryColor(for note: Note) -> Color {
-        guard let catId = note.categoryId,
-              let cat = categories.first(where: { $0.id == catId }) else {
+        guard let folderId = note.folderId,
+              let folder = allFolders.first(where: { $0.id == folderId }),
+              folder.colorHex != nil else {
             return Color.accentColor
         }
-        return cat.color
+        return folder.color
     }
 }
 
@@ -242,7 +243,7 @@ private struct DayCell: View {
     let isSelected: Bool
     let isToday: Bool
     let notes: [Note]
-    let categories: [Category]
+    let folders: [Folder]
     let onTap: () -> Void
 
     private var isWeekend: Bool {
@@ -298,11 +299,12 @@ private struct DayCell: View {
 
     private func noteChip(_ note: Note) -> some View {
         let color: Color = {
-            guard let catId = note.categoryId,
-                  let cat = categories.first(where: { $0.id == catId }) else {
+            guard let folderId = note.folderId,
+                  let folder = folders.first(where: { $0.id == folderId }),
+                  folder.colorHex != nil else {
                 return .accentColor
             }
-            return cat.color
+            return folder.color
         }()
 
         return HStack(spacing: 3) {

@@ -7,7 +7,7 @@ import MapKit
 struct NoteMapView: View {
     @Binding var selectedNote: Note?
     @Query(sort: \Note.createdAt, order: .reverse) private var allNotes: [Note]
-    @Query(sort: \Category.position) private var categories: [Category]
+    @Query private var allFolders: [Folder]
 
     @State private var position: MapCameraPosition = .automatic
     @State private var selectedID: UUID?
@@ -72,7 +72,7 @@ struct NoteMapView: View {
                         coordinate: CLLocationCoordinate2D(latitude: lat, longitude: lng)
                     ) {
                         NoteMapPin(
-                            color: category(for: note)?.color ?? Color.accentColor,
+                            color: (category(for: note)?.colorHex != nil ? category(for: note)?.color : nil) ?? Color.accentColor,
                             isSelected: selectedID == note.id
                         )
                         .onTapGesture {
@@ -118,9 +118,9 @@ struct NoteMapView: View {
 
     // MARK: - Helpers
 
-    private func category(for note: Note) -> Category? {
-        guard let catId = note.categoryId else { return nil }
-        return categories.first { $0.id == catId }
+    private func category(for note: Note) -> Folder? {
+        guard let catId = note.folderId else { return nil }
+        return allFolders.first { $0.id == catId }
     }
 
     private func fitCamera() {
@@ -200,7 +200,7 @@ struct PinTail: Shape {
 
 struct NoteCallout: View {
     let note: Note
-    let category: Category?
+    let category: Folder?
     let onOpen: () -> Void
     let onDismiss: () -> Void
 

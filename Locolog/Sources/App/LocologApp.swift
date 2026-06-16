@@ -93,23 +93,31 @@ struct LocologApp: App {
         let config = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
         // 1차 시도: 정상 오픈
-        if let container = try? ModelContainer(for: schema, configurations: [config]) {
-            return container
+        do {
+            return try ModelContainer(for: schema, configurations: [config])
+        } catch {
+            // 실패 원인을 반드시 로그로 남긴다 — 원인을 모르면 같은 문제가 재발해도 알 수 없다.
+            print("⚠️ SwiftData: ModelContainer 생성 실패 — \(error)")
         }
 
-        // 2차 시도: 스키마 변경으로 기존 스토어 열기 실패 시 삭제 후 재생성
-        // (개발 단계에서만 허용 — 로컬 미동기화 데이터 유실 가능)
-        print("⚠️ SwiftData: 스키마 마이그레이션 실패, 스토어를 초기화합니다.")
+        // 2차 시도: 손상되었거나 마이그레이션 불가능한 스토어를 "삭제"하지 않고
+        // 타임스탬프를 붙여 백업 위치로 옮긴 뒤 새 스토어를 만든다.
+        // (예전엔 바로 삭제했는데, 스키마를 자주 바꾸는 개발 중 lightweight 마이그레이션이
+        //  실패할 때마다 사용자 데이터가 통째로 사라지는 사고로 이어졌음 — 절대 삭제 금지)
         let storeBase = URL.applicationSupportDirectory.appending(path: "default.store")
+        let timestamp = Int(Date().timeIntervalSince1970)
         for suffix in ["", "-wal", "-shm"] {
-            let url = URL(fileURLWithPath: storeBase.path + suffix)
-            try? FileManager.default.removeItem(at: url)
+            let source = URL(fileURLWithPath: storeBase.path + suffix)
+            guard FileManager.default.fileExists(atPath: source.path) else { continue }
+            let backup = URL(fileURLWithPath: storeBase.path + suffix + ".backup-\(timestamp)")
+            try? FileManager.default.moveItem(at: source, to: backup)
         }
+        print("⚠️ SwiftData: 기존 스토어를 default.store.backup-\(timestamp)로 백업하고 새 스토어를 생성합니다.")
 
         do {
             return try ModelContainer(for: schema, configurations: [config])
         } catch {
-            fatalError("SwiftData ModelContainer 생성 실패: \(error)")
+            fatalError("SwiftData ModelContainer 생성 실패 (백업 후 재시도도 실패): \(error)")
         }
     }()
 

@@ -15,6 +15,7 @@
 		08645848502714D92765B6BB /* AppLanguage.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEDC2A32EA398C8FA799BB5 /* AppLanguage.swift */; };
 		08F7016C50AA76CAB11C4E55 /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710727F99137F9B531A1604E /* AppTheme.swift */; };
 		0ACD30D61ACB6775272D4952 /* AIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92C56AF5047579DF589BAABA /* AIManager.swift */; };
+		0C58127F9386EE1536E70B70 /* Folder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280272BC0F2C7CFC33425BB8 /* Folder.swift */; };
 		0CE7B04F9A5E8AF1F0D78762 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661A0E0045096E7D7C61B836 /* ContentView.swift */; };
 		0E49487228749DA040459775 /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D3AACED9CB869F7F1BFB328 /* Secrets.swift */; };
 		11BE27E19ED914FAB2697AE4 /* LocologApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12CD83A1B8A6465CCA4F4202 /* LocologApp.swift */; };
@@ -23,6 +24,7 @@
 		1DFC78A1441F57B485FC1B0B /* NoteListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD433701FEC6F760E67535D /* NoteListView.swift */; };
 		20056E39D84BD94362CFD8BF /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10CC5B25E5E6EC35A4950027 /* OnboardingView.swift */; };
 		21E3C4F29A7C1E3DD0C0BCF0 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9317E40BE96F5541285F3DE3 /* Tag.swift */; };
+		2342C5D420D15D3A7FB68C04 /* FolderFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 874A1A24935C3BC05201A6E3 /* FolderFormView.swift */; };
 		29708BB0D5F526F941F74A78 /* LocologTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C2EAB777BDA140BEC189E5 /* LocologTests.swift */; };
 		2A20CFA587506DCC1AEE07B5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9688689B7CAC2418AD63A56E /* Assets.xcassets */; };
 		2FCC13F975031CC735DB576A /* WidgetDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98BFD86CEAF8866974D39899 /* WidgetDataManager.swift */; };
@@ -66,12 +68,15 @@
 		88B22A623A1671A6E38817F0 /* MapCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CAD40D981D0D0B20DF4828 /* MapCalendarView.swift */; };
 		88D663CE874BA05278346DAE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9688689B7CAC2418AD63A56E /* Assets.xcassets */; };
 		88DCC6E38F55ED623CEA919C /* ReminderPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647E237B177556AE6F04BAC4 /* ReminderPickerView.swift */; };
+		8A28483AC09106F5C3145C78 /* Folder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280272BC0F2C7CFC33425BB8 /* Folder.swift */; };
 		8A34E5B020129B6E47548844 /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F7A5632AF8E7479600755E /* Note.swift */; };
 		9066F00255B533FF533EDB0F /* NoteDetailPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E10C9983C4AB2CC022617A3 /* NoteDetailPanel.swift */; };
+		94851486B22D99CB3BDBE800 /* DragTransferTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E25E7D2F9AE1AC3A5C0A02 /* DragTransferTypes.swift */; };
 		95CD7E11C466B783B17F38FE /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9317E40BE96F5541285F3DE3 /* Tag.swift */; };
 		9A8A27E95A5A121DD0DE6A89 /* NoteEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1652CCD7C0F138788EEF524 /* NoteEditorView.swift */; };
 		9D2872154218C6ACA6431D56 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE6D14F6F6183BE915C1DB27 /* SearchView.swift */; };
 		9D2A3826308ABA28A86F4307 /* LocationPickerSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE8C19D7A7BED66A1743C53 /* LocationPickerSheet.swift */; };
+		A1157B7DD13F9EC995AF9EAC /* DragTransferTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E25E7D2F9AE1AC3A5C0A02 /* DragTransferTypes.swift */; };
 		A2BB4665D4E1E7D090A9B623 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005C8CC2FFDF9F584E8FD583 /* SettingsView.swift */; };
 		A6EAD5688BB0D9A5F42BF8B5 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46761BC8F584408F069BB484 /* AuthManager.swift */; };
 		AA91F1C9FBFAC18E5B1C5243 /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D3AACED9CB869F7F1BFB328 /* Secrets.swift */; };
@@ -79,6 +84,7 @@
 		AB746FF238FDD2992BDA081C /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 623C1A1AC9044FC382C9FB6E /* KeychainManager.swift */; };
 		ADAE6BA91C4FE20834FD2BBF /* NoteRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178696157A8A65AA84018F05 /* NoteRowView.swift */; };
 		ADDB3D9C72DEFBC51F375AA6 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46761BC8F584408F069BB484 /* AuthManager.swift */; };
+		B1736C50F663189CE2B031D6 /* FolderFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 874A1A24935C3BC05201A6E3 /* FolderFormView.swift */; };
 		B2816AA03B91E7DE54A2BD3C /* CodeAccessoryToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355723C94FA4D49FD237DC5C /* CodeAccessoryToolbar.swift */; };
 		B39509AD8B2BA00E0A245EFE /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469FCAC48FBCD7DAC8F11982 /* NotificationManager.swift */; };
 		B52519D38F31D4DC0C290A17 /* NoteDetailPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E10C9983C4AB2CC022617A3 /* NoteDetailPanel.swift */; };
@@ -133,6 +139,7 @@
 		12CD83A1B8A6465CCA4F4202 /* LocologApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocologApp.swift; sourceTree = "<group>"; };
 		178696157A8A65AA84018F05 /* NoteRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteRowView.swift; sourceTree = "<group>"; };
 		1CD433701FEC6F760E67535D /* NoteListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListView.swift; sourceTree = "<group>"; };
+		280272BC0F2C7CFC33425BB8 /* Folder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Folder.swift; sourceTree = "<group>"; };
 		2F066448DFC77DB16C96B434 /* Locolog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Locolog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		355723C94FA4D49FD237DC5C /* CodeAccessoryToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeAccessoryToolbar.swift; sourceTree = "<group>"; };
 		3571A9A9994E85D83C1E0264 /* SupabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupabaseService.swift; sourceTree = "<group>"; };
@@ -155,6 +162,7 @@
 		7E10C9983C4AB2CC022617A3 /* NoteDetailPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteDetailPanel.swift; sourceTree = "<group>"; };
 		833F00FCCADCB01A2C377D0A /* LocologWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocologWidgetBundle.swift; sourceTree = "<group>"; };
 		8583C7EA3D072A891130AE3A /* Locolog.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Locolog.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		874A1A24935C3BC05201A6E3 /* FolderFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderFormView.swift; sourceTree = "<group>"; };
 		88514EA26DF190B017BCEFBB /* AICommandView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AICommandView.swift; sourceTree = "<group>"; };
 		8DE38D26DA8433708023FAF5 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		902CBD1664443332498D5CCA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -168,6 +176,7 @@
 		A7C2EAB777BDA140BEC189E5 /* LocologTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocologTests.swift; sourceTree = "<group>"; };
 		AACC3C8A74347C3D2520D1F6 /* LocologWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LocologWidget.entitlements; sourceTree = "<group>"; };
 		BFE8C19D7A7BED66A1743C53 /* LocationPickerSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPickerSheet.swift; sourceTree = "<group>"; };
+		C4E25E7D2F9AE1AC3A5C0A02 /* DragTransferTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragTransferTypes.swift; sourceTree = "<group>"; };
 		C4FB7377E124E5A101E6C327 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		D5EF5F8E504401F9CB1036E6 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		D9972EAE7CF72DCE5CA63142 /* ExportManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportManager.swift; sourceTree = "<group>"; };
@@ -213,6 +222,7 @@
 		076D341E1D17116725D2840F /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				C4E25E7D2F9AE1AC3A5C0A02 /* DragTransferTypes.swift */,
 				623C1A1AC9044FC382C9FB6E /* KeychainManager.swift */,
 				47D0AF9DA9AD2C0C5B0410C4 /* LocationManager.swift */,
 			);
@@ -267,6 +277,14 @@
 				E8C9008C17836E22544D4F63 /* SmartFolderFormView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		1D177F453EEF233617FCFAE7 /* Folders */ = {
+			isa = PBXGroup;
+			children = (
+				730B50F7FB24B79B04BB821D /* Views */,
+			);
+			path = Folders;
 			sourceTree = "<group>";
 		};
 		2222855E87925F10B31CE167 /* Categories */ = {
@@ -423,6 +441,7 @@
 				2222855E87925F10B31CE167 /* Categories */,
 				BA996B959A7E13D9732CAE15 /* Editor */,
 				4A791EF059D56DFF9D139BFF /* Export */,
+				1D177F453EEF233617FCFAE7 /* Folders */,
 				B493B1CD338B969D31D40F53 /* Map */,
 				C5539E911424A345BBB4372C /* Notes */,
 				9003882A44B42E086C4644D0 /* Onboarding */,
@@ -431,6 +450,14 @@
 				BDA6C5F2D9F0374113D94B92 /* SmartFolders */,
 			);
 			path = Features;
+			sourceTree = "<group>";
+		};
+		730B50F7FB24B79B04BB821D /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				874A1A24935C3BC05201A6E3 /* FolderFormView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		795686BB8762598DC3A76B67 /* Attachments */ = {
@@ -543,6 +570,7 @@
 			isa = PBXGroup;
 			children = (
 				C4FB7377E124E5A101E6C327 /* Category.swift */,
+				280272BC0F2C7CFC33425BB8 /* Folder.swift */,
 				A4F7A5632AF8E7479600755E /* Note.swift */,
 				4886117789F0CFFE4F93C886 /* SmartFolder.swift */,
 				9317E40BE96F5541285F3DE3 /* Tag.swift */,
@@ -836,8 +864,11 @@
 				AB6E371FAAE227DB3FDE4897 /* CategoryFormView.swift in Sources */,
 				B2816AA03B91E7DE54A2BD3C /* CodeAccessoryToolbar.swift in Sources */,
 				47B9AD838B23A454C98DB4C3 /* ContentView.swift in Sources */,
+				94851486B22D99CB3BDBE800 /* DragTransferTypes.swift in Sources */,
 				ED0EE01B82BE84E617DDD652 /* ExportManager.swift in Sources */,
 				4A27DEE65F96F304FE5008E8 /* ExportSheet.swift in Sources */,
+				0C58127F9386EE1536E70B70 /* Folder.swift in Sources */,
+				2342C5D420D15D3A7FB68C04 /* FolderFormView.swift in Sources */,
 				422CF2E2D30ADFBC77EE6F91 /* HighlightrCodeHighlighter.swift in Sources */,
 				AB746FF238FDD2992BDA081C /* KeychainManager.swift in Sources */,
 				CE518A36D3B3E43733F4D43C /* LocationManager.swift in Sources */,
@@ -902,8 +933,11 @@
 				F1546DDE2145CB64177C1906 /* CategoryFormView.swift in Sources */,
 				E6BCC213E519BE184A382734 /* CodeAccessoryToolbar.swift in Sources */,
 				0CE7B04F9A5E8AF1F0D78762 /* ContentView.swift in Sources */,
+				A1157B7DD13F9EC995AF9EAC /* DragTransferTypes.swift in Sources */,
 				4297B33E9021338F3ED06BE7 /* ExportManager.swift in Sources */,
 				7D54D43D1C962E239997AB84 /* ExportSheet.swift in Sources */,
+				8A28483AC09106F5C3145C78 /* Folder.swift in Sources */,
+				B1736C50F663189CE2B031D6 /* FolderFormView.swift in Sources */,
 				339A498B5FF769750BE6BFAD /* HighlightrCodeHighlighter.swift in Sources */,
 				707CC0FFEE19D0CFD3093BA9 /* KeychainManager.swift in Sources */,
 				3833F6FF0D1FADEF4BF0BAA2 /* LocationManager.swift in Sources */,

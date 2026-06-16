@@ -67,6 +67,8 @@ struct NoteListView: View {
             result = applySmartFolderFilter(sf.filter, to: result)
         case .tag(let tagName):
             result = result.filter { $0.parsedTagNames.contains(tagName) }
+        case .folder(let folder):
+            result = result.filter { $0.folderId == folder.id }
         }
         #endif
 
@@ -147,6 +149,7 @@ struct NoteListView: View {
         case .category(let cat):   return cat.name
         case .smartFolder(let sf): return sf.name
         case .tag(let tagName):    return "#\(tagName)"
+        case .folder(let folder):  return folder.name
         }
         #endif
     }
@@ -367,6 +370,7 @@ struct NoteListView: View {
         List(filteredNotes, selection: $selectedNote) { note in
             NoteRowView(note: note, category: category(for: note))
                 .tag(note)
+                .draggable(NoteTransfer(noteId: note.id))
                 .contextMenu {
                     Button {
                         createNote()
@@ -394,6 +398,15 @@ struct NoteListView: View {
                                 Label(LocalizedStringKey(type.label), systemImage: type.icon)
                             }
                             .disabled(note.noteType == type)
+                        }
+                    }
+                    if note.folderId != nil {
+                        Button {
+                            note.folderId = nil
+                            note.isDirty = true
+                            try? context.save()
+                        } label: {
+                            Label("폴더에서 제거", systemImage: "folder.badge.minus")
                         }
                     }
                     Divider()

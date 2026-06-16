@@ -26,6 +26,7 @@ final class Note {
     var id: UUID
     var content: String             // Markdown 원문
     var categoryId: UUID?
+    var folderId: UUID?              // 트리형 폴더 (카테고리/태그와 독립적)
     var createdAt: Date             // 불변 — 최초 생성 시각
     var updatedAt: Date
     var locationLat: Double?

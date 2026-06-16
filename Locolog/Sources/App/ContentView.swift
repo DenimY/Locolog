@@ -10,6 +10,7 @@ enum SidebarItem: Hashable {
     case category(Category)
     case smartFolder(SmartFolder)
     case tag(String)
+    case folder(Folder)
 }
 
 /// macOS 사이드바 상단 고정 항목 (순서 저장 대상)
@@ -104,7 +105,7 @@ struct MainSplitView: View {
             MapCalendarView(selectedNote: $selectedNote)
         case .map:
             NoteMapView(selectedNote: $selectedNote)
-        case .allNotes, .favorites, .category, .smartFolder, .tag:
+        case .allNotes, .favorites, .category, .smartFolder, .tag, .folder:
             NoteListView(selectedItem: selectedItem, selectedNote: $selectedNote)
         case .trash:
             TrashView(selectedNote: $selectedNote)

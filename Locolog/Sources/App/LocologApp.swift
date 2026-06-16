@@ -46,6 +46,7 @@ struct LocologApp: App {
             Category.self,
             Tag.self,
             SmartFolder.self,
+            Folder.self,
         ])
         let config = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 

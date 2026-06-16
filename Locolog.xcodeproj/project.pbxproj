@@ -304,6 +304,7 @@
 			children = (
 				4FCDE58582C917C9FC339752 /* App */,
 				DA4A4AF6E2F2441F94D5C100 /* Core */,
+				6D0252917D09C1033A9E019D /* Data */,
 				E8BDE41419C0F0D177034F4E /* Domain */,
 				717505175312B41AF5528E69 /* Features */,
 			);
@@ -390,6 +391,13 @@
 				E7FCA264328AD51441303A95 /* Views */,
 			);
 			path = AI;
+			sourceTree = "<group>";
+		};
+		6D0252917D09C1033A9E019D /* Data */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Data;
 			sourceTree = "<group>";
 		};
 		6FC9F7212BB0584AB108EB12 /* Widget */ = {
@@ -927,7 +935,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = LocologWidget/LocologWidget.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 97GKTL8822;
 				INFOPLIST_FILE = LocologWidget/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -935,7 +943,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.locolog.app.widget;
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 6.0;
@@ -969,7 +977,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 97GKTL8822;
 				INFOPLIST_FILE = Locolog/Resources/Info.plist;
@@ -977,7 +985,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.locolog.app;
 				PRODUCT_NAME = Locolog;
 				SDKROOT = macosx;
@@ -1069,7 +1077,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = LocologWidget/LocologWidget.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 97GKTL8822;
 				INFOPLIST_FILE = LocologWidget/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1077,7 +1085,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.locolog.app.widget;
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 6.0;
@@ -1111,7 +1119,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 97GKTL8822;
 				INFOPLIST_FILE = Locolog/Resources/Info.plist;
@@ -1119,7 +1127,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.locolog.app;
 				PRODUCT_NAME = Locolog;
 				SDKROOT = iphoneos;
@@ -1192,7 +1200,7 @@
 				"CODE_SIGN_ENTITLEMENTS[sdk=macosx*]" = Locolog/Resources/Locolog_macOS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 97GKTL8822;
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
@@ -1201,7 +1209,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.locolog.app;
 				PRODUCT_NAME = Locolog;
 				SDKROOT = macosx;
@@ -1217,7 +1225,7 @@
 				"CODE_SIGN_ENTITLEMENTS[sdk=macosx*]" = Locolog/Resources/Locolog_macOS.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 97GKTL8822;
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
@@ -1226,7 +1234,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.locolog.app;
 				PRODUCT_NAME = Locolog;
 				SDKROOT = iphoneos;

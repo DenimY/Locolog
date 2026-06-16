@@ -405,6 +405,13 @@ struct NoteListView: View {
                 }
         }
         .listStyle(.plain)
+        .contextMenu {
+            Button {
+                createNote()
+            } label: {
+                Label("새 메모", systemImage: "square.and.pencil")
+            }
+        }
     }
     #endif
 
@@ -422,6 +429,15 @@ struct NoteListView: View {
                 Button("새 메모", action: createNote).buttonStyle(.borderedProminent)
             }
         }
+        #if !os(iOS)
+        .contextMenu {
+            Button {
+                createNote()
+            } label: {
+                Label("새 메모", systemImage: "square.and.pencil")
+            }
+        }
+        #endif
     }
 
     // MARK: - 액션

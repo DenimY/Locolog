@@ -53,6 +53,7 @@ struct LocologApp: App {
         #if os(macOS)
         Settings {
             SettingsView()
+                .environment(\.sparkleUpdater, updaterController.updater)
         }
         #endif
     }

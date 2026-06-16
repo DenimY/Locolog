@@ -21,6 +21,17 @@ struct SettingsView: View {
 // ─────────────────────────────────────────
 
 #if os(macOS)
+private struct SparkleUpdaterKey: EnvironmentKey {
+    static let defaultValue: SPUUpdater? = nil
+}
+
+extension EnvironmentValues {
+    var sparkleUpdater: SPUUpdater? {
+        get { self[SparkleUpdaterKey.self] }
+        set { self[SparkleUpdaterKey.self] = newValue }
+    }
+}
+
 struct MacSettingsView: View {
     var body: some View {
         TabView {
@@ -321,11 +332,8 @@ private struct NotificationTabView: View {
 // MARK: - 정보 탭
 
 private struct AboutTabView: View {
-    private let updater = SPUStandardUpdaterController(
-        startingUpdater: false,
-        updaterDelegate: nil,
-        userDriverDelegate: nil
-    ).updater
+    @Environment(\.sparkleUpdater) private var updater
+    @State private var statusMessage: String?
 
     private var version: String {
         let v = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0.0"
@@ -354,13 +362,25 @@ private struct AboutTabView: View {
             // 액션 버튼
             VStack(spacing: 10) {
                 Button {
-                    updater.checkForUpdates()
+                    if let updater {
+                        statusMessage = nil
+                        updater.checkForUpdates()
+                    } else {
+                        statusMessage = "업데이터를 사용할 수 없습니다."
+                    }
                 } label: {
                     Label("업데이트 확인", systemImage: "arrow.clockwise.circle")
                         .frame(maxWidth: 220)
                 }
                 .buttonStyle(.borderedProminent)
                 .controlSize(.large)
+                .disabled(updater == nil)
+
+                if let statusMessage {
+                    Text(statusMessage)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
 
                 NavigationLink {
                     Text("오픈소스 라이센스")

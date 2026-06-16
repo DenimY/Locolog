@@ -21,6 +21,25 @@ struct LocologApp: App {
     )
     #endif
 
+    init() {
+        Self.cleanUpLegacyPreviewModeKeys()
+    }
+
+    /// 과거 버전에서 노트별 미리보기 모드를 UserDefaults에 "previewMode_<uuid>" 키로 저장했던
+    /// 잔여 데이터를 제거한다. 노트가 많아질수록 plist가 비대해져 전체 UserDefaults 읽기/쓰기가
+    /// 느려지는 문제가 있어, isPreviewMode를 Note 모델로 옮기면서 기존 키를 정리한다.
+    private static func cleanUpLegacyPreviewModeKeys() {
+        let defaults = UserDefaults.standard
+        let cleanedFlagKey = "didCleanUpLegacyPreviewModeKeys"
+        guard !defaults.bool(forKey: cleanedFlagKey) else { return }
+
+        let legacyKeys = defaults.dictionaryRepresentation().keys.filter { $0.hasPrefix("previewMode_") }
+        for key in legacyKeys {
+            defaults.removeObject(forKey: key)
+        }
+        defaults.set(true, forKey: cleanedFlagKey)
+    }
+
     let container: ModelContainer = {
         let schema = Schema([
             Note.self,

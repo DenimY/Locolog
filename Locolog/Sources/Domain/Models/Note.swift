@@ -40,6 +40,7 @@ final class Note {
     var isDirty: Bool               // 오프라인 수정 → 동기화 대기 여부
     var attachmentURLs: [String]    // 로컬 파일 URL (Documents/NoteAttachments/)
     var noteTypeRaw: String = NoteType.markdown.rawValue
+    var isPreviewMode: Bool = false  // 파일별 마지막 편집/미리보기 모드
     @Relationship(deleteRule: .nullify) var tags: [Tag]
 
     var noteType: NoteType {

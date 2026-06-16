@@ -92,6 +92,7 @@ struct MapCalendarView: View {
                     Text(mode.rawValue).tag(mode)
                 }
             }
+            .labelsHidden()
             .pickerStyle(.segmented)
             .frame(width: 120)
         }

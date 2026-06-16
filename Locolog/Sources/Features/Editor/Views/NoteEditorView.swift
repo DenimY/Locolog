@@ -9,11 +9,7 @@ struct NoteEditorView: View {
     @Environment(\.colorScheme) private var colorScheme
     @ObservedObject private var locationManager = LocationManager.shared
 
-    @State private var isPreviewMode = false
     @FocusState private var isEditorFocused: Bool
-
-    // 파일별 뷰 모드 키
-    private var previewKey: String { "previewMode_\(note.id.uuidString)" }
     @State private var saveTask: Task<Void, Never>?
     @Query private var allTags: [Tag]
     @State private var showReminderPicker = false
@@ -29,12 +25,12 @@ struct NoteEditorView: View {
         VStack(spacing: 0) {
             ZStack {
                 editorContent
-                    .opacity(isPreviewMode ? 0 : 1)
+                    .opacity(note.isPreviewMode ? 0 : 1)
 
                 previewContent
-                    .opacity(isPreviewMode ? 1 : 0)
+                    .opacity(note.isPreviewMode ? 1 : 0)
             }
-            .animation(.easeInOut(duration: 0.15), value: isPreviewMode)
+            .animation(.easeInOut(duration: 0.15), value: note.isPreviewMode)
 
             // 이미지 첨부 바
             if !note.attachmentURLs.isEmpty {
@@ -66,13 +62,9 @@ struct NoteEditorView: View {
             Task { await addAttachments(from: items) }
         }
         .onAppear {
-            isPreviewMode = UserDefaults.standard.bool(forKey: previewKey)
             if note.content.isEmpty { isEditorFocused = true }
             Task { await fetchLocationIfNeeded() }
             Task { await NotificationManager.shared.checkStatus() }
-        }
-        .onChange(of: note.id) { _, _ in
-            isPreviewMode = UserDefaults.standard.bool(forKey: previewKey)
         }
         #if os(macOS)
         .sheet(isPresented: $showLocationPicker) {
@@ -289,13 +281,12 @@ struct NoteEditorView: View {
         // 편집/미리보기 토글
         ToolbarItem(placement: .primaryAction) {
             Button {
-                withAnimation(.easeInOut(duration: 0.15)) { isPreviewMode.toggle() }
-                UserDefaults.standard.set(isPreviewMode, forKey: previewKey)
-                if !isPreviewMode { isEditorFocused = true }
+                withAnimation(.easeInOut(duration: 0.15)) { note.isPreviewMode.toggle() }
+                if !note.isPreviewMode { isEditorFocused = true }
             } label: {
                 Label(
-                    isPreviewMode ? "편집" : "미리보기",
-                    systemImage: isPreviewMode ? "pencil" : "eye"
+                    note.isPreviewMode ? "편집" : "미리보기",
+                    systemImage: note.isPreviewMode ? "pencil" : "eye"
                 )
             }
         }
@@ -340,7 +331,7 @@ struct NoteEditorView: View {
         let separator = note.content.isEmpty || note.content.hasSuffix("\n") ? "" : "\n"
         note.content += separator + text
         scheduleAutoSave()
-        if !isPreviewMode { isEditorFocused = true }
+        if !note.isPreviewMode { isEditorFocused = true }
     }
 
     // MARK: - Auto-save (0.3s debounce)

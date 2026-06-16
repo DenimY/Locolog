@@ -113,6 +113,7 @@ struct NoteMapView: View {
             }
         }
         .animation(.spring(duration: 0.3), value: selectedID)
+        .clipped()
     }
 
     // MARK: - Helpers

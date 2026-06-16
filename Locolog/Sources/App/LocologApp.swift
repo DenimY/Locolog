@@ -6,6 +6,13 @@ import Sparkle
 
 @main
 struct LocologApp: App {
+    @AppStorage("appLanguage") private var appLanguageRaw: String = AppLanguage.system.rawValue
+
+    private var appLocale: Locale? {
+        let lang = AppLanguage(rawValue: appLanguageRaw) ?? .system
+        return lang == .system ? nil : lang.locale
+    }
+
     #if os(macOS)
     private let updaterController = SPUStandardUpdaterController(
         startingUpdater: true,
@@ -47,6 +54,7 @@ struct LocologApp: App {
     var body: some Scene {
         WindowGroup {
             RootView()
+                .environment(\.locale, appLocale ?? Locale.autoupdatingCurrent)
         }
         .modelContainer(container)
 
@@ -54,6 +62,7 @@ struct LocologApp: App {
         Settings {
             SettingsView()
                 .environment(\.sparkleUpdater, updaterController.updater)
+                .environment(\.locale, appLocale ?? Locale.autoupdatingCurrent)
         }
         #endif
     }

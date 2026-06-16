@@ -334,6 +334,7 @@ private struct NotificationTabView: View {
 private struct AboutTabView: View {
     @Environment(\.sparkleUpdater) private var updater
     @State private var statusMessage: String?
+    @AppStorage("appLanguage") private var appLanguageRaw: String = AppLanguage.system.rawValue
 
     private var version: String {
         let v = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0.0"
@@ -377,7 +378,7 @@ private struct AboutTabView: View {
                 .disabled(updater == nil)
 
                 if let statusMessage {
-                    Text(statusMessage)
+                    Text(LocalizedStringKey(statusMessage))
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
@@ -391,6 +392,21 @@ private struct AboutTabView: View {
                 }
                 .buttonStyle(.bordered)
                 .controlSize(.large)
+            }
+
+            Divider().frame(width: 220)
+
+            // 언어 설정
+            VStack(spacing: 6) {
+                Text("언어").font(.subheadline).foregroundStyle(.secondary)
+                Picker("언어", selection: $appLanguageRaw) {
+                    Text("시스템 기본").tag(AppLanguage.system.rawValue)
+                    Text("한국어").tag(AppLanguage.korean.rawValue)
+                    Text("English").tag(AppLanguage.english.rawValue)
+                }
+                .labelsHidden()
+                .pickerStyle(.segmented)
+                .frame(width: 260)
             }
 
             Spacer()
@@ -407,9 +423,18 @@ private struct AboutTabView: View {
 
 #if os(iOS)
 private struct iOSSettingsView: View {
+    @AppStorage("appLanguage") private var appLanguageRaw: String = AppLanguage.system.rawValue
+
     var body: some View {
         NavigationStack {
             Form {
+                Section("언어") {
+                    Picker("언어", selection: $appLanguageRaw) {
+                        Text("시스템 기본").tag(AppLanguage.system.rawValue)
+                        Text("한국어").tag(AppLanguage.korean.rawValue)
+                        Text("English").tag(AppLanguage.english.rawValue)
+                    }
+                }
                 Section("계정 & 동기화") {
                     NavigationLink { AccountView() } label: {
                         Label("계정 연결", systemImage: "person.circle")

@@ -1,0 +1,2126 @@
+{
+  "sourceLanguage": "ko",
+  "strings": {
+    "AI 도구": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI Tools"
+          }
+        }
+      }
+    },
+    "AI 설정": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI Settings"
+          }
+        }
+      }
+    },
+    "AI 연동": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI Integration"
+          }
+        }
+      }
+    },
+    "AI가 분석 중입니다...": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI is analyzing..."
+          }
+        }
+      }
+    },
+    "API 키": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "API Key"
+          }
+        }
+      }
+    },
+    "API 키는 이 기기에만 저장됩니다.\nClaude → OpenAI → Gemini 순서로 우선 적용됩니다.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "API keys are stored only on this device.\nClaude → OpenAI → Gemini priority order applies."
+          }
+        }
+      }
+    },
+    "API 키를 설정 > AI 설정에서 입력하세요": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter your API key in Settings > AI Settings"
+          }
+        }
+      }
+    },
+    "API 키를 입력하면 AI 기능이 활성화됩니다": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI features are enabled once you enter an API key"
+          }
+        }
+      }
+    },
+    "Apple로 로그인": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sign in with Apple"
+          }
+        }
+      }
+    },
+    "Apple로 로그인하여 동기화": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sign in with Apple to sync"
+          }
+        }
+      }
+    },
+    "Apple로 시작하기 (동기화)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start with Apple (Sync)"
+          }
+        }
+      }
+    },
+    "Google 캘린더": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Google Calendar"
+          }
+        }
+      }
+    },
+    "Google 캘린더 연동": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Google Calendar Integration"
+          }
+        }
+      }
+    },
+    "Google로 로그인": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sign in with Google"
+          }
+        }
+      }
+    },
+    "Google로 로그인하여 동기화": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sign in with Google to sync"
+          }
+        }
+      }
+    },
+    "Google로 시작하기 (동기화)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start with Google (Sync)"
+          }
+        }
+      }
+    },
+    "Markdown 파일 생성에 실패했습니다.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Failed to create Markdown file."
+          }
+        }
+      }
+    },
+    "PDF 생성에 실패했습니다.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Failed to create PDF."
+          }
+        }
+      }
+    },
+    "_내용을 입력하세요_": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "_Enter content_"
+          }
+        }
+      }
+    },
+    "iPhone ↔ Mac 동기화 중": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Syncing between iPhone ↔ Mac"
+          }
+        }
+      }
+    },
+    "iPhone과 Mac 간에 메모를 동기화합니다.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sync notes between iPhone and Mac."
+          }
+        }
+      }
+    },
+    "가나다": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Title"
+          }
+        }
+      }
+    },
+    "건너뛰기": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Skip"
+          }
+        }
+      }
+    },
+    "검색": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Search"
+          }
+        }
+      }
+    },
+    "계속 쓰기": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continue Writing"
+          }
+        }
+      }
+    },
+    "계정": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Account"
+          }
+        }
+      }
+    },
+    "계정 & 동기화": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Account & Sync"
+          }
+        }
+      }
+    },
+    "계정 연결": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Connect Account"
+          }
+        }
+      }
+    },
+    "공유": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Share"
+          }
+        }
+      }
+    },
+    "공유 및 인쇄에 적합합니다": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Suitable for sharing and printing"
+          }
+        }
+      }
+    },
+    "공유...": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Share..."
+          }
+        }
+      }
+    },
+    "구분선": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Divider"
+          }
+        }
+      }
+    },
+    "권한": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permission"
+          }
+        }
+      }
+    },
+    "권한 요청": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Request Permission"
+          }
+        }
+      }
+    },
+    "글머리 기호": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bullet List"
+          }
+        }
+      }
+    },
+    "금": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fri"
+          }
+        }
+      }
+    },
+    "기본 알림 시각": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Default Reminder Time"
+          }
+        }
+      }
+    },
+    "날짜": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Date"
+          }
+        }
+      }
+    },
+    "날짜 및 시간": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Date & Time"
+          }
+        }
+      }
+    },
+    "날짜 범위 지정": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Set Date Range"
+          }
+        }
+      }
+    },
+    "날짜별로 메모를 캘린더에서 확인합니다": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "View notes by date on the calendar"
+          }
+        }
+      }
+    },
+    "내보내기": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Export"
+          }
+        }
+      }
+    },
+    "내보내기 형식": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Export Format"
+          }
+        }
+      }
+    },
+    "내보낸 파일은 공유 시트를 통해 저장하거나 다른 앱으로 보낼 수 있습니다.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exported files can be saved or sent to other apps via the share sheet."
+          }
+        }
+      }
+    },
+    "내용 개선": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Improve Writing"
+          }
+        }
+      }
+    },
+    "내용 없음": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No Content"
+          }
+        }
+      }
+    },
+    "노트 타입": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Note Type"
+          }
+        }
+      }
+    },
+    "노트 타입 변경": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Change Note Type"
+          }
+        }
+      }
+    },
+    "다른 앱이나 편집기에서 열 수 있습니다": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Can be opened in other apps or editors"
+          }
+        }
+      }
+    },
+    "다시 시도": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Try Again"
+          }
+        }
+      }
+    },
+    "닫기": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Close"
+          }
+        }
+      }
+    },
+    "동기화 상태": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sync Status"
+          }
+        }
+      }
+    },
+    "동기화 활성화됨": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sync Enabled"
+          }
+        }
+      }
+    },
+    "로그아웃": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sign Out"
+          }
+        }
+      }
+    },
+    "로그인 중...": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Signing in..."
+          }
+        }
+      }
+    },
+    "로그인 콜백을 처리할 수 없습니다.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unable to process the sign-in callback."
+          }
+        }
+      }
+    },
+    "로그인하면 iPhone과 Mac 간에 메모가 자동으로 동기화됩니다.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Signing in automatically syncs notes between iPhone and Mac."
+          }
+        }
+      }
+    },
+    "로컬 사용자": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Local User"
+          }
+        }
+      }
+    },
+    "로컬로 시작하기": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start Locally"
+          }
+        }
+      }
+    },
+    "마크다운": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Markdown"
+          }
+        }
+      }
+    },
+    "메모": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Note"
+          }
+        }
+      }
+    },
+    "메모 내용이 없습니다. 먼저 내용을 입력해 주세요.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The note is empty. Please enter some content first."
+          }
+        }
+      }
+    },
+    "메모 없음": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No Notes"
+          }
+        }
+      }
+    },
+    "메모 작성 시 위치가 자동으로 기록됩니다.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Location is automatically recorded when you write a note."
+          }
+        }
+      }
+    },
+    "메모 편집 화면의 ✦ 버튼을 눌러 AI 도구를 사용하세요.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tap the ✦ button on the note editor to use AI tools."
+          }
+        }
+      }
+    },
+    "메모, 장소 검색": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Search notes, places"
+          }
+        }
+      }
+    },
+    "메모, 장소, #태그 검색": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Search notes, places, #tags"
+          }
+        }
+      }
+    },
+    "메모를 선택하세요": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Select a note"
+          }
+        }
+      }
+    },
+    "메모를 확인하세요.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Check your notes."
+          }
+        }
+      }
+    },
+    "메모에 알림을 설정하려면 권한이 필요합니다.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permission is required to set reminders on notes."
+          }
+        }
+      }
+    },
+    "메모에 추가": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add to Note"
+          }
+        }
+      }
+    },
+    "메모의 날짜와 위치를 Google 캘린더 일정과 연결합니다.\n연동 시 calendar.events 권한이 요청됩니다.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Link note dates and locations with Google Calendar events.\nThe calendar.events permission will be requested when enabled."
+          }
+        }
+      }
+    },
+    "메모하면 장소가 자동으로 기록됩니다": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Places are automatically recorded when you take notes"
+          }
+        }
+      }
+    },
+    "모두 삭제": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete All"
+          }
+        }
+      }
+    },
+    "모든 메모": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "All Notes"
+          }
+        }
+      }
+    },
+    "목": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thu"
+          }
+        }
+      }
+    },
+    "목록": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "List"
+          }
+        }
+      }
+    },
+    "무지성으로 던져도\n날짜와 장소로 자동 정리": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jot it down carelessly —\nit's still auto-organized by date and place"
+          }
+        }
+      }
+    },
+    "미리보기": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preview"
+          }
+        }
+      }
+    },
+    "버전": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Version"
+          }
+        }
+      }
+    },
+    "번호 목록": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Numbered List"
+          }
+        }
+      }
+    },
+    "보기": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "View"
+          }
+        }
+      }
+    },
+    "복구": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restore"
+          }
+        }
+      }
+    },
+    "복사": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copy"
+          }
+        }
+      }
+    },
+    "복사됨": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copied"
+          }
+        }
+      }
+    },
+    "사용 가능한 AI 명령어": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Available AI Commands"
+          }
+        }
+      }
+    },
+    "사용 가능한 명령어": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Available Commands"
+          }
+        }
+      }
+    },
+    "사용 중": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "In Use"
+          }
+        }
+      }
+    },
+    "사용된 태그가 없습니다": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No tags in use"
+          }
+        }
+      }
+    },
+    "삭제": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete"
+          }
+        }
+      }
+    },
+    "삭제된 메모가 없습니다.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No deleted notes."
+          }
+        }
+      }
+    },
+    "삽입": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Insert"
+          }
+        }
+      }
+    },
+    "상태": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Status"
+          }
+        }
+      }
+    },
+    "새 메모": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New Note"
+          }
+        }
+      }
+    },
+    "새 스마트 폴더": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New Smart Folder"
+          }
+        }
+      }
+    },
+    "새 카테고리": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New Category"
+          }
+        }
+      }
+    },
+    "색상": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Color"
+          }
+        }
+      }
+    },
+    "생성 정보": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Creation Info"
+          }
+        }
+      }
+    },
+    "생성일": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Date Created"
+          }
+        }
+      }
+    },
+    "서울 성동구": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seongdong-gu, Seoul"
+          }
+        }
+      }
+    },
+    "설정": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Settings"
+          }
+        }
+      }
+    },
+    "설정한 시간에 메모 알림이 도착합니다.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You'll receive a note reminder at the set time."
+          }
+        }
+      }
+    },
+    "성수역 3번 출구": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seongsu Station Exit 3"
+          }
+        }
+      }
+    },
+    "수": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wed"
+          }
+        }
+      }
+    },
+    "수정일": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Date Modified"
+          }
+        }
+      }
+    },
+    "스마트 폴더": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Smart Folder"
+          }
+        }
+      }
+    },
+    "스마트 폴더 이름": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Smart Folder Name"
+          }
+        }
+      }
+    },
+    "스마트 폴더 추가": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add Smart Folder"
+          }
+        }
+      }
+    },
+    "스마트 폴더 편집": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Edit Smart Folder"
+          }
+        }
+      }
+    },
+    "스마트 폴더가 없습니다": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No smart folders"
+          }
+        }
+      }
+    },
+    "스마트폴더": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Smart Folders"
+          }
+        }
+      }
+    },
+    "시각": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Time"
+          }
+        }
+      }
+    },
+    "시작일": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start Date"
+          }
+        }
+      }
+    },
+    "알림": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notifications"
+          }
+        }
+      }
+    },
+    "알림 & 캘린더": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notifications & Calendar"
+          }
+        }
+      }
+    },
+    "알림 권한 없음": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No Notification Permission"
+          }
+        }
+      }
+    },
+    "알림 권한 요청": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Request Notification Permission"
+          }
+        }
+      }
+    },
+    "알림 권한 허용됨": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notification Permission Granted"
+          }
+        }
+      }
+    },
+    "알림 삭제": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remove Reminder"
+          }
+        }
+      }
+    },
+    "알림 설정": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Set Reminder"
+          }
+        }
+      }
+    },
+    "언어": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Language"
+          }
+        }
+      }
+    },
+    "업데이터를 사용할 수 없습니다.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Updater is unavailable."
+          }
+        }
+      }
+    },
+    "업데이트 확인": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Check for Updates"
+          }
+        }
+      }
+    },
+    "연결 상태": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Connection Status"
+          }
+        }
+      }
+    },
+    "연동 시 calendar.events 권한이 요청됩니다.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The calendar.events permission will be requested when enabled."
+          }
+        }
+      }
+    },
+    "연동 준비 중 (추후 업데이트)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Integration coming soon (future update)"
+          }
+        }
+      }
+    },
+    "영어 번역": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Translate to English"
+          }
+        }
+      }
+    },
+    "예: 강남 스타벅스, 서울 성동구": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "e.g. Gangnam Starbucks, Seongdong-gu Seoul"
+          }
+        }
+      }
+    },
+    "예: 강남구": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "e.g. Gangnam-gu"
+          }
+        }
+      }
+    },
+    "오늘": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Today"
+          }
+        }
+      }
+    },
+    "오른쪽 위 버튼을 눌러 첫 메모를 작성하세요.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tap the button in the top right to write your first note."
+          }
+        }
+      }
+    },
+    "오픈소스 라이센스": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open Source Licenses"
+          }
+        }
+      }
+    },
+    "완전 삭제": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete Permanently"
+          }
+        }
+      }
+    },
+    "왼쪽 목록에서 메모를 선택하거나\n새 메모를 작성하세요.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Select a note from the list on the left\nor create a new one."
+          }
+        }
+      }
+    },
+    "요약": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Summarize"
+          }
+        }
+      }
+    },
+    "위의 명령을 눌러 AI 분석을 시작하세요": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tap a command above to start the AI analysis"
+          }
+        }
+      }
+    },
+    "위치 가져오는 중...": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fetching location..."
+          }
+        }
+      }
+    },
+    "위치 권한이 거부되었습니다.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Location permission was denied."
+          }
+        }
+      }
+    },
+    "위치 기록 있음": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Has Location"
+          }
+        }
+      }
+    },
+    "위치 기록된 메모만": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notes with Location Only"
+          }
+        }
+      }
+    },
+    "위치 서비스가 비활성화되어 있습니다.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Location services are disabled."
+          }
+        }
+      }
+    },
+    "위치 정보가 없습니다": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No location information"
+          }
+        }
+      }
+    },
+    "이름": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Name"
+          }
+        }
+      }
+    },
+    "이미지를 삭제하시겠습니까?": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete this image?"
+          }
+        }
+      }
+    },
+    "인용": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quote"
+          }
+        }
+      }
+    },
+    "인증 정보를 처리할 수 없습니다.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unable to process authentication credentials."
+          }
+        }
+      }
+    },
+    "장소 메모": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Location Note"
+          }
+        }
+      }
+    },
+    "장소 이름": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Place Name"
+          }
+        }
+      }
+    },
+    "장소 입력": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter Place"
+          }
+        }
+      }
+    },
+    "장소 직접 입력": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter Place Manually"
+          }
+        }
+      }
+    },
+    "장소·날짜·태그로 빠르게 검색합니다": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quickly search by place, date, or tag"
+          }
+        }
+      }
+    },
+    "장소명을 가져올 수 없습니다.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unable to retrieve place name."
+          }
+        }
+      }
+    },
+    "저장": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save"
+          }
+        }
+      }
+    },
+    "저장 위치 열기": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open Save Location"
+          }
+        }
+      }
+    },
+    "전체": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "All"
+          }
+        }
+      }
+    },
+    "전체 메모": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "All Notes"
+          }
+        }
+      }
+    },
+    "정렬": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sort"
+          }
+        }
+      }
+    },
+    "정보": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "About"
+          }
+        }
+      }
+    },
+    "제목 1": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Heading 1"
+          }
+        }
+      }
+    },
+    "제목 2": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Heading 2"
+          }
+        }
+      }
+    },
+    "제목 3": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Heading 3"
+          }
+        }
+      }
+    },
+    "제목 없음": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Untitled"
+          }
+        }
+      }
+    },
+    "종료일": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "End Date"
+          }
+        }
+      }
+    },
+    "주": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Week"
+          }
+        }
+      }
+    },
+    "주어진 메모를 3-5문장으로 핵심만 간결하게 요약해 주세요. 원문과 같은 언어로 작성하세요.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Summarize the given note concisely in 3-5 sentences. Write in the same language as the original."
+          }
+        }
+      }
+    },
+    "주어진 메모를 영어로 번역해 주세요. 마크다운 형식을 유지하세요.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Translate the given note into English. Preserve the Markdown formatting."
+          }
+        }
+      }
+    },
+    "주어진 메모를 이어서 자연스럽게 작성해 주세요. 원문의 스타일과 톤을 유지하면서 내용을 확장하세요. 이어지는 내용만 출력하세요.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continue writing the given note naturally. Expand the content while keeping the original style and tone. Output only the continuation."
+          }
+        }
+      }
+    },
+    "주어진 메모를 한국어로 번역해 주세요. 마크다운 형식을 유지하세요.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Translate the given note into Korean. Preserve the Markdown formatting."
+          }
+        }
+      }
+    },
+    "주어진 메모의 내용을 더 명확하고 자연스럽게 다듬어 주세요. 의미를 바꾸지 않고, 표현을 개선하세요. 원문과 같은 언어를 유지하세요.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Refine the given note to be clearer and more natural. Improve the wording without changing the meaning. Keep the same language as the original."
+          }
+        }
+      }
+    },
+    "주어진 메모의 내용을 분석하여 관련 태그를 5개 이내로 제안해 주세요. #태그명 형식으로, 줄바꿈 없이 공백으로 구분하여 태그만 나열하세요.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Analyze the given note and suggest up to 5 relevant tags. List only the tags in #tagname format, separated by spaces with no line breaks."
+          }
+        }
+      }
+    },
+    "즐겨찾기": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Favorites"
+          }
+        }
+      }
+    },
+    "즐겨찾기 추가": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add to Favorites"
+          }
+        }
+      }
+    },
+    "즐겨찾기 해제": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remove from Favorites"
+          }
+        }
+      }
+    },
+    "지도": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Map"
+          }
+        }
+      }
+    },
+    "지도로 보기": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "View as Map"
+          }
+        }
+      }
+    },
+    "직접 입력": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter Manually"
+          }
+        }
+      }
+    },
+    "첨부 파일": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Attachment"
+          }
+        }
+      }
+    },
+    "최근 검색": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recent Searches"
+          }
+        }
+      }
+    },
+    "최근 장소": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recent Places"
+          }
+        }
+      }
+    },
+    "추가": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add"
+          }
+        }
+      }
+    },
+    "취소": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancel"
+          }
+        }
+      }
+    },
+    "카테고리": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Category"
+          }
+        }
+      }
+    },
+    "카테고리 이름": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Category Name"
+          }
+        }
+      }
+    },
+    "카테고리 추가": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add Category"
+          }
+        }
+      }
+    },
+    "카테고리 편집": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Edit Category"
+          }
+        }
+      }
+    },
+    "캘린더": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Calendar"
+          }
+        }
+      }
+    },
+    "코드 블록": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Code Block"
+          }
+        }
+      }
+    },
+    "키는 이 기기에만 저장되며 서버로 전송되지 않습니다.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keys are stored only on this device and never sent to a server."
+          }
+        }
+      }
+    },
+    "태그": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tag"
+          }
+        }
+      }
+    },
+    "태그 바로가기": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tag Shortcut"
+          }
+        }
+      }
+    },
+    "태그 제안": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Suggest Tags"
+          }
+        }
+      }
+    },
+    "태그 추가": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add Tag"
+          }
+        }
+      }
+    },
+    "태그로 검색": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Search by Tag"
+          }
+        }
+      }
+    },
+    "태그를 선택하거나 계속 입력하세요.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Select a tag or keep typing."
+          }
+        }
+      }
+    },
+    "터미널 로그": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Terminal Log"
+          }
+        }
+      }
+    },
+    "텍스트": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Text"
+          }
+        }
+      }
+    },
+    "토": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sat"
+          }
+        }
+      }
+    },
+    "파일이 준비됐습니다": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "File is ready"
+          }
+        }
+      }
+    },
+    "편집": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Edit"
+          }
+        }
+      }
+    },
+    "필터": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Filter"
+          }
+        }
+      }
+    },
+    "필터 조건": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Filter Conditions"
+          }
+        }
+      }
+    },
+    "한국어 번역": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Translate to Korean"
+          }
+        }
+      }
+    },
+    "할 일 체크박스": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "To-do Checkbox"
+          }
+        }
+      }
+    },
+    "화": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tue"
+          }
+        }
+      }
+    },
+    "활성화": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Active"
+          }
+        }
+      }
+    },
+    "휴지통": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trash"
+          }
+        }
+      }
+    },
+    "휴지통이 비어 있습니다": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trash is empty"
+          }
+        }
+      }
+    },
+    "일": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sun"
+          }
+        }
+      }
+    },
+    "월": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mon"
+          }
+        }
+      }
+    },
+    "시스템 기본": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "System Default"
+          }
+        }
+      }
+    },
+    "언어 설정": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Language Settings"
+          }
+        }
+      }
+    },
+    "앱에서 사용할 언어를 선택하세요. 시스템 기본을 선택하면 기기 언어 설정을 따릅니다.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose the language used in the app. \"System Default\" follows your device's language setting."
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}

@@ -112,7 +112,7 @@ private struct FeatureRow: View {
                 .font(.title3)
                 .foregroundStyle(Color.accentColor)
                 .frame(width: 28)
-            Text(text)
+            Text(LocalizedStringKey(text))
                 .font(.callout)
         }
     }

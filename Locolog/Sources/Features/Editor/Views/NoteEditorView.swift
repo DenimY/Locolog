@@ -277,7 +277,7 @@ struct NoteEditorView: View {
                             note.isDirty = true
                             try? context.save()
                         } label: {
-                            Label(type.label, systemImage: type.icon)
+                            Label(LocalizedStringKey(type.label), systemImage: type.icon)
                         }
                         .disabled(note.noteType == type)
                     }

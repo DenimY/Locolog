@@ -144,7 +144,7 @@ struct AICommandView: View {
                 Image(systemName: "exclamationmark.circle")
                     .font(.largeTitle)
                     .foregroundStyle(.red)
-                Text(error)
+                Text(LocalizedStringKey(error))
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)

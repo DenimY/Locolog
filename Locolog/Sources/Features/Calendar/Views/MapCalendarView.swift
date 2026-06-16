@@ -11,6 +11,7 @@ enum CalendarDisplayMode: String, CaseIterable {
 
 struct MapCalendarView: View {
     @Binding var selectedNote: Note?
+    @Environment(\.locale) private var locale
 
     @Query(sort: \Note.createdAt, order: .reverse) private var allNotes: [Note]
     @Query(sort: \Category.position) private var categories: [Category]
@@ -100,8 +101,8 @@ struct MapCalendarView: View {
 
     private var monthTitle: String {
         let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "ko_KR")
-        formatter.dateFormat = "yyyy년 M월"
+        formatter.locale = locale
+        formatter.setLocalizedDateFormatFromTemplate("yMMMM")
         return formatter.string(from: displayMonth)
     }
 
@@ -182,7 +183,7 @@ struct MapCalendarView: View {
     private var weekdayHeader: some View {
         HStack(spacing: 0) {
             ForEach(["일", "월", "화", "수", "목", "금", "토"], id: \.self) { day in
-                Text(day)
+                Text(LocalizedStringKey(day))
                     .font(.caption)
                     .fontWeight(.semibold)
                     .foregroundStyle(day == "일" ? .red : .secondary)

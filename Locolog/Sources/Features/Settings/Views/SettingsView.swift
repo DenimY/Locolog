@@ -122,7 +122,7 @@ private struct AccountTabView: View {
             }
 
             if let err = errorMessage {
-                Text(err).foregroundStyle(.red).font(.callout)
+                Text(LocalizedStringKey(err)).foregroundStyle(.red).font(.callout)
             }
         }
     }
@@ -516,7 +516,7 @@ struct AccountView: View {
                 Text("로그인하면 iPhone과 Mac 간에 메모가 자동으로 동기화됩니다.")
             }
             if let error = errorMessage {
-                Section { Text(error).foregroundStyle(.red).font(.callout) }
+                Section { Text(LocalizedStringKey(error)).foregroundStyle(.red).font(.callout) }
             }
         }
     }

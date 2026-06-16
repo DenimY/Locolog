@@ -158,7 +158,7 @@ struct NoteListView: View {
         NavigationStack(path: $navigationPath) {
             noteContent
                 .navigationDestination(for: Note.self) { NoteEditorView(note: $0) }
-                .navigationTitle(navigationTitle)
+                .navigationTitle(LocalizedStringKey(navigationTitle))
                 .navigationBarTitleDisplayMode(.large)
                 .searchable(text: $searchText, prompt: "메모, 장소 검색")
                 .toolbar {
@@ -209,7 +209,7 @@ struct NoteListView: View {
         }
         #else
         noteContent
-            .navigationTitle(navigationTitle)
+            .navigationTitle(LocalizedStringKey(navigationTitle))
             .searchable(text: $searchText, prompt: "메모, 장소 검색")
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
@@ -247,7 +247,7 @@ struct NoteListView: View {
         VStack(spacing: 0) {
             Picker("필터", selection: $filterMode) {
                 ForEach(IOSFilterMode.allCases) { mode in
-                    Text(mode.label).tag(mode)
+                    Text(LocalizedStringKey(mode.label)).tag(mode)
                 }
             }
             .pickerStyle(.segmented)
@@ -391,7 +391,7 @@ struct NoteListView: View {
                                 note.isDirty = true
                                 try? context.save()
                             } label: {
-                                Label(type.label, systemImage: type.icon)
+                                Label(LocalizedStringKey(type.label), systemImage: type.icon)
                             }
                             .disabled(note.noteType == type)
                         }
@@ -535,7 +535,7 @@ private struct FilterChip: View {
                 if let icon {
                     Image(systemName: icon).font(.caption2)
                 }
-                Text(title)
+                Text(LocalizedStringKey(title))
                     .font(.subheadline)
                     .fontWeight(isSelected ? .semibold : .regular)
             }

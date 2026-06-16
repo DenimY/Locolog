@@ -2120,6 +2120,116 @@
           }
         }
       }
+    },
+    "AI 응답을 처리할 수 없습니다.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unable to process the AI response."
+          }
+        }
+      }
+    },
+    "사용 가능한 AI 제공자가 없습니다. 설정 > AI 설정에서 API 키를 입력해 주세요.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No AI provider is available. Enter an API key in Settings > AI Settings."
+          }
+        }
+      }
+    },
+    "Claude API 키가 설정되지 않았습니다. 설정 > AI 설정에서 입력해 주세요.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Claude API key is not set. Enter it in Settings > AI Settings."
+          }
+        }
+      }
+    },
+    "OpenAI API 키가 설정되지 않았습니다. 설정 > AI 설정에서 입력해 주세요.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OpenAI API key is not set. Enter it in Settings > AI Settings."
+          }
+        }
+      }
+    },
+    "Gemini API 키가 설정되지 않았습니다. 설정 > AI 설정에서 입력해 주세요.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gemini API key is not set. Enter it in Settings > AI Settings."
+          }
+        }
+      }
+    },
+    "%@ 활성화됨": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ Enabled"
+          }
+        }
+      }
+    },
+    "버전 %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Version %@"
+          }
+        }
+      }
+    },
+    "+%lld개": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "+%lld more"
+          }
+        }
+      }
+    },
+    "#%@ 태그 검색 결과 %lld개": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "#%@ tag search results: %lld"
+          }
+        }
+      }
+    },
+    "'%@' 검색 결과가 없습니다.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No results found for '%@'."
+          }
+        }
+      }
+    },
+    "%lld시": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld:00"
+          }
+        }
+      }
     }
   },
   "version": "1.0"

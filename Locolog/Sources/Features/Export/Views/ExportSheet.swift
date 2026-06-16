@@ -49,7 +49,7 @@ struct ExportSheet: View {
 
                 if let error = errorMessage {
                     Section {
-                        Text(error)
+                        Text(LocalizedStringKey(error))
                             .foregroundStyle(.red)
                             .font(.callout)
                     }
@@ -98,8 +98,8 @@ struct ExportSheet: View {
                         .foregroundStyle(.white)
                 }
                 VStack(alignment: .leading, spacing: 2) {
-                    Text(title).font(.body).foregroundStyle(.primary)
-                    Text(subtitle).font(.caption).foregroundStyle(.secondary)
+                    Text(LocalizedStringKey(title)).font(.body).foregroundStyle(.primary)
+                    Text(LocalizedStringKey(subtitle)).font(.caption).foregroundStyle(.secondary)
                 }
                 Spacer()
                 Image(systemName: "square.and.arrow.up")

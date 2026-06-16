@@ -45,6 +45,7 @@ struct OnboardingView: View {
                         .foregroundStyle(.white)
                         .clipShape(RoundedRectangle(cornerRadius: 14))
                 }
+                .accessibilityIdentifier("startLocallyButton")
 
                 // Apple 계정 연결
                 Button {

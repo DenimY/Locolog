@@ -113,6 +113,12 @@ targets:
     type: bundle.unit-test
     platform: iOS
     sources: LocologTests
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        SWIFT_VERSION: "6.0"
+        DEVELOPMENT_TEAM: "97GKTL8822"
+        CODE_SIGN_STYLE: Automatic
     dependencies:
       - target: Locolog_iOS
 
@@ -120,5 +126,11 @@ targets:
     type: bundle.ui-testing
     platform: iOS
     sources: LocologUITests
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        SWIFT_VERSION: "6.0"
+        DEVELOPMENT_TEAM: "97GKTL8822"
+        CODE_SIGN_STYLE: Automatic
     dependencies:
       - target: Locolog_iOS

@@ -1,5 +1,6 @@
 import XCTest
 
+@MainActor
 final class LocologUITests: XCTestCase {
 
     let app = XCUIApplication()
@@ -11,7 +12,7 @@ final class LocologUITests: XCTestCase {
     }
 
     func testOnboardingLocalStartButton() throws {
-        let startButton = app.buttons["로컬로 시작하기"]
+        let startButton = app.buttons["startLocallyButton"]
         XCTAssertTrue(startButton.exists)
         startButton.tap()
         // 메모 목록 화면으로 전환 확인

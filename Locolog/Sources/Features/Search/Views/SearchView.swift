@@ -137,7 +137,7 @@ struct SearchView: View {
             }
         }
         .listStyle(.plain)
-        .navigationDestination(for: Note.self) { NoteEditorView(note: $0) }
+        .navigationDestination(for: Note.self) { NoteEditorView(note: $0).id($0.id) }
         .overlay(alignment: .top) {
             if isTagSearch {
                 tagSearchHeader

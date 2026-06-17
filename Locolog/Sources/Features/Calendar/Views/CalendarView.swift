@@ -28,7 +28,7 @@ struct CalendarView: View {
             mainContent
                 .navigationTitle("캘린더")
                 .navigationBarTitleDisplayMode(.large)
-                .navigationDestination(for: Note.self) { NoteEditorView(note: $0) }
+                .navigationDestination(for: Note.self) { NoteEditorView(note: $0).id($0.id) }
         }
         #else
         mainContent

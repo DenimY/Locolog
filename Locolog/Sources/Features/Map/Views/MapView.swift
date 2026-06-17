@@ -27,6 +27,7 @@ struct NoteMapView: View {
                 .sheet(item: $sheetNote) { note in
                     NavigationStack {
                         NoteEditorView(note: note)
+                            .id(note.id)
                             .toolbar {
                                 ToolbarItem(placement: .cancellationAction) {
                                     Button("닫기") { sheetNote = nil }

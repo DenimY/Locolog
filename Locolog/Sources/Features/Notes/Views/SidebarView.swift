@@ -177,8 +177,12 @@ struct SidebarView: View {
     @ViewBuilder
     private func folderRow(_ folder: Folder) -> some View {
         HStack(spacing: 8) {
-            Image(systemName: "folder")
-                .foregroundStyle(folder.colorHex != nil ? folder.color : Color.secondary)
+            if folder.iconEmoji != nil || folder.iconImagePath != nil {
+                IconView(emoji: folder.iconEmoji, imagePath: folder.iconImagePath, fallbackSymbol: "folder", size: 16)
+            } else {
+                Image(systemName: "folder")
+                    .foregroundStyle(folder.colorHex != nil ? folder.color : Color.secondary)
+            }
             Text(folder.name)
         }
             .tag(SidebarItem.folder(folder))
@@ -281,6 +285,7 @@ struct SidebarView: View {
             }
         }
 
+        IconManager.deleteIcon(urlString: folder.iconImagePath)
         context.delete(folder)
         try? context.save()
     }

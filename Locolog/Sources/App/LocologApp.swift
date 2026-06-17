@@ -140,6 +140,11 @@ struct LocologApp: App {
         WindowGroup {
             RootView()
                 .environment(\.locale, appLocale ?? Locale.autoupdatingCurrent)
+                #if os(macOS)
+                .onAppear {
+                    updaterController.updater.checkForUpdatesInBackground()
+                }
+                #endif
         }
         .modelContainer(container)
 

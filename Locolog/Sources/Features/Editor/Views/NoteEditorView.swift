@@ -23,6 +23,8 @@ struct NoteEditorView: View {
 
     var body: some View {
         VStack(spacing: 0) {
+            iconBar
+
             ZStack {
                 editorContent
                     .opacity(note.isPreviewMode ? 0 : 1)
@@ -77,6 +79,26 @@ struct NoteEditorView: View {
             }
         }
         #endif
+    }
+
+    // MARK: - 아이콘
+
+    private var iconBar: some View {
+        HStack {
+            IconPickerButton(
+                ownerId: note.id,
+                emoji: note.iconEmoji,
+                imagePath: note.iconImagePath,
+                fallbackSymbol: "note.text",
+                size: 32,
+                onSetEmoji: { note.iconEmoji = $0; note.isDirty = true; try? context.save() },
+                onSetImagePath: { note.iconImagePath = $0; note.isDirty = true; try? context.save() },
+                onRemove: { note.iconEmoji = nil; note.iconImagePath = nil; note.isDirty = true; try? context.save() }
+            )
+            Spacer()
+        }
+        .padding(.horizontal, AppTheme.editorHPadding)
+        .padding(.top, 8)
     }
 
     // MARK: - Editor

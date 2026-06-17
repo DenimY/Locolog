@@ -11,6 +11,9 @@ struct FolderFormView: View {
 
     @State private var name = ""
     @State private var selectedColor: String? = nil
+    @State private var iconEmoji: String? = nil
+    @State private var iconImagePath: String? = nil
+    @State private var formId = UUID()
 
     static let palette: [String] = [
         "#4A90E2", "#5AC8FA", "#34C759", "#FF9500",
@@ -22,7 +25,19 @@ struct FolderFormView: View {
         NavigationStack {
             Form {
                 Section("이름") {
-                    TextField("", text: $name, prompt: Text("폴더 이름"))
+                    HStack(spacing: 12) {
+                        IconPickerButton(
+                            ownerId: formId,
+                            emoji: iconEmoji,
+                            imagePath: iconImagePath,
+                            fallbackSymbol: "folder",
+                            size: 36,
+                            onSetEmoji: { iconEmoji = $0 },
+                            onSetImagePath: { iconImagePath = $0 },
+                            onRemove: { iconEmoji = nil; iconImagePath = nil }
+                        )
+                        TextField("", text: $name, prompt: Text("폴더 이름"))
+                    }
                 }
                 Section("색상") {
                     LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 5), spacing: 12) {
@@ -52,6 +67,9 @@ struct FolderFormView: View {
             if let folder = editing {
                 name = folder.name
                 selectedColor = folder.colorHex
+                iconEmoji = folder.iconEmoji
+                iconImagePath = folder.iconImagePath
+                formId = folder.id
             }
         }
     }
@@ -79,9 +97,14 @@ struct FolderFormView: View {
         if let folder = editing {
             folder.name = trimmed
             folder.colorHex = selectedColor
+            folder.iconEmoji = iconEmoji
+            folder.iconImagePath = iconImagePath
         } else {
             let siblingCount = allFolders.filter { $0.parentId == parentId }.count
             let folder = Folder(name: trimmed, parentId: parentId, position: siblingCount, colorHex: selectedColor)
+            folder.id = formId
+            folder.iconEmoji = iconEmoji
+            folder.iconImagePath = iconImagePath
             context.insert(folder)
         }
         try? context.save()

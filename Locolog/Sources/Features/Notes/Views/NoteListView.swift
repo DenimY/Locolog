@@ -22,7 +22,7 @@ struct NoteListView: View {
 
     // iOS 전용
     #if os(iOS)
-    @State private var navigationPath: [Note] = []
+    @State private var navigationPath = NavigationPath()
     @State private var filterMode: IOSFilterMode = .categories
     @State private var iOSSelectedFolderId: UUID? = nil
     @State private var iOSSelectedSmartFolderId: UUID? = nil
@@ -180,7 +180,9 @@ struct NoteListView: View {
         #if os(iOS)
         NavigationStack(path: $navigationPath) {
             noteContent
-                .navigationDestination(for: Note.self) { NoteEditorView(note: $0) }
+                .navigationDestination(for: Note.self) { NoteEditorView(note: $0).id($0.id) }
+                .navigationDestination(for: Folder.self) { FolderBrowserView(folder: $0) }
+                .navigationDestination(for: FolderRootMarker.self) { _ in FolderBrowserView(folder: nil) }
                 .navigationTitle(LocalizedStringKey(navigationTitle))
                 .navigationBarTitleDisplayMode(.large)
                 .searchable(text: $searchText, prompt: "메모, 장소 검색")
@@ -307,6 +309,9 @@ struct NoteListView: View {
                 iOSSelectedFolderId = iOSSelectedFolderId == folder.id ? nil : folder.id
             }
             .contextMenu {
+                Button { navigationPath.append(folder) } label: {
+                    Label("하위 폴더 보기", systemImage: "folder")
+                }
                 Button { editingFolder = folder; showFolderForm = true } label: {
                     Label("편집", systemImage: "pencil")
                 }
@@ -314,6 +319,9 @@ struct NoteListView: View {
                     Label("삭제", systemImage: "trash")
                 }
             }
+        }
+        FilterChip(title: "모든 폴더 보기", color: Color.accentColor, icon: "folder.fill", isSelected: false) {
+            navigationPath.append(FolderRootMarker())
         }
     }
 
@@ -521,6 +529,7 @@ struct NoteListView: View {
             note.folderId = nil
             note.isDirty = true
         }
+        IconManager.deleteIcon(urlString: folder.iconImagePath)
         context.delete(folder)
         try? context.save()
     }

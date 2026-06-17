@@ -42,6 +42,8 @@ final class Note {
     var attachmentURLs: [String]    // 로컬 파일 URL (Documents/NoteAttachments/)
     var noteTypeRaw: String = NoteType.markdown.rawValue
     var isPreviewMode: Bool = false  // 파일별 마지막 편집/미리보기 모드
+    var iconEmoji: String?           // 제목 앞에 표시할 이모지 (이미지와 동시 설정 안 됨)
+    var iconImagePath: String?       // 제목 앞에 표시할 커스텀 이미지 (Documents/NoteIcons/)
     @Relationship(deleteRule: .nullify) var tags: [Tag]
 
     var noteType: NoteType {

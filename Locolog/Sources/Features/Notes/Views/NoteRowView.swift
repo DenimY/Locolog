@@ -15,7 +15,9 @@ struct NoteRowView: View {
 
             VStack(alignment: .leading, spacing: 4) {
                 HStack(spacing: 4) {
-                    if note.noteType == .log {
+                    if note.iconEmoji != nil || note.iconImagePath != nil {
+                        IconView(emoji: note.iconEmoji, imagePath: note.iconImagePath, fallbackSymbol: "note.text", size: 16)
+                    } else if note.noteType == .log {
                         Image(systemName: "terminal")
                             .font(.caption2)
                             .foregroundStyle(.secondary)

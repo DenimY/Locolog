@@ -117,6 +117,7 @@ struct MainSplitView: View {
     private var detailPanel: some View {
         if let note = selectedNote {
             NoteEditorView(note: note)
+                .id(note.id)
         } else {
             EmptyDetailView()
         }

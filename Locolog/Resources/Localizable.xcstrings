@@ -2290,6 +2290,76 @@
           }
         }
       }
+    },
+    "모든 폴더 보기": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Browse All Folders"
+          }
+        }
+      }
+    },
+    "하위 폴더 보기": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "View Subfolder"
+          }
+        }
+      }
+    },
+    "폴더가 비었습니다": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This folder is empty"
+          }
+        }
+      }
+    },
+    "새 하위 폴더": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New Subfolder"
+          }
+        }
+      }
+    },
+    "모든 폴더": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "All Folders"
+          }
+        }
+      }
+    },
+    "폴더로 이동": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Move to Folder"
+          }
+        }
+      }
+    },
+    "미분류": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unfiled"
+          }
+        }
+      }
     }
   },
   "version": "1.0"

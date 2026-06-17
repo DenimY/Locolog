@@ -369,6 +369,7 @@ struct TrashView: View {
 
     private func permanentlyDelete(_ note: Note) {
         AttachmentManager.deleteAll(for: note.id)
+        IconManager.deleteIcon(urlString: note.iconImagePath)
         if selectedNote?.id == note.id { selectedNote = nil }
         context.delete(note)
         try? context.save()
@@ -377,6 +378,7 @@ struct TrashView: View {
     private func emptyTrash() {
         deletedNotes.forEach {
             AttachmentManager.deleteAll(for: $0.id)
+            IconManager.deleteIcon(urlString: $0.iconImagePath)
             context.delete($0)
         }
         selectedNote = nil

@@ -17,6 +17,16 @@ struct NoteEditorView: View {
     @State private var showExportSheet = false
     @State private var selectedPhotoItems: [PhotosPickerItem] = []
 
+    // 노트 전환 시 onChange(of: note.content)가 스푸리어스하게 발동하는 SwiftUI 버그 방어용
+    // TextEditor는 localContent에 바인딩하고, 실제 유저 편집만 note.content에 반영한다.
+    @State private var localContent: String
+    @State private var isExternalContentUpdate = false
+
+    init(note: Note) {
+        _note = Bindable(note)
+        _localContent = State(initialValue: note.content)
+    }
+
     #if os(macOS)
     @State private var showLocationPicker = false
     #endif
@@ -52,7 +62,9 @@ struct NoteEditorView: View {
         .sheet(isPresented: $showReminderPicker) { reminderSheet }
         .sheet(isPresented: $showAIPanel) {
             AICommandView(note: note) { result in
-                note.content += "\n\n" + result
+                let newContent = note.content + "\n\n" + result
+                note.content = newContent
+                localContent = newContent
                 scheduleAutoSave()
             }
         }
@@ -62,6 +74,25 @@ struct NoteEditorView: View {
         .onChange(of: selectedPhotoItems) { _, items in
             guard !items.isEmpty else { return }
             Task { await addAttachments(from: items) }
+        }
+        // 유저 편집: localContent 변경 → note.content 반영 + 자동저장
+        .onChange(of: localContent) { _, newValue in
+            guard !isExternalContentUpdate else {
+                isExternalContentUpdate = false
+                return
+            }
+            note.content = newValue
+            scheduleAutoSave()
+        }
+        // 외부 변경(노트 전환·동기화): note.content 변경 → localContent 갱신 (자동저장 없음)
+        .onChange(of: note.content) { _, newValue in
+            guard localContent != newValue else { return }
+            isExternalContentUpdate = true
+            localContent = newValue
+        }
+        // 노트 전환 시 미완료 저장 작업 취소
+        .onChange(of: note.id) { _, _ in
+            saveTask?.cancel()
         }
         .onAppear {
             if note.content.isEmpty { isEditorFocused = true }
@@ -104,11 +135,10 @@ struct NoteEditorView: View {
     // MARK: - Editor
 
     private var editorContent: some View {
-        TextEditor(text: $note.content)
+        TextEditor(text: $localContent)
             .font(AppTheme.noteBodyFont)
             .padding(.horizontal, AppTheme.editorHPadding)
             .focused($isEditorFocused)
-            .onChange(of: note.content) { _, _ in scheduleAutoSave() }
             #if os(iOS)
             .toolbar { codeToolbar }
             #endif

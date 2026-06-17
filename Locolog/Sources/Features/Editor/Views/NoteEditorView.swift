@@ -99,6 +99,16 @@ struct NoteEditorView: View {
             Task { await fetchLocationIfNeeded() }
             Task { await NotificationManager.shared.checkStatus() }
         }
+        .onDisappear {
+            // debounce 대기 중인 저장이 있으면 즉시 flush
+            guard saveTask != nil else { return }
+            saveTask?.cancel()
+            saveTask = nil
+            if note.content != localContent { note.content = localContent }
+            note.updatedAt = Date()
+            note.isDirty = true
+            try? context.save()
+        }
         #if os(macOS)
         .sheet(isPresented: $showLocationPicker) {
             LocationPickerSheet(isPresented: $showLocationPicker) { name, poi in

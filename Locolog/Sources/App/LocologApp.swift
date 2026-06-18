@@ -90,44 +90,42 @@ struct LocologApp: App {
             SmartFolder.self,
             Folder.self,
         ])
-        let config = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
+
+        // iOS: App Group 컨테이너에 저장 (위젯과 공유)
+        // macOS: 기본 Application Support 경로 사용
+        let storeURL: URL = {
+            #if os(iOS)
+            if let groupURL = FileManager.default.containerURL(
+                forSecurityApplicationGroupIdentifier: "group.com.locolog.app"
+            ) {
+                let dir = groupURL
+                    .appending(path: "Library", directoryHint: .isDirectory)
+                    .appending(path: "Application Support", directoryHint: .isDirectory)
+                try? FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
+                return dir.appending(path: "default.store")
+            }
+            #endif
+            return URL.applicationSupportDirectory.appending(path: "default.store")
+        }()
+
+        let config = ModelConfiguration(schema: schema, url: storeURL)
 
         // 1차 시도: 정상 오픈
         do {
             return try ModelContainer(for: schema, configurations: [config])
         } catch {
-            // 실패 원인을 반드시 로그로 남긴다 — 원인을 모르면 같은 문제가 재발해도 알 수 없다.
             print("⚠️ SwiftData: ModelContainer 생성 실패 — \(error)")
         }
 
-        // 2차 시도: 손상되었거나 마이그레이션 불가능한 스토어를 "삭제"하지 않고
-        // 타임스탬프를 붙여 백업 위치로 옮긴 뒤 새 스토어를 만든다.
-        // (예전엔 바로 삭제했는데, 스키마를 자주 바꾸는 개발 중 lightweight 마이그레이션이
-        //  실패할 때마다 사용자 데이터가 통째로 사라지는 사고로 이어졌음 — 절대 삭제 금지)
+        // 2차 시도: 스토어 손상·마이그레이션 실패 시 타임스탬프 백업 후 재생성
         let timestamp = Int(Date().timeIntervalSince1970)
-
-        func backupStoreFiles(at base: URL) {
-            for suffix in ["", "-wal", "-shm"] {
-                let source = URL(fileURLWithPath: base.path + suffix)
-                guard FileManager.default.fileExists(atPath: source.path) else { continue }
-                let backup = URL(fileURLWithPath: base.path + suffix + ".backup-\(timestamp)")
-                try? FileManager.default.moveItem(at: source, to: backup)
-            }
+        for suffix in ["", "-wal", "-shm"] {
+            let source = URL(fileURLWithPath: storeURL.path + suffix)
+            guard FileManager.default.fileExists(atPath: source.path) else { continue }
+            let backup = URL(fileURLWithPath: storeURL.path + suffix + ".backup-\(timestamp)")
+            try? FileManager.default.moveItem(at: source, to: backup)
         }
-
-        // 기본 앱 경로
-        backupStoreFiles(at: URL.applicationSupportDirectory.appending(path: "default.store"))
-
-        // App Group 경로 (위젯과 공유하는 컨테이너) — 실제 스토어가 여기 있을 수도 있다.
-        if let groupURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.locolog.app") {
-            let groupStore = groupURL
-                .appending(path: "Library", directoryHint: .isDirectory)
-                .appending(path: "Application Support", directoryHint: .isDirectory)
-                .appending(path: "default.store")
-            backupStoreFiles(at: groupStore)
-        }
-
-        print("⚠️ SwiftData: 기존 스토어를 default.store.backup-\(timestamp)로 백업하고 새 스토어를 생성합니다.")
+        print("⚠️ SwiftData: 스토어를 backup-\(timestamp)로 백업하고 새 스토어를 생성합니다.")
 
         do {
             return try ModelContainer(for: schema, configurations: [config])

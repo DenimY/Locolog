@@ -128,6 +128,8 @@ struct MonthCalendarView: View {
                 Spacer()
                 Text(selectedDate.formatted(.dateTime.year().month(.wide)))
                     .font(.headline)
+                    .lineLimit(1)
+                    .fixedSize(horizontal: true, vertical: false)
                 Spacer()
                 Button { changeMonth(by: 1) } label: {
                     Image(systemName: "chevron.right")

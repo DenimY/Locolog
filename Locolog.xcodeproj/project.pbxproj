@@ -1019,7 +1019,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = LocologWidget/LocologWidget.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_TEAM = 97GKTL8822;
 				INFOPLIST_FILE = LocologWidget/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1065,7 +1065,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 97GKTL8822;
 				INFOPLIST_FILE = Locolog/Resources/Info.plist;
@@ -1169,7 +1169,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = LocologWidget/LocologWidget.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_TEAM = 97GKTL8822;
 				INFOPLIST_FILE = LocologWidget/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1215,7 +1215,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 97GKTL8822;
 				INFOPLIST_FILE = Locolog/Resources/Info.plist;
@@ -1296,7 +1296,7 @@
 				"CODE_SIGN_ENTITLEMENTS[sdk=macosx*]" = Locolog/Resources/Locolog_macOS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 97GKTL8822;
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
@@ -1321,7 +1321,7 @@
 				"CODE_SIGN_ENTITLEMENTS[sdk=macosx*]" = Locolog/Resources/Locolog_macOS.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 97GKTL8822;
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;

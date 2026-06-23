@@ -83,6 +83,8 @@ struct MapCalendarView: View {
             Text(monthTitle)
                 .font(.title2)
                 .fontWeight(.bold)
+                .lineLimit(1)
+                .fixedSize(horizontal: true, vertical: false)
 
             Spacer()
 

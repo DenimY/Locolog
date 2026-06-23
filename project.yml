@@ -33,7 +33,7 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: com.locolog.app
         SWIFT_VERSION: "6.0"
         MARKETING_VERSION: "1.3.2"
-        CURRENT_PROJECT_VERSION: "8"
+        CURRENT_PROJECT_VERSION: "9"
         DEVELOPMENT_TEAM: "97GKTL8822"
         CODE_SIGN_STYLE: Automatic
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
@@ -94,7 +94,7 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: com.locolog.app.widget
         SWIFT_VERSION: "6.0"
         MARKETING_VERSION: "1.3.2"
-        CURRENT_PROJECT_VERSION: "8"
+        CURRENT_PROJECT_VERSION: "9"
         DEVELOPMENT_TEAM: "97GKTL8822"
         CODE_SIGN_STYLE: Automatic
     info:

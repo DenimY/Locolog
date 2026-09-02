@@ -52,74 +52,52 @@ struct LocologWidgetEntryView: View {
     }
 }
 
-// MARK: - Small Widget (최신 메모 1개)
+// MARK: - Small Widget (탭해서 새 메모)
 
 struct SmallWidgetView: View {
     let entry: LocologEntry
 
     var body: some View {
-        if let note = entry.notes.first {
-            VStack(alignment: .leading, spacing: 0) {
-                // 헤더
-                HStack {
-                    Image(systemName: "note.text")
-                        .font(.caption2)
-                        .foregroundStyle(.secondary)
-                    Text("최근 메모")
-                        .font(.caption2)
-                        .foregroundStyle(.secondary)
-                    Spacer()
-                }
-                .padding(.bottom, 8)
-
-                Spacer()
-
-                // 메모 제목
-                Text(note.title)
-                    .font(.headline)
+        VStack(alignment: .leading, spacing: 0) {
+            HStack {
+                Image(systemName: "square.and.pencil")
+                    .font(.caption2)
+                    .foregroundStyle(Color.accentColor)
+                Text("Locolog")
+                    .font(.caption2)
                     .fontWeight(.semibold)
-                    .lineLimit(3)
-                    .foregroundStyle(.primary)
-
+                    .foregroundStyle(.secondary)
                 Spacer()
-
-                // 하단 메타
-                VStack(alignment: .leading, spacing: 3) {
-                    if let loc = note.locationName {
-                        Label(loc, systemImage: "location.fill")
-                            .font(.caption2)
-                            .foregroundStyle(.secondary)
-                            .lineLimit(1)
-                    }
-                    Text(note.createdAt.formatted(date: .abbreviated, time: .shortened))
-                        .font(.caption2)
-                        .foregroundStyle(.tertiary)
-                }
             }
-            .padding()
-            .containerBackground(.fill.tertiary, for: .widget)
-            .widgetURL(URL(string: "locolog://note/\(note.id)"))
-        } else {
-            emptySmallView
-        }
-    }
+            .padding(.bottom, 8)
 
-    private var emptySmallView: some View {
-        VStack(spacing: 8) {
-            Image(systemName: "note.text")
-                .font(.title2)
-                .foregroundStyle(.tertiary)
-            Text("메모 없음")
-                .font(.caption)
-                .foregroundStyle(.secondary)
+            Spacer()
+
+            Text("탭해서 적기")
+                .font(.headline)
+                .fontWeight(.semibold)
+                .foregroundStyle(.primary)
+
+            if let note = entry.notes.first {
+                Text(note.title)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .lineLimit(1)
+                    .padding(.top, 6)
+            } else {
+                Text("날짜와 장소로 모입니다")
+                    .font(.caption)
+                    .foregroundStyle(.tertiary)
+                    .padding(.top, 6)
+            }
         }
         .padding()
         .containerBackground(.fill.tertiary, for: .widget)
-        .widgetURL(URL(string: "locolog://open"))
+        .widgetURL(URL(string: "locolog://new"))
     }
 }
 
-// MARK: - Medium Widget (최근 메모 3개)
+// MARK: - Medium Widget (새 메모 + 최근 3개)
 
 struct MediumWidgetView: View {
     let entry: LocologEntry
@@ -128,29 +106,35 @@ struct MediumWidgetView: View {
         VStack(alignment: .leading, spacing: 8) {
             // 헤더
             HStack {
-                Image(systemName: "note.text")
+                Image(systemName: "square.and.pencil")
                     .font(.caption)
-                    .foregroundStyle(.secondary)
-                Text("최근 메모")
+                    .foregroundStyle(Color.accentColor)
+                Text("Locolog")
                     .font(.caption)
                     .fontWeight(.semibold)
                     .foregroundStyle(.secondary)
                 Spacer()
-                Text(Date().formatted(date: .abbreviated, time: .omitted))
-                    .font(.caption2)
-                    .foregroundStyle(.tertiary)
+                Link(destination: URL(string: "locolog://new")!) {
+                    Text("새 메모")
+                        .font(.caption)
+                        .fontWeight(.semibold)
+                        .foregroundStyle(Color.accentColor)
+                }
             }
 
             Divider()
 
             if entry.notes.isEmpty {
                 Spacer()
-                HStack {
-                    Spacer()
-                    Text("작성된 메모가 없습니다")
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
-                    Spacer()
+                Link(destination: URL(string: "locolog://new")!) {
+                    HStack {
+                        Spacer()
+                        Text("탭해서 적기")
+                            .font(.subheadline)
+                            .fontWeight(.medium)
+                            .foregroundStyle(Color.accentColor)
+                        Spacer()
+                    }
                 }
                 Spacer()
             } else {
@@ -167,6 +151,7 @@ struct MediumWidgetView: View {
         }
         .padding()
         .containerBackground(.fill.tertiary, for: .widget)
+        .widgetURL(URL(string: "locolog://new"))
     }
 }
 
@@ -208,8 +193,8 @@ struct LocologWidget: Widget {
         StaticConfiguration(kind: kind, provider: LocologProvider()) { entry in
             LocologWidgetEntryView(entry: entry)
         }
-        .configurationDisplayName("Locolog 메모")
-        .description("최근 메모를 홈 화면에서 빠르게 확인하세요.")
+        .configurationDisplayName("Locolog")
+        .description("탭하면 바로 새 메모를 던집니다. 중형은 최근 메모도 엽니다.")
         .supportedFamilies([.systemSmall, .systemMedium])
     }
 }

@@ -108,6 +108,7 @@ struct FolderFormView: View {
             context.insert(folder)
         }
         try? context.save()
+        SyncManager.shared.scheduleSync(context: context)
         dismiss()
     }
 }

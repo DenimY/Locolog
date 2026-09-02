@@ -3,6 +3,7 @@ import SwiftData
 
 struct SearchView: View {
     @Query(sort: \Note.updatedAt, order: .reverse) private var allNotes: [Note]
+    @Query private var allFolders: [Folder]
     @State private var searchText = ""
     @State private var recentSearches: [String] = []
 
@@ -133,7 +134,7 @@ struct SearchView: View {
     private var resultList: some View {
         List(results) { note in
             NavigationLink(value: note) {
-                NoteRowView(note: note)
+                NoteRowView(note: note, folder: allFolders.first { $0.id == note.folderId })
             }
         }
         .listStyle(.plain)

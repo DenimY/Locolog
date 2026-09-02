@@ -109,4 +109,30 @@ final class Note {
     private static let tagRegex = try? NSRegularExpression(
         pattern: #"(?<![가-힣a-zA-Z0-9_#])#([가-힣a-zA-Z0-9_]+)"#
     )
+
+    /// 로컬 수정으로 표시하고 `updatedAt`을 올린다. 저장·원격 push는 호출 측에서 한다.
+    func markDirty() {
+        updatedAt = Date()
+        isDirty = true
+    }
+
+    /// content의 #태그를 Tag 관계에 반영한다. 동기화 pull 후에도 사이드바 태그가 보이도록 쓴다.
+    func applyParsedTags(using context: ModelContext) {
+        let parsed = Set(parsedTagNames)
+        tags = tags.filter { parsed.contains($0.name) }
+        let existingNames = Set(tags.map(\.name))
+        let allTags = (try? context.fetch(FetchDescriptor<Tag>())) ?? []
+        var byName = Dictionary(allTags.map { ($0.name, $0) }, uniquingKeysWith: { first, _ in first })
+
+        for name in parsed where !existingNames.contains(name) {
+            if let existing = byName[name] {
+                tags.append(existing)
+            } else {
+                let tag = Tag(name: name)
+                context.insert(tag)
+                byName[name] = tag
+                tags.append(tag)
+            }
+        }
+    }
 }

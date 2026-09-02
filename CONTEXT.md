@@ -1,7 +1,7 @@
 # Locolog — 개발 컨텍스트 (에이전트 인수인계)
 
 > 새 대화에서 이 파일을 먼저 읽으면 현재 상태를 파악할 수 있습니다.  
-> 마지막 업데이트: 2026-06-15 (보안 강화 + Google Sign-In + 사이드바 UX 개선)
+> 마지막 업데이트: 2026-09-02 (기획 v0.7 + 아이콘 스탬프)
 
 ---
 
@@ -18,7 +18,7 @@
 |---|---|
 | GitHub | https://github.com/DenimY/Locolog |
 | 로컬 경로 | `/Users/youkyungmu/Documents/Project/git/Locolog` |
-| 기획서 | `PLANNING.md` (v0.5 확정) |
+| 기획서 | `PLANNING.md` (v0.7 확정) |
 | 기술 스택 문서 | `TECH_STACK.md` |
 | 레퍼런스 | `REFERENCES.md` |
 
@@ -48,8 +48,9 @@
 ```
 ✅ BUILD SUCCEEDED
 타겟: Locolog_iOS (iPhone 17 Pro Simulator) + Locolog_macOS
-Xcode 26.5 / Swift 6
-마지막 확인: 2026-06-15 (보안 강화 + Google Sign-In + 사이드바 UX 개선 후)
+Xcode / Swift 6
+마지막 확인: 2026-09-02 (아이콘 스탬프)
+단위 테스트: LocologTests 12개 통과
 ```
 
 ---
@@ -70,13 +71,17 @@ Xcode 26.5 / Swift 6
 ### Phase 3 — STEP 12: 지도 뷰 (MapKit) ✅
 ### Phase 3 — STEP 13: 이미지 첨부 + 내보내기 ✅
 ### Phase 3 — STEP 14: iOS 홈 위젯 (WidgetKit) ✅
+### Phase 4 — STEP 15: 기획 v0.6 + 오늘 / 여기 근처 기본 뷰 ✅
+### Phase 4 — STEP 16: 위젯 퀵 캡처 + `locolog://` 딥링크 ✅
+### Phase 4 — STEP 17: 온보딩·빈 화면 카피 ✅
+### Phase 4 — STEP 17b: 아이콘 스탬프로 2차 분류 ✅
 
 **생성된 파일 구조:**
 ```
 Locolog/
 ├── Locolog.xcodeproj          ← xcodegen으로 생성
 ├── project.yml                ← xcodegen 스펙 (재생성 시: xcodegen generate)
-├── PLANNING.md                ← 기획서 v0.5 (확정)
+├── PLANNING.md                ← 기획서 v0.7 (확정)
 ├── TECH_STACK.md              ← 기술 스택
 ├── REFERENCES.md              ← 레퍼런스 조사
 ├── CONTEXT.md                 ← 이 파일
@@ -89,8 +94,9 @@ Locolog/
 │   └── Sources/
 │       ├── App/
 │       │   ├── LocologApp.swift      ← @main, ModelContainer, Scene 설정
-│       │   ├── RootView.swift        ← 온보딩 완료 여부에 따라 분기
-│       │   └── ContentView.swift     ← iOS: MainTabView / macOS: MainSplitView
+│       │   ├── RootView.swift        ← 온보딩 완료 여부에 따라 분기, onOpenURL
+│       │   ├── ContentView.swift     ← iOS: MainTabView / macOS: MainSplitView
+│       │   └── DeepLinkRouter.swift  ← locolog://new, locolog://note/<uuid>
 │       ├── Core/
 │       │   ├── AI/AIManager.swift    ← BYOK AI (Claude/OpenAI/Gemini) URLSession
 │       │   ├── Auth/                 ← AuthManager, SupabaseService, Secrets
@@ -100,14 +106,17 @@ Locolog/
 │       │   └── Utils/LocationManager.swift
 │       ├── Domain/Models/
 │       │   ├── Note.swift            ← @Model, isDirty, locationPOI, displayTitle
+│       │   ├── Folder.swift
+│       │   ├── CategoryStamp.swift   ← 아이콘 스탬프 프리셋 + 할당
 │       │   ├── Category.swift        ← @Model
 │       │   ├── Tag.swift             ← @Model
 │       │   └── SmartFolder.swift     ← @Model, NoteFilter JSON 직렬화
 │       └── Features/
 │           ├── AI/Views/AICommandView.swift  ← AI 명령어 시트 UI
 │           ├── Editor/
-│           │   ├── Views/NoteEditorView.swift     ← 에디터 메인 (AI 버튼 포함)
+│           │   ├── Views/NoteEditorView.swift     ← 에디터 메인 (아이콘 독 + AI)
 │           │   └── Components/
+│           │       ├── CategoryIconDock.swift     ← 분류 아이콘 드래그/탭
 │           │       ├── CodeAccessoryToolbar.swift
 │           │       └── ReminderPickerView.swift
 │           ├── Notes/Views/
@@ -234,21 +243,61 @@ Locolog/
 
 ---
 
-## 다음 작업 (Phase 4 이후)
+## 이번 세션 완료 작업 (2026-08-31)
 
-**Phase 3 완료. 향후 작업 목록:**
+### 자동저장 버그 수정
+- 키 입력 즉시 `isDirty = true` (0.3초 창에서 pull이 편집을 덮어쓰던 문제 제거)
+- `hasUnsavedChanges`로 디바운스 완료 여부와 저장 태스크를 분리 — 이미 저장된 노트를 나갈 때 `updatedAt`이 다시 올라가지 않음
+- 에디터 이탈·백그라운드 전환 시 pending 저장만 flush
+- 코드 툴바 / 블록 삽입 / AI 결과는 `localContent`를 통해 동일 저장 경로로 진입
+- macOS 즐겨찾기 툴바가 `isDirty`를 빼먹던 문제 수정
+
+### 동기화 버그 수정
+- push 중 추가 편집이 있으면 snapshot 불일치로 `isDirty` 유지 (전송 완료로 잘못 지우던 문제)
+- 겹치는 `sync()`는 버리던 것 → 재시도 큐
+- 즐겨찾기·삭제·폴더 이동·아이콘·첨부·리마인더 등 메타데이터도 `scheduleSync`
+- 폴더 / 스마트폴더 push·pull, 노트에 `folder_id`·`note_type`·`icon_emoji` 포함 (서버 미적용 시 레거시 payload로 재시도)
+- 완전 삭제는 원격 delete 큐에 넣어 pull이 되살리지 못하게 함
+- pull 시 본문의 `#태그`로 Tag 관계 재구성
+- NWPathMonitor로 오프라인→온라인 복귀 시 동기화
+- Auth `authStateChanges` + 세션 리프레시
+- notes Realtime 변경 시 debounce pull
+- 설정 화면에 마지막 동기화 시각 / 오류 / 오프라인 / 수동 동기화
+
+### 서버 마이그레이션 (적용 필요)
+`supabase/migrations/20260831000000_sync_folders_and_note_fields.sql`
+- `notes.is_favorited`, `folder_id`, `note_type`, `icon_emoji`
+- `folders` 테이블 + RLS
+- `supabase_realtime` publication에 notes/folders/smart_folders
+
+> **Supabase SQL 에디터에서 위 마이그레이션을 실행해야 폴더·노트타입 동기화가 살아난다.**
+> 미적용이어도 본문 동기화는 레거시 upsert로 계속 시도한다.
+
+### Phase 4 — 사용 루프 (2026-09-02)
+
+- 기획서 `PLANNING.md` v0.6: 던지기 → 찾기 → 다듬기. 오늘/여기가 기본 뷰.
+- iOS 메모 탭 상단 칩: **오늘 / 여기 / 전체**. 오늘 = 작성일 오늘, 여기 = 현재 위치 반경 1km.
+- macOS 사이드바 기본 항목에 오늘·여기 근처. 기본 선택은 오늘.
+- 위젯 소형: 탭하면 `locolog://new` 새 메모. 중형: 헤더 새 메모 + 행은 기존 메모 열기.
+- 딥링크: `locolog://new`, `locolog://note/<uuid>`, `locolog://open`. URL Types에 `locolog` / `com.locolog.app`.
+- 온보딩·빈 화면 카피를 루프에 맞게 수정.
+- 기획서 v0.7: **장소가 1차 분류**. 회사→회의록, 마트→장보기, 집→메모지.
+- 에디터 상단 아이콘 독: 회의·코드·장보기·집·아이디어. 본문에 드래그하거나 탭. 첫 사용 시 폴더 생성. 같은 아이콘 재탭하면 해제.
+
+---
+
+## 다음 작업 (Phase 4 나머지)
 
 ```
+STEP 18  공유 시트 등 추가 시스템 진입점
+STEP 19  Supabase에 `20260831000000_sync_folders_and_note_fields.sql` 적용 (폴더·타입 동기화)
 - 친구 추가 기능 (명칭 미확정 / 이메일 초대 → 노트 공유, DB 스키마는 note_shares로 준비됨)
 - 팀 공유 UI (SQL 스키마 완성됨, 클라이언트 미구현)
 - Google Sign-In ← 클라이언트 구현 완료, Supabase 대시보드 Google 공급자 활성화 필요
   - Supabase Dashboard → Auth → Providers → Google 활성화
   - Redirect URL 추가: com.locolog.app://auth-callback
 - Google Calendar 실제 연동
-- 이미지 Supabase Storage 동기화
-- isFavorited Supabase DB 마이그레이션 필요:
-  ALTER TABLE notes ADD COLUMN is_favorited boolean DEFAULT false;
-- 위젯 딥링크 (특정 메모 바로 열기)
+- 이미지 Supabase Storage 동기화 (첨부·아이콘 이미지는 아직 기기 로컬)
 - 위젯 Lock Screen (accessoryRectangular 등)
 - App Store 제출 준비 (스크린샷, 설명, 개인정보처리방침)
 ```
@@ -276,6 +325,12 @@ STEP 12 지도 뷰 (MapKit)                                   ✅ 완료
 STEP 13 이미지 첨부 + 내보내기                             ✅ 완료
 STEP 14 iOS 홈 위젯 (WidgetKit)                            ✅ 완료
 ─────── Phase 3 완료 ───────
+STEP 15 기획 v0.6 + 오늘 / 여기 근처 기본 뷰                 ✅ 완료
+STEP 16 위젯 퀵 캡처 + locolog:// 딥링크                     ✅ 완료
+STEP 17 온보딩·빈 화면 카피                                  ✅ 완료
+STEP 17b 아이콘 스탬프 (드래그/탭으로 2차 분류)                 ✅ 완료
+STEP 18 공유 시트 등 추가 시스템 진입점
+STEP 19 Supabase 마이그레이션 적용 (폴더·타입 동기화)
 ```
 
 ---
@@ -323,7 +378,7 @@ xcodegen generate
 xcodebuild \
   -project Locolog.xcodeproj \
   -scheme Locolog_iOS \
-  -destination 'platform=iOS Simulator,id=826E1BBA-8546-4701-A37A-7B4FCECC6B32' \
+  -destination 'platform=iOS Simulator,id=DA48DF67-F5A4-4C8F-A0A0-699E9014C557' \
   -configuration Debug build 2>&1 \
   | grep -E "error:|BUILD (SUCCEEDED|FAILED)" | grep -v "skipping cache"
 

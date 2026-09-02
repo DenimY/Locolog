@@ -73,6 +73,12 @@ targets:
           UIColorName: ""
         NSAppTransportSecurity:
           NSAllowsArbitraryLoads: false
+        CFBundleURLTypes:
+          - CFBundleURLName: com.locolog.app
+            CFBundleTypeRole: Editor
+            CFBundleURLSchemes:
+              - locolog
+              - com.locolog.app
     entitlements:
       path: Locolog/Resources/Locolog.entitlements
       properties:

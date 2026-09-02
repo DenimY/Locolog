@@ -28,6 +28,7 @@ final class AuthManager: NSObject, ObservableObject {
 
     private var appleSignInContinuation: CheckedContinuation<ASAuthorization, Error>?
     private var webAuthSession: ASWebAuthenticationSession?
+    private var authChangesTask: Task<Void, Never>?
 
     var isSignedIn: Bool {
         if case .signedIn = authState { return true }
@@ -39,10 +40,37 @@ final class AuthManager: NSObject, ObservableObject {
         return nil
     }
 
+    private override init() {
+        super.init()
+        authChangesTask = Task { [weak self] in
+            await self?.observeAuthChanges()
+        }
+    }
+
     // MARK: - Session Restore
 
-    func restoreSession() {
-        if let session = supabase.auth.currentSession {
+    func restoreSession() async {
+        do {
+            let session = try await supabase.auth.session
+            apply(session: session)
+        } catch {
+            if let session = supabase.auth.currentSession {
+                apply(session: session)
+            } else {
+                authState = .signedOut
+            }
+        }
+    }
+
+    private func observeAuthChanges() async {
+        for await (_, session) in supabase.auth.authStateChanges {
+            if Task.isCancelled { break }
+            apply(session: session)
+        }
+    }
+
+    private func apply(session: Session?) {
+        if let session {
             authState = .signedIn(userId: session.user.id.uuidString, email: session.user.email)
         } else {
             authState = .signedOut
@@ -73,7 +101,7 @@ final class AuthManager: NSObject, ObservableObject {
         let session = try await supabase.auth.signInWithIdToken(
             credentials: .init(provider: .apple, idToken: idToken)
         )
-        authState = .signedIn(userId: session.user.id.uuidString, email: session.user.email)
+        apply(session: session)
     }
 
     // MARK: - Google Sign-In
@@ -89,7 +117,7 @@ final class AuthManager: NSObject, ObservableObject {
         let callbackURL = try await performWebAuth(url: oauthURL, callbackScheme: "com.locolog.app")
 
         let session = try await supabase.auth.session(from: callbackURL)
-        authState = .signedIn(userId: session.user.id.uuidString, email: session.user.email)
+        apply(session: session)
     }
 
     // ASWebAuthenticationSession 실행 후 콜백 URL 반환
@@ -118,6 +146,7 @@ final class AuthManager: NSObject, ObservableObject {
     // MARK: - Sign Out
 
     func signOut() async throws {
+        SyncManager.shared.stop()
         try await supabase.auth.signOut()
         authState = .signedOut
     }

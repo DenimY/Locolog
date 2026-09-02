@@ -133,8 +133,7 @@ struct NoteDetailPanel: View {
             // 즐겨찾기
             Button {
                 note.isFavorited.toggle()
-                note.isDirty = true
-                try? context.save()
+                note.saveDirty(in: context)
             } label: {
                 Image(systemName: note.isFavorited ? "star.fill" : "star")
                     .foregroundStyle(note.isFavorited ? .yellow : .secondary)
@@ -362,8 +361,7 @@ struct TrashView: View {
 
     private func restore(_ note: Note) {
         note.isDeleted = false
-        note.isDirty = true
-        try? context.save()
+        note.saveDirty(in: context)
         if selectedNote?.id == note.id { selectedNote = nil }
     }
 
@@ -371,18 +369,20 @@ struct TrashView: View {
         AttachmentManager.deleteAll(for: note.id)
         IconManager.deleteIcon(urlString: note.iconImagePath)
         if selectedNote?.id == note.id { selectedNote = nil }
+        SyncManager.shared.enqueueDeletedNote(note.id)
         context.delete(note)
-        try? context.save()
+        SyncManager.shared.saveAndSync(context: context)
     }
 
     private func emptyTrash() {
         deletedNotes.forEach {
             AttachmentManager.deleteAll(for: $0.id)
             IconManager.deleteIcon(urlString: $0.iconImagePath)
+            SyncManager.shared.enqueueDeletedNote($0.id)
             context.delete($0)
         }
         selectedNote = nil
-        try? context.save()
+        SyncManager.shared.saveAndSync(context: context)
     }
 }
 #endif

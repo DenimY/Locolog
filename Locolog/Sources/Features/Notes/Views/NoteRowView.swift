@@ -3,6 +3,7 @@ import SwiftUI
 struct NoteRowView: View {
     let note: Note
     var color: Color? = nil
+    var folder: Folder? = nil
 
     var body: some View {
         HStack(spacing: 10) {
@@ -15,7 +16,9 @@ struct NoteRowView: View {
 
             VStack(alignment: .leading, spacing: 4) {
                 HStack(spacing: 4) {
-                    if note.iconEmoji != nil || note.iconImagePath != nil {
+                    if folder?.iconEmoji != nil || folder?.iconImagePath != nil {
+                        IconView(emoji: folder?.iconEmoji, imagePath: folder?.iconImagePath, fallbackSymbol: "folder", size: 16)
+                    } else if note.iconEmoji != nil || note.iconImagePath != nil {
                         IconView(emoji: note.iconEmoji, imagePath: note.iconImagePath, fallbackSymbol: "note.text", size: 16)
                     } else if note.noteType == .log {
                         Image(systemName: "terminal")

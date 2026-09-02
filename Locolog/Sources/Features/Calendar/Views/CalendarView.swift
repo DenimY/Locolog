@@ -63,13 +63,13 @@ struct CalendarView: View {
         #if os(iOS)
         List(notesOnSelectedDate) { note in
             NavigationLink(value: note) {
-                NoteRowView(note: note, color: rowColor(for: note))
+                NoteRowView(note: note, color: rowColor(for: note), folder: folder(for: note))
             }
         }
         .listStyle(.plain)
         #else
         List(notesOnSelectedDate, selection: $selectedNote) { note in
-            NoteRowView(note: note, color: rowColor(for: note))
+            NoteRowView(note: note, color: rowColor(for: note), folder: folder(for: note))
                 .tag(note)
         }
         .listStyle(.plain)
@@ -82,6 +82,11 @@ struct CalendarView: View {
               folder.colorHex != nil
         else { return nil }
         return folder.color
+    }
+
+    private func folder(for note: Note) -> Folder? {
+        guard let folderId = note.folderId else { return nil }
+        return allFolders.first { $0.id == folderId }
     }
 }
 

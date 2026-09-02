@@ -9,7 +9,7 @@ struct SidebarView: View {
     @Query private var allFolders: [Folder]
     @Environment(\.modelContext) private var context
 
-    @AppStorage("navOrder") private var navOrderString: String = "calendar,map,allNotes,favorites"
+    @AppStorage("navOrder") private var navOrderString: String = NavItem.defaultOrder
 
     @State private var showSmartFolderForm = false
     @State private var showFolderForm = false
@@ -259,8 +259,9 @@ struct SidebarView: View {
         if case .smartFolder(let sel) = selectedItem, sel.id == folder.id {
             selectedItem = .allNotes
         }
+        SyncManager.shared.enqueueDeletedSmartFolder(folder.id)
         context.delete(folder)
-        try? context.save()
+        SyncManager.shared.saveAndSync(context: context)
     }
 
     // MARK: - 폴더 액션
@@ -281,13 +282,14 @@ struct SidebarView: View {
         if let notes = try? context.fetch(FetchDescriptor(predicate: predicate)) {
             for note in notes {
                 note.folderId = nil
-                note.isDirty = true
+                note.markDirty()
             }
         }
 
         IconManager.deleteIcon(urlString: folder.iconImagePath)
+        SyncManager.shared.enqueueDeletedFolder(folder.id)
         context.delete(folder)
-        try? context.save()
+        SyncManager.shared.saveAndSync(context: context)
     }
 
     /// folderId 폴더를 targetId 폴더의 하위로 이동. 자기 자신/하위로 이동하는 순환은 차단.
@@ -299,7 +301,7 @@ struct SidebarView: View {
         let siblingCount = allFolders.filter { $0.parentId == targetId }.count
         folder.parentId = targetId
         folder.position = siblingCount
-        try? context.save()
+        SyncManager.shared.saveAndSync(context: context)
         return true
     }
 
@@ -317,8 +319,7 @@ struct SidebarView: View {
         let predicate = #Predicate<Note> { $0.id == noteId }
         guard let note = try? context.fetch(FetchDescriptor(predicate: predicate)).first else { return false }
         note.folderId = folderId
-        note.isDirty = true
-        try? context.save()
+        note.saveDirty(in: context)
         return true
     }
 }

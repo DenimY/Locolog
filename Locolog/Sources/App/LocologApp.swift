@@ -152,6 +152,7 @@ struct LocologApp: App {
                 .environment(\.sparkleUpdater, updaterController.updater)
                 .environment(\.locale, appLocale ?? Locale.autoupdatingCurrent)
         }
+        .modelContainer(container)
         #endif
     }
 }

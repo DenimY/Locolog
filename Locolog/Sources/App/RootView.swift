@@ -19,28 +19,42 @@ struct RootView: View {
             }
         }
         .task {
-            AuthManager.shared.restoreSession()
+            await AuthManager.shared.restoreSession()
+            SyncManager.shared.attach(context: context)
             if authManager.isSignedIn {
-                await SyncManager.shared.sync(context: context)
+                await SyncManager.shared.start(context: context)
             }
             updateWidget()
         }
         .onChange(of: authManager.isSignedIn) { _, isSignedIn in
             if isSignedIn {
-                Task { await SyncManager.shared.sync(context: context) }
+                Task { await SyncManager.shared.start(context: context) }
+            } else {
+                SyncManager.shared.stop()
             }
         }
         .onChange(of: scenePhase) { _, phase in
-            if phase == .active {
+            switch phase {
+            case .active:
                 if authManager.isSignedIn {
                     Task { await SyncManager.shared.sync(context: context) }
                 }
                 updateWidget()
+            case .inactive, .background:
+                try? context.save()
+                if authManager.isSignedIn {
+                    SyncManager.shared.scheduleSync(context: context)
+                }
+                updateWidget()
+            default:
+                break
             }
         }
         .onChange(of: allNotes) { _, notes in
-            // 메모가 변경되면 위젯 데이터 갱신
             WidgetDataManager.update(with: Array(notes.prefix(5)))
+        }
+        .onOpenURL { url in
+            DeepLinkRouter.shared.handle(url)
         }
     }
 

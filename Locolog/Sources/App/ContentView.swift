@@ -2,6 +2,8 @@ import SwiftUI
 
 /// 사이드바 선택 상태
 enum SidebarItem: Hashable {
+    case today
+    case nearby
     case calendar
     case map
     case allNotes
@@ -14,10 +16,25 @@ enum SidebarItem: Hashable {
 
 /// macOS 사이드바 상단 고정 항목 (순서 저장 대상)
 enum NavItem: String, CaseIterable {
-    case calendar, map, allNotes, favorites
+    case today, nearby, calendar, map, allNotes, favorites
+
+    static let defaultOrder = "today,nearby,calendar,map,allNotes,favorites"
+    private static let legacyDefault = "calendar,map,allNotes,favorites"
+
+    static func resolvedOrderString() -> String {
+        let key = "navOrder"
+        let stored = UserDefaults.standard.string(forKey: key)
+        if stored == nil || stored == legacyDefault {
+            UserDefaults.standard.set(defaultOrder, forKey: key)
+            return defaultOrder
+        }
+        return stored!
+    }
 
     var sidebarItem: SidebarItem {
         switch self {
+        case .today:     return .today
+        case .nearby:    return .nearby
         case .calendar:  return .calendar
         case .map:       return .map
         case .allNotes:  return .allNotes
@@ -27,6 +44,8 @@ enum NavItem: String, CaseIterable {
 
     var title: String {
         switch self {
+        case .today:     return "오늘"
+        case .nearby:    return "여기 근처"
         case .calendar:  return "캘린더"
         case .map:       return "지도로 보기"
         case .allNotes:  return "모든 메모"
@@ -36,6 +55,8 @@ enum NavItem: String, CaseIterable {
 
     var icon: String {
         switch self {
+        case .today:     return "sun.max"
+        case .nearby:    return "location.circle"
         case .calendar:  return "calendar"
         case .map:       return "map"
         case .allNotes:  return "tray.full"
@@ -57,18 +78,31 @@ struct ContentView: View {
 // MARK: - iPhone: Tab Bar
 
 struct MainTabView: View {
+    @State private var selectedTab = 0
+    @ObservedObject private var deepLink = DeepLinkRouter.shared
+
     var body: some View {
-        TabView {
+        TabView(selection: $selectedTab) {
             NoteListView()
                 .tabItem { Label("메모", systemImage: "note.text") }
+                .tag(0)
             CalendarView()
                 .tabItem { Label("캘린더", systemImage: "calendar") }
+                .tag(1)
             NoteMapView()
                 .tabItem { Label("지도", systemImage: "map") }
+                .tag(2)
             SearchView()
                 .tabItem { Label("검색", systemImage: "magnifyingglass") }
+                .tag(3)
             SettingsView()
                 .tabItem { Label("설정", systemImage: "gearshape") }
+                .tag(4)
+        }
+        .onChange(of: deepLink.pending) { _, pending in
+            if pending?.shouldShowNotesTab == true {
+                selectedTab = 0
+            }
         }
     }
 }
@@ -78,11 +112,12 @@ struct MainTabView: View {
 #if os(macOS)
 struct MainSplitView: View {
     @State private var selectedItem: SidebarItem = {
-        let stored = UserDefaults.standard.string(forKey: "navOrder") ?? "calendar,map,allNotes,favorites"
-        let first = stored.split(separator: ",").first.map(String.init)?.trimmingCharacters(in: .whitespaces) ?? "calendar"
-        return NavItem(rawValue: first)?.sidebarItem ?? .calendar
+        let stored = NavItem.resolvedOrderString()
+        let first = stored.split(separator: ",").first.map(String.init)?.trimmingCharacters(in: .whitespaces) ?? "today"
+        return NavItem(rawValue: first)?.sidebarItem ?? .today
     }()
     @State private var selectedNote: Note? = nil
+    @ObservedObject private var deepLink = DeepLinkRouter.shared
 
     var body: some View {
         NavigationSplitView {
@@ -93,6 +128,12 @@ struct MainSplitView: View {
             detailPanel
         }
         .navigationSplitViewStyle(.balanced)
+        .onChange(of: deepLink.pending) { _, pending in
+            guard pending?.shouldShowNotesTab == true else { return }
+            if selectedItem != .today && selectedItem != .nearby && selectedItem != .allNotes {
+                selectedItem = .today
+            }
+        }
     }
 
     // MARK: 중앙 패널
@@ -104,7 +145,7 @@ struct MainSplitView: View {
             MapCalendarView(selectedNote: $selectedNote)
         case .map:
             NoteMapView(selectedNote: $selectedNote)
-        case .allNotes, .favorites, .smartFolder, .tag, .folder:
+        case .allNotes, .favorites, .smartFolder, .tag, .folder, .today, .nearby:
             NoteListView(selectedItem: selectedItem, selectedNote: $selectedNote)
         case .trash:
             TrashView(selectedNote: $selectedNote)
@@ -135,7 +176,7 @@ struct EmptyDetailView: View {
             Text("메모를 선택하세요")
                 .font(.title3)
                 .foregroundStyle(.secondary)
-            Text("왼쪽 목록에서 메모를 선택하거나\n새 메모를 작성하세요.")
+            Text("왼쪽에서 고르거나, 새 메모를 던지세요.\n장소가 목차가 됩니다.")
                 .font(.callout)
                 .foregroundStyle(.tertiary)
                 .multilineTextAlignment(.center)

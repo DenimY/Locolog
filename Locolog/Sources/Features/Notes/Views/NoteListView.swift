@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftData
+import CoreLocation
 
 struct NoteListView: View {
     // macOS: SidebarView로부터 주입 / iOS: 기본값 사용
@@ -10,6 +11,8 @@ struct NoteListView: View {
     @Query(sort: \Note.updatedAt, order: .reverse) private var allNotes: [Note]
     @Query private var allFolders: [Folder]
     @Query(sort: \SmartFolder.position) private var smartFolders: [SmartFolder]
+    @ObservedObject private var locationManager = LocationManager.shared
+    @ObservedObject private var deepLink = DeepLinkRouter.shared
 
     @State private var searchText = ""
     @State private var sortOrder: NoteSortOrder = .updatedAt
@@ -27,6 +30,7 @@ struct NoteListView: View {
     @State private var iOSSelectedFolderId: UUID? = nil
     @State private var iOSSelectedSmartFolderId: UUID? = nil
     @State private var iOSSelectedTag: String? = nil
+    @State private var timePlaceFilter: TimePlaceFilter = .today
 
     private var usedTagNames: [String] {
         let names = allNotes.filter { !$0.isDeleted }.flatMap { $0.parsedTagNames }
@@ -56,10 +60,15 @@ struct NoteListView: View {
                 result = result.filter { $0.parsedTagNames.contains(tag) }
             }
         }
+        result = applyTimePlaceFilter(timePlaceFilter, to: result)
         #else
         switch selectedItem {
         case .allNotes, .calendar, .map, .trash:
             break
+        case .today:
+            result = applyTimePlaceFilter(.today, to: result)
+        case .nearby:
+            result = applyTimePlaceFilter(.nearby, to: result)
         case .favorites:
             result = result.filter { $0.isFavorited }
         case .smartFolder(let sf):
@@ -87,6 +96,22 @@ struct NoteListView: View {
         case .title:     result.sort { $0.displayTitle.localizedCompare($1.displayTitle) == .orderedAscending }
         }
         return result
+    }
+
+    private func applyTimePlaceFilter(_ filter: TimePlaceFilter, to notes: [Note]) -> [Note] {
+        switch filter {
+        case .all:
+            return notes
+        case .today:
+            return notes.filter { Calendar.current.isDateInToday($0.createdAt) }
+        case .nearby:
+            guard let here = locationManager.currentLocation else { return [] }
+            return notes.filter { note in
+                guard let lat = note.locationLat, let lng = note.locationLng else { return false }
+                let point = CLLocation(latitude: lat, longitude: lng)
+                return point.distance(from: here) <= 1_000
+            }
+        }
     }
 
     private func applySmartFolderFilter(_ f: NoteFilter, to notes: [Note]) -> [Note] {
@@ -145,8 +170,34 @@ struct NoteListView: View {
         return ids
     }
 
+    private var activeTimePlaceFilter: TimePlaceFilter {
+        #if os(iOS)
+        timePlaceFilter
+        #else
+        switch selectedItem {
+        case .today:  return .today
+        case .nearby: return .nearby
+        default:      return .all
+        }
+        #endif
+    }
+
     private var navigationTitle: String {
         #if os(iOS)
+        let hasSpecific: Bool = {
+            switch filterMode {
+            case .categories:   return iOSSelectedFolderId != nil
+            case .smartFolders: return iOSSelectedSmartFolderId != nil
+            case .tags:         return iOSSelectedTag != nil
+            }
+        }()
+        if !hasSpecific {
+            switch timePlaceFilter {
+            case .today:  return "오늘"
+            case .nearby: return "여기 근처"
+            case .all:    break
+            }
+        }
         switch filterMode {
         case .categories:
             if let id = iOSSelectedFolderId,
@@ -163,6 +214,8 @@ struct NoteListView: View {
         #else
         switch selectedItem {
         case .allNotes:           return "전체 메모"
+        case .today:              return "오늘"
+        case .nearby:             return "여기 근처"
         case .calendar:           return "캘린더"
         case .map:                return "지도"
         case .favorites:          return "즐겨찾기"
@@ -231,6 +284,18 @@ struct NoteListView: View {
                     iOSSelectedSmartFolderId = nil
                     iOSSelectedTag          = nil
                 }
+                .onChange(of: timePlaceFilter) { _, filter in
+                    if filter == .nearby {
+                        Task { await locationManager.requestLocation() }
+                    }
+                }
+                .onChange(of: deepLink.pending) { _, pending in
+                    handleDeepLink(pending)
+                }
+                .onAppear {
+                    handleDeepLink(deepLink.pending)
+                    requestNearbyIfNeeded()
+                }
         }
         #else
         noteContent
@@ -246,6 +311,16 @@ struct NoteListView: View {
                     }
                     .pickerStyle(.menu)
                 }
+            }
+            .onChange(of: deepLink.pending) { _, pending in
+                handleDeepLink(pending)
+            }
+            .onChange(of: selectedItem) { _, _ in
+                requestNearbyIfNeeded()
+            }
+            .onAppear {
+                handleDeepLink(deepLink.pending)
+                requestNearbyIfNeeded()
             }
         #endif
     }
@@ -270,6 +345,37 @@ struct NoteListView: View {
     #if os(iOS)
     private var filterBar: some View {
         VStack(spacing: 0) {
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 8) {
+                    FilterChip(
+                        title: "오늘",
+                        color: .orange,
+                        icon: "sun.max",
+                        isSelected: timePlaceFilter == .today
+                    ) {
+                        timePlaceFilter = timePlaceFilter == .today ? .all : .today
+                    }
+                    FilterChip(
+                        title: "여기",
+                        color: Color.accentColor,
+                        icon: "location.circle",
+                        isSelected: timePlaceFilter == .nearby
+                    ) {
+                        timePlaceFilter = timePlaceFilter == .nearby ? .all : .nearby
+                    }
+                    FilterChip(
+                        title: "전체",
+                        color: .secondary,
+                        isSelected: timePlaceFilter == .all
+                    ) {
+                        timePlaceFilter = .all
+                    }
+                }
+                .padding(.horizontal, 16)
+                .padding(.top, 10)
+                .padding(.bottom, 4)
+            }
+
             Picker("필터", selection: $filterMode) {
                 ForEach(IOSFilterMode.allCases) { mode in
                     Text(LocalizedStringKey(mode.label)).tag(mode)
@@ -384,7 +490,7 @@ struct NoteListView: View {
     private var iosList: some View {
         List(filteredNotes) { note in
             NavigationLink(value: note) {
-                NoteRowView(note: note, color: rowColor(for: note))
+                NoteRowView(note: note, color: rowColor(for: note), folder: folder(for: note))
             }
             .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                 Button(role: .destructive) { deleteNote(note) } label: {
@@ -401,7 +507,7 @@ struct NoteListView: View {
     #if !os(iOS)
     private var macOSList: some View {
         List(filteredNotes, selection: $selectedNote) { note in
-            NoteRowView(note: note, color: rowColor(for: note))
+            NoteRowView(note: note, color: rowColor(for: note), folder: folder(for: note))
                 .tag(note)
                 .draggable(NoteTransfer(noteId: note.id))
                 .contextMenu {
@@ -413,8 +519,7 @@ struct NoteListView: View {
                     Divider()
                     Button {
                         note.isFavorited.toggle()
-                        note.isDirty = true
-                        try? context.save()
+                        note.saveDirty(in: context)
                     } label: {
                         Label(
                             note.isFavorited ? "즐겨찾기 해제" : "즐겨찾기 추가",
@@ -425,8 +530,7 @@ struct NoteListView: View {
                         ForEach(NoteType.allCases, id: \.rawValue) { type in
                             Button {
                                 note.noteType = type
-                                note.isDirty = true
-                                try? context.save()
+                                note.saveDirty(in: context)
                             } label: {
                                 Label(LocalizedStringKey(type.label), systemImage: type.icon)
                             }
@@ -436,8 +540,7 @@ struct NoteListView: View {
                     if note.folderId != nil {
                         Button {
                             note.folderId = nil
-                            note.isDirty = true
-                            try? context.save()
+                            note.saveDirty(in: context)
                         } label: {
                             Label("폴더에서 제거", systemImage: "folder.badge.minus")
                         }
@@ -465,11 +568,9 @@ struct NoteListView: View {
 
     private var emptyState: some View {
         ContentUnavailableView {
-            Label("메모 없음", systemImage: "note.text")
+            Label(emptyStateTitle, systemImage: emptyStateIcon)
         } description: {
-            Text(searchText.isEmpty
-                 ? "오른쪽 위 버튼을 눌러 첫 메모를 작성하세요."
-                 : "'\(searchText)' 검색 결과가 없습니다.")
+            Text(emptyStateDescription)
         } actions: {
             if searchText.isEmpty {
                 Button("새 메모", action: createNote).buttonStyle(.borderedProminent)
@@ -486,7 +587,76 @@ struct NoteListView: View {
         #endif
     }
 
+    private var emptyStateTitle: String {
+        if !searchText.isEmpty { return "검색 결과 없음" }
+        switch activeTimePlaceFilter {
+        case .today:  return "오늘 던진 메모 없음"
+        case .nearby: return "이 근처 메모 없음"
+        case .all:    return "메모 없음"
+        }
+    }
+
+    private var emptyStateIcon: String {
+        switch activeTimePlaceFilter {
+        case .today:  return "sun.max"
+        case .nearby: return "location.circle"
+        case .all:    return "note.text"
+        }
+    }
+
+    private var emptyStateDescription: String {
+        if !searchText.isEmpty {
+            return "'\(searchText)' 검색 결과가 없습니다."
+        }
+        switch activeTimePlaceFilter {
+        case .today:
+            return "적으면 오늘 여기에 모입니다. 장소가 목차입니다."
+        case .nearby:
+            if locationManager.currentLocation == nil {
+                switch locationManager.status {
+                case .failed, .timedOut:
+                    return "위치 권한이 있으면 이 근처에서 적은 메모를 보여 줍니다."
+                default:
+                    return "지금 위치를 확인하고 있습니다."
+                }
+            }
+            return "이 근처에서 적은 메모가 없습니다."
+        case .all:
+            return "적으면 장소가 목차가 됩니다. 회사면 회의록, 마트면 장보기."
+        }
+    }
+
     // MARK: - 액션
+
+    private func requestNearbyIfNeeded() {
+        #if os(iOS)
+        guard timePlaceFilter == .nearby else { return }
+        #else
+        guard selectedItem == .nearby else { return }
+        #endif
+        Task { await locationManager.requestLocation() }
+    }
+
+    private func handleDeepLink(_ pending: DeepLink?) {
+        guard let pending else { return }
+        switch pending {
+        case .newNote:
+            deepLink.consume()
+            createNote()
+        case .openNote(let id):
+            if let note = allNotes.first(where: { $0.id == id && !$0.isDeleted }) {
+                #if os(iOS)
+                navigationPath = NavigationPath()
+                navigationPath.append(note)
+                #else
+                selectedNote = note
+                #endif
+            }
+            deepLink.consume()
+        case .open:
+            deepLink.consume()
+        }
+    }
 
     private func createNote() {
         let folderId: UUID?
@@ -500,7 +670,7 @@ struct NoteListView: View {
         let note = Note()
         note.folderId = folderId
         context.insert(note)
-        try? context.save()
+        SyncManager.shared.saveAndSync(context: context)
 
         #if os(iOS)
         navigationPath.append(note)
@@ -511,8 +681,7 @@ struct NoteListView: View {
 
     private func deleteNote(_ note: Note) {
         note.isDeleted = true
-        note.isDirty   = true
-        try? context.save()
+        note.saveDirty(in: context)
         #if !os(iOS)
         if selectedNote?.id == note.id { selectedNote = nil }
         #endif
@@ -527,17 +696,19 @@ struct NoteListView: View {
         }
         for note in allNotes where note.folderId == folderId {
             note.folderId = nil
-            note.isDirty = true
+            note.markDirty()
         }
         IconManager.deleteIcon(urlString: folder.iconImagePath)
+        SyncManager.shared.enqueueDeletedFolder(folder.id)
         context.delete(folder)
-        try? context.save()
+        SyncManager.shared.saveAndSync(context: context)
     }
 
     private func deleteSmartFolder(_ sf: SmartFolder) {
         if iOSSelectedSmartFolderId == sf.id { iOSSelectedSmartFolderId = nil }
+        SyncManager.shared.enqueueDeletedSmartFolder(sf.id)
         context.delete(sf)
-        try? context.save()
+        SyncManager.shared.saveAndSync(context: context)
     }
     #endif
 }
@@ -548,6 +719,11 @@ enum NoteSortOrder: String, CaseIterable, Identifiable {
     case updatedAt = "수정일"
     case createdAt = "생성일"
     case title     = "가나다"
+    var id: String { rawValue }
+}
+
+enum TimePlaceFilter: String, CaseIterable, Identifiable {
+    case today, nearby, all
     var id: String { rawValue }
 }
 

@@ -25,6 +25,20 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<false/>
 	</dict>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>com.locolog.app</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>locolog</string>
+				<string>com.locolog.app</string>
+			</array>
+		</dict>
+	</array>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>메모 작성 시 현재 위치를 자동으로 기록합니다.</string>
 	<key>NSUserNotificationsUsageDescription</key>

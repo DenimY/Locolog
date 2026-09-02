@@ -32,6 +32,7 @@
 		319663A73744B3A0475F3D02 /* LocologApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12CD83A1B8A6465CCA4F4202 /* LocologApp.swift */; };
 		32B9EDD6A54704B605AB2CC4 /* AICommandView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88514EA26DF190B017BCEFBB /* AICommandView.swift */; };
 		339A498B5FF769750BE6BFAD /* HighlightrCodeHighlighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD0B46E20EA05A7CE158D9CA /* HighlightrCodeHighlighter.swift */; };
+		3683C37A50FA9107F0BF23DE /* DeepLinkRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E040B842537EA3C88522BC6 /* DeepLinkRouter.swift */; };
 		3833F6FF0D1FADEF4BF0BAA2 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D0AF9DA9AD2C0C5B0410C4 /* LocationManager.swift */; };
 		3924FCA5AF6394FFC2ECF130 /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = D3B45BED6DFBE90929814402 /* MarkdownUI */; };
 		3C7562260C4DC2151C1237C3 /* AttachmentBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6440406A78F1F3F39DF0E923 /* AttachmentBar.swift */; };
@@ -58,16 +59,19 @@
 		579478F950D08D74D4372E3A /* NoteEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1652CCD7C0F138788EEF524 /* NoteEditorView.swift */; };
 		591A4F4246D6ECBBE6FDBE7C /* SidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7919F5E27B7E93E9511A6E6 /* SidebarView.swift */; };
 		624E8E0448545AA105CB06E3 /* SmartFolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4886117789F0CFFE4F93C886 /* SmartFolder.swift */; };
+		625A6E70F48792A0995F0AB2 /* CategoryIconDock.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD9C2F01D25EF71835777E17 /* CategoryIconDock.swift */; };
 		6330F63D1AA185858183E757 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D123980EB550EC0AD907DE8 /* CalendarView.swift */; };
 		641D2F0D7C158F48C4A1B061 /* IconPickerSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5D8057E6C9029652125E88 /* IconPickerSheet.swift */; };
 		6629BDBB3DE6DF12FD515AB2 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D123980EB550EC0AD907DE8 /* CalendarView.swift */; };
 		6BBEFF4D250D64F471ADB144 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 362C92BF131539B135A4FD89 /* MapView.swift */; };
 		6CCC0A8027B7CF4EF014FCC5 /* LogRendererView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB776EE61894E544936A73DA /* LogRendererView.swift */; };
+		6E69827FA08955E2555B36D4 /* CategoryStamp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4AD04A9B12974BAEE26BBE /* CategoryStamp.swift */; };
 		703FB262CC3FF1143A26B392 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DE38D26DA8433708023FAF5 /* RootView.swift */; };
 		707CC0FFEE19D0CFD3093BA9 /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 623C1A1AC9044FC382C9FB6E /* KeychainManager.swift */; };
 		796800866C4AF8D89706F53B /* IconPickerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724810EA7915FBEBFA5C49D1 /* IconPickerButton.swift */; };
 		7A5243BBBB64291577DEEEFC /* MapCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CAD40D981D0D0B20DF4828 /* MapCalendarView.swift */; };
 		7AF89978B4D3889153F8E722 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = D5EF5F8E504401F9CB1036E6 /* Localizable.xcstrings */; };
+		7B24E10B37F3DCD4CE9DC9CC /* CategoryIconDock.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD9C2F01D25EF71835777E17 /* CategoryIconDock.swift */; };
 		7D54D43D1C962E239997AB84 /* ExportSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6053E5550C5855959C8D4E1 /* ExportSheet.swift */; };
 		80A2C0DDC1C4042319B39231 /* AppLanguage.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEDC2A32EA398C8FA799BB5 /* AppLanguage.swift */; };
 		88B22A623A1671A6E38817F0 /* MapCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CAD40D981D0D0B20DF4828 /* MapCalendarView.swift */; };
@@ -96,6 +100,7 @@
 		B52519D38F31D4DC0C290A17 /* NoteDetailPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E10C9983C4AB2CC022617A3 /* NoteDetailPanel.swift */; };
 		B6CEC3C0AA09808C35974826 /* SyncManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48719F4B03D0F5140DDCE4C6 /* SyncManager.swift */; };
 		B748189AB681DBE24C5F8A9C /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = DB1C537C8F8A9EC2F3903F4C /* Supabase */; };
+		BAD550C3BA6548E90FE17AB6 /* DeepLinkRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E040B842537EA3C88522BC6 /* DeepLinkRouter.swift */; };
 		BBD3F7A560A4BFAB2F872B25 /* SupabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3571A9A9994E85D83C1E0264 /* SupabaseService.swift */; };
 		BD9F5588881B1525C0CEFC42 /* IconManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6787507C02480CABCCD17C8C /* IconManager.swift */; };
 		BE377B23D10E35C4B0D5A6FC /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = D5EF5F8E504401F9CB1036E6 /* Localizable.xcstrings */; };
@@ -112,6 +117,7 @@
 		DD70D48803B945D4DF785E8C /* FolderBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EF4A0A17FB9A359F3ED0F4C /* FolderBrowserView.swift */; };
 		E01DCF327A9C86FA77335D39 /* SmartFolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4886117789F0CFFE4F93C886 /* SmartFolder.swift */; };
 		E6BCC213E519BE184A382734 /* CodeAccessoryToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355723C94FA4D49FD237DC5C /* CodeAccessoryToolbar.swift */; };
+		E9D4C7DACD63BF4D59F220CC /* CategoryStamp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4AD04A9B12974BAEE26BBE /* CategoryStamp.swift */; };
 		EA864F3205DDCE023354E543 /* LocologWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 833F00FCCADCB01A2C377D0A /* LocologWidgetBundle.swift */; };
 		ED0EE01B82BE84E617DDD652 /* ExportManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9972EAE7CF72DCE5CA63142 /* ExportManager.swift */; };
 		F03C7BC021C87DB72EC42C6C /* Highlightr in Frameworks */ = {isa = PBXBuildFile; productRef = 09BC81781221D1BC0DD78359 /* Highlightr */; };
@@ -143,6 +149,7 @@
 		072D64ADDBD800051FB4C6B8 /* LocologTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = LocologTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		08C18D03EFC05AF97DC6F7FE /* IconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconView.swift; sourceTree = "<group>"; };
 		0BA0239411D4F81065BAA80B /* AttachmentManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttachmentManager.swift; sourceTree = "<group>"; };
+		0E040B842537EA3C88522BC6 /* DeepLinkRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkRouter.swift; sourceTree = "<group>"; };
 		0E0FB5A93A5850AD4F16983B /* LocologWidget.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = LocologWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		10CC5B25E5E6EC35A4950027 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		12CD83A1B8A6465CCA4F4202 /* LocologApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocologApp.swift; sourceTree = "<group>"; };
@@ -193,9 +200,11 @@
 		D5EF5F8E504401F9CB1036E6 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		D9972EAE7CF72DCE5CA63142 /* ExportManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportManager.swift; sourceTree = "<group>"; };
 		DD0B46E20EA05A7CE158D9CA /* HighlightrCodeHighlighter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightrCodeHighlighter.swift; sourceTree = "<group>"; };
+		DD9C2F01D25EF71835777E17 /* CategoryIconDock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryIconDock.swift; sourceTree = "<group>"; };
 		E2CAD40D981D0D0B20DF4828 /* MapCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCalendarView.swift; sourceTree = "<group>"; };
 		E6053E5550C5855959C8D4E1 /* ExportSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportSheet.swift; sourceTree = "<group>"; };
 		E8C9008C17836E22544D4F63 /* SmartFolderFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartFolderFormView.swift; sourceTree = "<group>"; };
+		EB4AD04A9B12974BAEE26BBE /* CategoryStamp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryStamp.swift; sourceTree = "<group>"; };
 		EB776EE61894E544936A73DA /* LogRendererView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogRendererView.swift; sourceTree = "<group>"; };
 		ECEDC2A32EA398C8FA799BB5 /* AppLanguage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLanguage.swift; sourceTree = "<group>"; };
 		ECFD697EF5A141E8C7AD60FD /* LocologWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocologWidget.swift; sourceTree = "<group>"; };
@@ -372,6 +381,7 @@
 			isa = PBXGroup;
 			children = (
 				661A0E0045096E7D7C61B836 /* ContentView.swift */,
+				0E040B842537EA3C88522BC6 /* DeepLinkRouter.swift */,
 				12CD83A1B8A6465CCA4F4202 /* LocologApp.swift */,
 				8DE38D26DA8433708023FAF5 /* RootView.swift */,
 			);
@@ -586,6 +596,7 @@
 			isa = PBXGroup;
 			children = (
 				C4FB7377E124E5A101E6C327 /* Category.swift */,
+				EB4AD04A9B12974BAEE26BBE /* CategoryStamp.swift */,
 				280272BC0F2C7CFC33425BB8 /* Folder.swift */,
 				A4F7A5632AF8E7479600755E /* Note.swift */,
 				4886117789F0CFFE4F93C886 /* SmartFolder.swift */,
@@ -639,6 +650,7 @@
 			isa = PBXGroup;
 			children = (
 				6440406A78F1F3F39DF0E923 /* AttachmentBar.swift */,
+				DD9C2F01D25EF71835777E17 /* CategoryIconDock.swift */,
 				355723C94FA4D49FD237DC5C /* CodeAccessoryToolbar.swift */,
 				DD0B46E20EA05A7CE158D9CA /* HighlightrCodeHighlighter.swift */,
 				647E237B177556AE6F04BAC4 /* ReminderPickerView.swift */,
@@ -883,8 +895,11 @@
 				ADDB3D9C72DEFBC51F375AA6 /* AuthManager.swift in Sources */,
 				6629BDBB3DE6DF12FD515AB2 /* CalendarView.swift in Sources */,
 				500B1F1E8FD50F0C73301F83 /* Category.swift in Sources */,
+				625A6E70F48792A0995F0AB2 /* CategoryIconDock.swift in Sources */,
+				E9D4C7DACD63BF4D59F220CC /* CategoryStamp.swift in Sources */,
 				B2816AA03B91E7DE54A2BD3C /* CodeAccessoryToolbar.swift in Sources */,
 				47B9AD838B23A454C98DB4C3 /* ContentView.swift in Sources */,
+				BAD550C3BA6548E90FE17AB6 /* DeepLinkRouter.swift in Sources */,
 				94851486B22D99CB3BDBE800 /* DragTransferTypes.swift in Sources */,
 				ED0EE01B82BE84E617DDD652 /* ExportManager.swift in Sources */,
 				4A27DEE65F96F304FE5008E8 /* ExportSheet.swift in Sources */,
@@ -956,8 +971,11 @@
 				A6EAD5688BB0D9A5F42BF8B5 /* AuthManager.swift in Sources */,
 				6330F63D1AA185858183E757 /* CalendarView.swift in Sources */,
 				CAA11490488CE6C403E7EED6 /* Category.swift in Sources */,
+				7B24E10B37F3DCD4CE9DC9CC /* CategoryIconDock.swift in Sources */,
+				6E69827FA08955E2555B36D4 /* CategoryStamp.swift in Sources */,
 				E6BCC213E519BE184A382734 /* CodeAccessoryToolbar.swift in Sources */,
 				0CE7B04F9A5E8AF1F0D78762 /* ContentView.swift in Sources */,
+				3683C37A50FA9107F0BF23DE /* DeepLinkRouter.swift in Sources */,
 				A1157B7DD13F9EC995AF9EAC /* DragTransferTypes.swift in Sources */,
 				4297B33E9021338F3ED06BE7 /* ExportManager.swift in Sources */,
 				7D54D43D1C962E239997AB84 /* ExportSheet.swift in Sources */,

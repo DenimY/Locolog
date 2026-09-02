@@ -208,6 +208,7 @@ struct SmartFolderFormView: View {
             context.insert(SmartFolder(name: trimmed, filter: filter, position: smartFolders.count))
         }
         try? context.save()
+        SyncManager.shared.scheduleSync(context: context)
         dismiss()
     }
 }

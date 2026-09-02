@@ -67,7 +67,7 @@ struct FolderBrowserView: View {
                         Section("메모") {
                             ForEach(notesHere) { note in
                                 NavigationLink(value: note) {
-                                    NoteRowView(note: note, color: nil)
+                                    NoteRowView(note: note, color: nil, folder: folder)
                                 }
                                 .swipeActions(edge: .trailing) {
                                     Button(role: .destructive) { deleteNote(note) } label: {
@@ -81,8 +81,7 @@ struct FolderBrowserView: View {
                                     if note.folderId != nil {
                                         Button {
                                             note.folderId = nil
-                                            note.isDirty = true
-                                            try? context.save()
+                                            note.saveDirty(in: context)
                                         } label: {
                                             Label("폴더에서 제거", systemImage: "folder.badge.minus")
                                         }
@@ -156,13 +155,12 @@ struct FolderBrowserView: View {
         let note = Note()
         note.folderId = folder?.id
         context.insert(note)
-        try? context.save()
+        SyncManager.shared.saveAndSync(context: context)
     }
 
     private func deleteNote(_ note: Note) {
         note.isDeleted = true
-        note.isDirty = true
-        try? context.save()
+        note.saveDirty(in: context)
     }
 
     private func deleteFolder(_ target: Folder) {
@@ -172,11 +170,12 @@ struct FolderBrowserView: View {
         }
         for note in allNotes where note.folderId == folderId {
             note.folderId = nil
-            note.isDirty = true
+            note.markDirty()
         }
         IconManager.deleteIcon(urlString: target.iconImagePath)
+        SyncManager.shared.enqueueDeletedFolder(target.id)
         context.delete(target)
-        try? context.save()
+        SyncManager.shared.saveAndSync(context: context)
     }
 }
 
@@ -254,8 +253,7 @@ struct FolderPickerSheet: View {
 
     private func move(to folderId: UUID?) {
         note.folderId = folderId
-        note.isDirty = true
-        try? context.save()
+        note.saveDirty(in: context)
         dismiss()
     }
 }

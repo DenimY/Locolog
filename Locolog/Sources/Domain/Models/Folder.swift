@@ -12,12 +12,13 @@ final class Folder {
     var iconEmoji: String?       // 폴더 이름 앞에 표시할 이모지
     var iconImagePath: String?   // 폴더 이름 앞에 표시할 커스텀 이미지 (Documents/NoteIcons/)
 
-    init(name: String, parentId: UUID? = nil, position: Int = 0, colorHex: String? = nil) {
+    init(name: String, parentId: UUID? = nil, position: Int = 0, colorHex: String? = nil, iconEmoji: String? = nil) {
         self.id = UUID()
         self.name = name
         self.parentId = parentId
         self.position = position
         self.colorHex = colorHex
+        self.iconEmoji = iconEmoji
     }
 
     var color: Color {

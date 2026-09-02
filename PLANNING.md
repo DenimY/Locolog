@@ -1,7 +1,8 @@
-# Locolog — 기획서 v0.5
+# Locolog — 기획서 v0.7
 
 > 날짜·위치 자동 태깅 기반의 스마트 메모 앱  
-> **"무지성으로 던져도 자동 정리되는 메모장"**
+> **"무지성으로 던져도 자동 정리되는 메모장"**  
+> **발길과 날짜가 목차가 되는 메모장**
 
 ---
 
@@ -12,10 +13,19 @@
 | 앱 이름 | **Locolog** |
 | 플랫폼 | **iOS + macOS** (SwiftUI Multiplatform 단일 코드베이스) |
 | 배포 | App Store (iOS) + Mac App Store (macOS) |
+| 한 줄 | 생각난 것을 던지면, 언제·어디서 적었는지로 다시 찾는다 |
 | 핵심 가치 | 메모하면 날짜·장소가 자동으로 붙고, 나중에 찾을 수 있다 |
 | 디자인 철학 | 가볍고, 심플하고, 직관적 — Mac 기본 메모 앱처럼 |
 
-> Android는 현재 계획에서 제외. 추후 필요 시 Kotlin Multiplatform(KMM) 또는 React Native로 별도 검토.
+Locolog는 Apple Notes를 대체하는 두 번째 뇌가 아니다. Notion·Obsidian 같은 워크스페이스·PKM·위키도 아니다. **시간과 장소가 정리의 축인 생각 로그**다.
+
+### 왜 이 앱인가
+
+분류를 잘 안 하는 사람이, 적은 **장소**로 다시 찾게 하려고 만들었다. 회사에서 적은 것은 회의록이 되고, 마트에서 적은 것은 장보기가 되고, 집에서 적은 것은 메모지가 된다. 장소가 1차 분류다.
+
+그 안에서 한 번 더 나누고 싶을 때만 폴더 이름을 치지 않는다. **미리 둔 아이콘을 글에 끌어 붙이거나 탭하면** 된다.
+
+> Android는 현재 계획에서 제외. 추후 필요 시 별도 검토.
 
 ---
 
@@ -24,56 +34,108 @@
 ### 핵심 3원칙
 
 1. **가볍게 (Lightweight)**
-   - 앱 실행 → 메모 시작까지 탭 1회
+   - 앱 실행 → 메모 시작까지 탭 1회 (위젯·공유 시트는 탭 0~1회)
    - 불필요한 설정, 온보딩, 팝업 최소화
    - OS 내장 API 최대 활용 → 서드파티 의존 최소화
 
 2. **심플하게 (Simple)**
    - Mac 기본 메모 앱의 3-패널 레이아웃 참조
-   - 아이콘보다 행동이 명확한 레이블 우선
+   - 아이콘보다 행동이 명확한 레이블 우선 (내비게이션)
+   - **분류만은 예외**: 글자 입력 대신 아이콘 한 번
    - 화면 전환 최소화, 모달보다 인라인 편집
+   - **쓰는 순간에 분류를 요구하지 않는다**
 
 3. **직관적으로 (Intuitive)**
    - 처음 쓰는 사람도 설명 없이 사용 가능
    - 날짜·위치는 사용자가 신경 쓸 필요 없이 자동
-   - 검색과 필터는 항상 한 번에 접근 가능
+   - 찾기는 캘린더(언제) / 지도(어디) / 검색(단어)이 동급
 
 ### UI 레퍼런스
-- **구조**: Apple Notes (사이드바 + 목록 + 에디터 3단 레이아웃)
-- **에디터**: Notion / Slack 스타일 마크다운 (코드 블록, 인라인 포맷)
-- **캘린더**: 미니멀 히트맵 달력 (GitHub 잔디 스타일)
+- **구조**: Apple Notes (사이드바 + 목록 + 에디터 3단)
+- **캡처**: Google Keep 위젯 — 앱을 깊게 열지 않고 던지기
+- **에디터**: 가벼운 마크다운 (코드 블록, 인라인 포맷). 블록 DB 아님
+- **캘린더**: 미니멀 히트맵 (GitHub 잔디 스타일)
+
+### 하지 않는 것 (잠금)
+
+- Notion식 데이터베이스, 템플릿, 슬래시 워크스페이스
+- OneNote식 공책·섹션을 **기본 화면**으로 두는 것
+- Obsidian 그래프 / 백링크를 전면에
+- Evernote식 웹 클리퍼를 핵심 기능으로
+- 온보딩에서 폴더·태그 체계를 가르치기
+- 세컨드 브레인, PKM, 위키를 제품 언어로 쓰기
+
+---
+
+## 2.5 사용 방식 (핵심 루프)
+
+사람들이 많이 쓰는 메모 앱은 **넣는 순간에 분류하지 않고**, 나중에 찾는다. Locolog도 그 습관을 따르되, 정리의 주체는 사용자가 아니라 **시각과 장소**다.
+
+```
+던지기 (주로 폰)
+    제목·폴더·태그 없이 적고 나간다
+    작성 시각·위치가 붙는다
+        │
+        ▼
+찾기 (폰 또는 맥)
+    캘린더 — 언제
+    지도 / 여기 근처 — 어디
+    검색 — 단어
+    오늘 — 오늘 던진 것
+        │
+        ▼
+다듬기 (주로 맥)
+    폰에서 던진 메모를 펼쳐 고친다
+    iPhone ↔ Mac 동기화가 이 루프의 전제
+```
+
+**쓰는 순간에 하면 안 되는 것**
+- 폴더를 먼저 고르기
+- 제목 칸을 채우기
+- 태그 체계를 설계하기
+- 저장 버튼을 누르기
+
+폴더·`#태그`·스마트폴더는 **나중에 가끔 쓰는 선반**이다. 매일의 정리는 이미 끝난 상태여야 한다.
+
+**한 번 더 나누고 싶을 때**
+- 폴더 이름을 입력하지 않는다
+- 에디터 상단(또는 하단)의 아이콘을 본문에 드래그하거나, 아이콘을 탭한다
+- 프리셋: 회의 · 코드 · 장보기 · 집 · 아이디어. 없으면 그 순간 폴더가 생긴다
+- 안 붙여도 장소·날짜로 이미 찾을 수 있다
 
 ---
 
 ## 3. 핵심 기능 정의
 
-### 3-1. 메모 작성
+### 3-1. 메모 작성 (던지기)
+
+#### 빠른 진입
+- 앱 안: 탭 1회로 빈 메모
+- iOS 홈 위젯: **탭하면 새 메모** (최근 목록만 보여주는 위젯이 아님). 중형 위젯은 새 메모 + 최근 몇 개 열기
+- 가능하면 공유 시트·제어 센터 등 시스템 진입점 추가
+- 생성 시 폴더·제목을 묻지 않는다. 빈 메모가 곧 로그 한 줄이다
 
 #### 자동 제목 (Auto-Titling)
-- **제목 입력란 없음** — 유저가 작성한 첫 번째 줄을 자동으로 목록 제목으로 표시 (Apple Notes 방식)
-- 첫 줄이 비어 있으면 작성 날짜+시각을 제목으로 fallback
+- **제목 입력란 없음** — 첫 번째 줄을 목록 제목으로 (Apple Notes 방식)
+- 첫 줄이 비면 작성 날짜+시각으로 fallback
 
 #### 자동 저장 (Auto-Save)
-- 타이핑할 때마다 SwiftData에 실시간 저장 — 저장 버튼 없음
-- 앱 종료, 백그라운드 전환, 뒤로가기 시 데이터 유실 없음
-- `onChange(of: content)` 디바운스(0.3s) 후 SwiftData 쓰기
+- 저장 버튼 없음. 앱 종료·백그라운드·뒤로가기 시 유실 없음
+- **메모리 + `isDirty`: 키 입력 즉시**
+- **디스크**: `onChange` 디바운스 0.3초 후 SwiftData 쓰기
+- **원격**: 로그인된 경우 약 2초 디바운스 후 push
+- 에디터를 떠나거나 백그라운드로 갈 때, 아직 안 쓴 내용만 즉시 flush
 
 #### 에디터
-- **마크다운 기반 에디터**: Markdown 원문 `String` 저장, 뷰어에서 `swift-markdown-ui` 렌더링
-- SwiftUI 네이티브 `TextEditor` + 마크다운 툴바 조합 (외부 에디터 라이브러리 불필요)
+- Markdown 원문 `String` 저장, 뷰어에서 `swift-markdown-ui` 렌더링
+- SwiftUI `TextEditor` + 마크다운 툴바
 - 굵게 / 기울임 / 목록 / 체크박스 / 코드 블록 / 인라인 코드
-- 이미지 첨부 (Phase 2)
+- 이미지 첨부는 로컬 저장 (Storage 동기화는 이후)
 
-#### 개발자용 코드 입력 툴바 (Input Accessory View)
-- iPhone 소프트 키보드 바로 위에 고정되는 한 줄 툴바
-- 원터치 삽입 버튼:
-
-  ```
-  [```] [{] [}] [(] [)] [[] []] [_] [->] [//] [언어▾]
-  ```
-
-- **[언어▾]** 드롭다운: swift / python / javascript / bash / json / sql 선택 → ` ```언어\n\n``` ` 자동 삽입, 커서를 블록 내부로 이동
-- macOS에서는 Touch Bar 또는 에디터 상단 툴바로 동일하게 노출
+#### 개발자용 코드 입력 툴바 _(숨은 힘 — 전면 기능 아님)_
+- iPhone 키보드 위 한 줄: 백틱, 괄호, 언어 선택
+- macOS는 에디터 툴바로 동일 노출
+- 처음 연 사람은 이 툴바를 몰라도 “적고 달력에서 다시 본다”만 알면 된다
 
 ### 3-2. 자동 메타데이터
 
@@ -88,149 +150,135 @@
 
 > **⚠️ iOS 위치 권한 전략 (App Store 심사 리스크 방지)**
 > - `NSLocationWhenInUseUsageDescription` 만 사용 (When In Use)
-> - 백그라운드 위치 수집 없음 — 메모 앱 카테고리에서 Always 권한 요청 시 심사 거절
-> - 권한 거부 시 메모 정상 저장, 위치 필드 공란. 수동 입력 가능.
-> - CLGeocoder: Apple 서버 사용, 무료, 별도 API 키 불필요
+> - 백그라운드 위치 수집 없음 — Always 요청 시 심사 거절
+> - 권한 거부 시 메모 정상 저장, 위치 필드 공란. 수동 입력 가능
+> - CLGeocoder: Apple 서버, 무료, API 키 불필요
 
-> **⚠️ macOS 위치 특이사항 (Sandbox 환경)**
-> - macOS는 GPS 없음, Wi-Fi 기반 위치 (정확도 낮음, 첫 실행 시 5~10초 딜레이 가능)
-> - 에디터 진입 시 상단에 소형 위치 로딩 인디케이터 표시
-> - 실패/타임아웃(10초) 시 → "최근 사용한 장소" 목록 또는 "장소 수동 입력" 팝업으로 자연 전환
-> - Mac App Store 출시 시 `com.apple.security.personal-information.location` entitlement 필수
+> **⚠️ macOS 위치 특이사항 (Sandbox)**
+> - GPS 없음, Wi-Fi 기반. 첫 실행 5~10초 딜레이 가능
+> - 에디터 상단 위치 로딩 인디케이터
+> - 실패/타임아웃(10초) → 장소 수동 입력
+> - Mac App Store: `com.apple.security.personal-information.location` 필수
 
-### 3-3. 카테고리 & 태그
-- 사용자 정의 카테고리 (폴더 구조, 색상 지정)
-- 해시태그 자동 인식 (`#태그`)
-- 기본: 전체 / 미분류
+### 3-3. 폴더 & 태그 _(찾기 보조, 필수 분류 아님)_
 
-### 3-4. 캘린더 뷰
-- 월간 캘린더에서 메모 작성일 시각화 (히트맵)
+- **1차 분류는 장소다.** 회사 / 마트 / 집은 필터·지도·여기 근처로 나뉜다
+- **2차 분류는 아이콘 스탬프.** 에디터 상단 독. 드래그하거나 탭 한 번. 글자 입력 아님
+- 트리형 폴더 (구 카테고리). 색·아이콘. 스탬프로 생긴 폴더가 사이드바에 나타난다
+- 해시태그 자동 인식 (`#태그`). 태그의 소스는 본문 파싱
+- 기본 보기: **오늘 / 여기 근처 / 전체**. 폴더는 그 아래
+- 빈 화면 카피: “폴더를 만드세요”가 아니라 **“적으면 장소가 목차가 됩니다”**
+
+### 3-4. 캘린더 뷰 _(주 찾기: 언제)_
+
+- 월간 히트맵으로 작성일 시각화
 - 날짜 탭 → 해당일 메모 목록
-- SwiftUI 커스텀 컴포넌트
+- 기본 제공 뷰 **오늘**과 같은 축 (오늘 = 오늘 작성한 로그)
 
-### 3-5. 검색 & 필터 + 스마트 폴더
+### 3-5. 지도 · 검색 · 스마트 폴더
 
-#### 기본 검색 & 필터
-- 전문 검색 (내용, POI명, 태그 통합)
-- 필터 조합: 날짜 범위 + 위치 + 카테고리 + 태그
+#### 지도 _(주 찾기: 어디)_
+- MapKit 핀 클러스터
+- 기본 제공 뷰 **여기 근처**: 현재 위치 반경(약 1km) 안의 메모
+- Always 권한 없이, 앱이 포그라운드일 때 현재 위치와 비교
+
+#### 검색
+- 내용, POI, 태그 통합
+- 필터: 날짜 범위 + 위치 + 폴더 + 태그
 - 최근 검색어 저장
 
-#### 스마트 폴더 (Smart Folders)
-- 필터 조합을 이름 붙여 저장 → 사이드바에 카테고리와 동일 레벨로 고정
-- 예: `[카테고리: 개발] + [위치: 강남구]` → "강남 작업실 코드"
-- 조건에 맞는 메모가 자동으로 해당 폴더에 집계 (실제 이동 아님, 가상 필터)
-- `SmartFolder` 모델에 필터 조건을 JSON 직렬화하여 저장
+#### 스마트 폴더 _(파워유저, 사이드바 하단)_
+- 필터 조합을 이름 붙여 저장. 실제 이동 아님
+- 예: `[폴더: 개발] + [위치: 강남구]` → "강남 작업실 코드"
+- 사용자가 만들기 **전에** 앱이 오늘/여기를 제공한다
 
 ### 3-6. 알림 & 캘린더 연동
 
-#### 로컬 알림 (기본)
-- 메모 작성 시 선택적 알림 설정 (`UserNotifications`)
-- `reminder_at`은 앱 내부 DB에만 저장, 외부 캘린더와 무관
-- 반복 알림 지원
+#### 로컬 알림
+- 메모별 선택 알림 (`UserNotifications`)
+- `reminder_at`은 앱 DB. 외부 캘린더와 무관
 
-#### 기기 간 알림 동기화
-- 앱 실행/포그라운드 복귀 시 Supabase `reminder_at` vs 로컬 `UNUserNotificationCenter` 예약 목록 비교
-- 누락된 알림 자동 재등록 (SyncManager가 처리)
-- **macOS**: iPhone에서 등록된 `reminder_at`이 Mac으로 동기화될 때, Mac 앱 포그라운드 복귀 시 `UNUserNotificationCenter`에 Mac 알림 센터 예약 스케줄러 실행
+#### 기기 간 알림
+- 동기화 후 `reminder_at` vs 로컬 예약 목록 비교, 누락분 재등록
+- Mac: iPhone에서 온 reminder를 포그라운드 복귀 시 알림 센터에 등록
 
-#### 위치 기반 리마인더 (포그라운드 지오펜싱)
-- 메모에 "장소 도착 시 알림" 설정 가능 (특정 좌표 + 반경 지정)
-- 구현 방식: 앱 포그라운드 복귀 시 현재 위치 vs 저장된 리마인더 위치 비교 (반경 500m 이내 → 알림)
-- **Always 권한 불필요** → `When In Use` 유지, App Store 심사 안전
-- 진짜 백그라운드 지오펜싱 아님 — "도착해서 앱 열면 알림"에 해당
+#### 위치 기반 리마인더 (포그라운드)
+- Keep식 “그 장소에 가면 떠오름”
+- 앱 포그라운드 복귀 시 현재 위치 vs 리마인더 좌표 (반경 500m)
+- Always 불필요. 백그라운드 지오펜싱 아님
 
-#### Google Calendar 연동 (완전 선택적)
+#### Google Calendar (완전 선택, 이후 작업)
+- 기본은 앱 알림만
+- 설정에서 토글 ON일 때 `calendar.events` Incremental Auth
+- 특정 메모만 “캘린더에 추가”
 
-```
-기본: reminder_at → 앱 DB + 로컬 푸시 알림만
-선택: 유저가 특정 메모에서 "Google Calendar에 추가" → 해당 메모만 이벤트 생성
-```
-
-| 상황 | 동작 |
-|---|---|
-| 기본 | 앱 DB + 로컬 알림 |
-| 유저가 설정 > "Google 캘린더 연동" 토글 ON | 그 시점에 `calendar.events` scope Incremental Auth 팝업 |
-| 특정 메모에서 "캘린더에 추가" 선택 | Google Calendar API로 이벤트 생성 |
-| 토글 OFF | 이후 연동 중단 (기존 이벤트 유지) |
-
-### 3-7. AI 기능 _(선택 사항 — 사용자 API 키 필요)_
-- 설정 > AI 연동에서 활성화
-- 지원 모델: **Claude (Anthropic)**, **OpenAI GPT**, **Google Gemini**
-- 기능: 메모 자동 요약 / 카테고리 분류 제안 / 관련 메모 추천
-- **AI 없이도 모든 기본 기능 완전 동작**
-- API 키는 기기 Keychain에만 저장, 서버 미보관
-- Supabase Edge Function을 통해 AI API 중계 (BYOK 방식)
+### 3-7. AI _(설정 안, 숨은 힘)_
+- 설정 > AI에서 활성화. BYOK: Claude / OpenAI / Gemini
+- 요약 / 분류 제안 / 관련 메모
+- **AI 없이도 기본 기능 전부 동작**
+- 키는 Keychain만, 서버 미보관
 
 ### 3-8. 기기 간 동기화
-- Google / Apple 로그인 → iPhone ↔ Mac 실시간 동기화 (Supabase Realtime)
-- 오프라인 작성 후 온라인 복귀 시 `isDirty = true` 메모만 `upsert` 동기화
-- 로그인 없이 로컬 전용 사용 가능 (SwiftData)
-- 충돌 해결: `updated_at` 기준 Last-write-wins, 충돌 감지 시 사용자 선택
+
+폰에서 던지고 맥에서 보는 루프의 전제다. 부가 기능이 아니다.
+
+- 로그인 없이 로컬 전용 가능 (기본 시작)
+- Apple / Google 로그인 → iPhone ↔ Mac
+- 오프라인 수정은 `isDirty`. 네트워크 복귀(NWPathMonitor) 시 dirty만 upsert
+- Postgres 변경 → debounce pull (Realtime). **편집 중 dirty 메모는 덮지 않음**
+- push 도중 로컬이 더 바뀌면 dirty를 유지 (전송 스냅샷과 비교)
+- 충돌 UI 없음. **로컬 dirty 우선**, 아니면 `updated_at` last-write-wins
+- 폴더·스마트폴더도 동기화. 노트에 `folder_id`, `note_type`, `is_favorited`, `icon_emoji`
+- 첨부·아이콘 **이미지 파일**은 아직 기기 로컬 (Storage는 이후)
 
 ---
 
 ## 4. 로그인 & 계정
 
-> **⚠️ App Store Guideline 4.0 방어 — 온보딩 구조**
->
-> Apple은 타사 소셜 로그인을 온보딩 전면에 강제 배치하는 것을 거절 사유로 봄.  
-> **"로컬로 시작"을 가장 크게, 소셜 로그인은 동기화 필요 시점에 유도.**
+> **⚠️ App Store Guideline 4.0**  
+> **"로컬로 시작"을 가장 크게.** 소셜 로그인은 동기화가 필요할 때.
 
-### 온보딩 플로우
-```
-앱 최초 실행
-    │
-    ▼
-온보딩 슬라이드 (2~3장, 스킵 가능)
-    │
-    ▼
-┌─────────────────────────────┐
-│  로컬로 시작하기             │  ← 가장 크게, 기본 버튼
-│  (로그인 없이 바로 사용)     │
-├─────────────────────────────┤
-│  계정으로 시작하기 (동기화)  │  ← 보조 버튼
-│  → Apple로 로그인            │
-│  → Google로 로그인           │
-└─────────────────────────────┘
-```
+### 온보딩
+- 슬라이드 대신(또는 짧게): **던진다 → 달력·지도에서 다시 본다**
+- 폴더·태그 설명은 빼기
+- 기본 버튼: 로컬로 시작하기
+- 보조: Apple / Google로 동기화
 
-### 계정 연동 (설정 > 계정)
-```
-설정 > 계정 및 동기화
-    ├── Apple로 로그인하여 동기화   (동등한 위계)
-    └── Google로 로그인하여 동기화  (동등한 위계)
-```
+### 설정 > 계정
+- Apple / Google 동등 위계
+- 동기화 상태: 마지막 시각, 오류, 오프라인, 수동 동기화
 
 | 항목 | 내용 |
 |---|---|
-| 비로그인 | 로컬 전용 (SwiftData, 동기화 없음) — **기본 시작** |
-| Apple 로그인 | Supabase Auth Apple Provider |
-| Google 로그인 | Supabase Auth Google Provider |
-| calendar.events scope | Google 캘린더 토글 ON 시점에 Incremental Auth로 별도 요청 |
-| API 키 | 기기 Keychain 저장 |
+| 비로그인 | 로컬 전용 — **기본 시작** |
+| Apple / Google | Supabase Auth |
+| `calendar.events` | 캘린더 토글 ON 때만 |
+| API 키 | Keychain |
 
 ---
 
 ## 5. 정보 구조 (IA)
 
+찾기 축(언제·어디)이 폴더보다 앞에 온다.
+
 ```
 Locolog
-├── 메모 목록 (홈)
-│   ├── 전체 메모
-│   ├── 카테고리별
-│   └── 스마트 폴더 (저장된 필터)
-├── 캘린더 뷰
-├── 지도 뷰  ← Phase 3
-├── 검색 / 필터
+├── 오늘          ← 기본 제공
+├── 여기 근처     ← 기본 제공
+├── 캘린더        ← 언제
+├── 지도          ← 어디
+├── 전체 메모
+├── 즐겨찾기
+├── 폴더 (트리, 선택)
+├── 스마트 폴더 (선택)
+├── 검색
 └── 설정
     ├── 계정 & 동기화
-    │   ├── Apple 로그인
-    │   └── Google 로그인
-    ├── AI 연동 (Claude / OpenAI / Gemini API 키)
+    ├── AI (선택)
     ├── 알림
-    ├── Google 캘린더 연동 (토글)
-    ├── 내보내기 (Markdown, PDF)
-    └── 오픈소스 라이센스
+    ├── Google 캘린더 (선택, 이후)
+    ├── 내보내기
+    └── 라이센스
 ```
 
 ---
@@ -239,62 +287,30 @@ Locolog
 
 | 화면 | 레이아웃 | 주요 액션 |
 |---|---|---|
-| **온보딩** | 슬라이드 2~3장 → 로컬 시작 / 계정 연결 | "로컬로 시작" 기본 |
-| **메모 목록** | 3단 (Mac) / 2단 (iPhone) NavigationSplitView | 새 메모, 카테고리·스마트폴더 이동 |
-| **메모 에디터** | TextEditor + 코드 툴바(Input Accessory) + 하단 메타데이터 바 | 작성, 포맷팅, 위치/알림 확인 |
-| **캘린더 뷰** | 상단 히트맵 달력 + 하단 메모 목록 | 날짜 선택 |
-| **지도 뷰** | MapKit + 위치 클러스터 핀 | 위치 선택, 메모 보기 |
-| **검색** | 검색 바 + 필터 칩 + 스마트폴더 저장 | 검색, 필터 조합, 폴더 저장 |
-| **설정** | Form 기반 그룹 목록 | 계정, AI, 캘린더 연동 |
-
-### 메모 에디터 레이아웃 상세 (iPhone)
-```
-┌──────────────────────────────────────┐
-│  ← 뒤로                              │  ← 네비게이션 바
-├──────────────────────────────────────┤
-│                                      │
-│  오늘 배운 것                         │  ← 첫 줄이 자동 제목 (목록에 표시)
-│                                      │
-│  ```python                           │  ← 코드 블록 (Highlightr 렌더링)
-│  def hello():                        │
-│      print("world")                  │
-│  ```                                 │
-│                                      │
-│  #개발 #python                       │  ← 해시태그 자동 인식
-│                                      │
-│  📍 성수역 3번 출구 · 서울 성동구    │  ← 자동 위치 (POI + 주소)
-│  🕐 2026.05.27  14:32               │  ← 자동 시각
-│                                      │
-├──────────────────────────────────────┤
-│ B  I  •—  ☑  [```] {  }  [  ]  _ // ▾│  ← Input Accessory View (코드 툴바)
-├──────────────────────────────────────┤
-│         [ 소프트 키보드 ]             │
-└──────────────────────────────────────┘
-```
-
-### macOS 레이아웃 (NavigationSplitView)
-```
-┌──────────┬───────────────┬──────────────────────────┐
-│ 사이드바  │   메모 목록    │        에디터             │
-│          │               │                          │
-│ 전체     │  2026.05.27   │  오늘 배운 것             │
-│ 카테고리1 │  성수역 근처   │                          │
-│ 카테고리2 │               │  ```python               │
-│          │  2026.05.26   │  def hello():            │
-│ ─────── │  강남 작업실   │      print("world")      │
-│ [스마트] │               │  ```                     │
-│ 강남코드 │  ...          │                          │
-│ ─────── │               │  📍 성수역 3번 출구       │
-│ [캘린더] │               │  🕐 2026.05.27  14:32   │
-│ [지도]   │               │                          │
-│ [설정]   │               │  ── 마크다운 툴바 ──      │
-└──────────┴───────────────┴──────────────────────────┘
-```
+| **온보딩** | 던지기 → 달력·지도. 로컬 시작 기본 | 폴더 설명 없음 |
+| **오늘 / 여기 / 전체** | 목록. 새 메모는 분류 묻지 않음 | 던지기, 열기 |
+| **메모 에디터** | 상단 아이콘 독 + TextEditor + 하단 시각·위치 | 작성, 아이콘으로 나누기, 자동저장 |
+| **캘린더** | 히트맵 + 해당일 목록 | 날짜로 찾기 |
+| **지도** | MapKit 클러스터 | 장소로 찾기 |
+| **검색** | 검색 바 + 필터 칩 | 단어·필터 |
+| **설정** | 계정/동기화 상태를 숨기지 않음 | 로그인, 수동 동기화 |
 
 ### iPhone Tab Bar
 ```
-[메모] [캘린더] [검색] [설정]
+[메모] [캘린더] [지도] [검색] [설정]
 ```
+메모 탭 안 상단: **오늘 / 여기 / 전체** 가 폴더 칩보다 앞.
+
+### macOS 사이드바 순서 (위 → 아래)
+```
+오늘 / 여기 근처 / 캘린더 / 지도 / 전체 / 즐겨찾기
+────────
+폴더 트리 (선택)
+스마트 폴더 (선택)
+```
+
+### 메모 에디터 (iPhone) — 제목 칸 없음, 시각·위치는 아래
+첫 줄이 목록 제목. **상단 아이콘 독**에서 끌어다 본문에 놓거나 탭하면 분류. 하단 바: POI · 작성 시각 · (붙인 아이콘). 키보드 위 코드 툴바는 개발자용.
 
 ---
 
@@ -305,243 +321,169 @@ Locolog
 ```swift
 @Model class Note {
     var id: UUID
-    var content: String           // Markdown 원문
-    var categoryId: UUID?
-    var createdAt: Date           // 불변 (최초 생성 시각)
+    var content: String
+    var categoryId: UUID?          // 레거시. 신규는 folderId
+    var folderId: UUID?
+    var createdAt: Date            // 불변
     var updatedAt: Date
-    var locationLat: Double?
-    var locationLng: Double?
-    var locationName: String?     // 예: "서울 성동구"
-    var locationPOI: String?      // 예: "성수역 3번 출구"  ← POI 추가
+    var locationLat, locationLng: Double?
+    var locationName, locationPOI: String?
     var reminderAt: Date?
-    var reminderLocationLat: Double?  // 위치 기반 리마인더용
-    var reminderLocationLng: Double?
-    var isDeleted: Bool
-    var isDirty: Bool             // 동기화 대기 여부  ← 오프라인 동기화
+    var reminderLocationLat, reminderLocationLng: Double?
+    var isDeleted, isFavorited, isDirty: Bool
+    var attachmentURLs: [String]   // 로컬 파일. 아직 서버 미동기화
+    var noteTypeRaw: String        // markdown | log
+    var iconEmoji: String?
+    var iconImagePath: String?     // 로컬. 이모지만 서버 동기화
     var tags: [Tag]
 }
 
-enum SyncStatus { case synced, pending, conflict }
-
-@Model class Category {
+@Model class Folder {
     var id: UUID
     var name: String
-    var color: String
-    var icon: String?
+    var parentId: UUID?
     var position: Int
+    var colorHex, iconEmoji, iconImagePath: String?
 }
 
-@Model class Tag {
-    var id: UUID
-    var name: String
-}
-
-@Model class SmartFolder {          // 스마트 폴더  ← 신규
-    var id: UUID
-    var name: String
-    var filterJSON: String          // 필터 조건 JSON 직렬화
-    var position: Int
-}
+@Model class Tag { var id: UUID; var name: String }
+@Model class SmartFolder { var id: UUID; var name, filterJSON: String; var position: Int }
 ```
 
-> **isDirty 동기화 전략**
-> 1. 오프라인에서 메모 작성/수정 → `isDirty = true`
-> 2. 네트워크 복귀 감지 (NWPathMonitor)
-> 3. SyncManager가 `isDirty == true` 메모 수집
-> 4. Supabase `upsert` (updated_at 기준 충돌 감지)
-> 5. 성공 시 `isDirty = false`
+`Category`는 마이그레이션용 레거시. 신규 UI는 Folder만 쓴다.
 
-### 원격 (Supabase PostgreSQL)
+> **isDirty**
+> 1. 로컬 수정 → 즉시 `isDirty = true` (본문은 키 입력 시)
+> 2. 디스크 저장은 0.3초 디바운스 또는 화면 이탈 시 flush
+> 3. NWPathMonitor / 포그라운드 / Realtime 트리거
+> 4. dirty만 upsert. 성공 시에만, **push 시점 스냅샷과 같으면** `isDirty = false`
+> 5. pull은 서버가 더 최신이고 로컬이 dirty가 아닐 때만 적용
 
-```sql
-notes
-  id                    uuid  PK
-  user_id               uuid  FK → auth.users
-  content               text              -- Markdown 원문
-  category_id           uuid  nullable
-  created_at            timestamptz       -- 불변
-  updated_at            timestamptz
-  location_lat          float8  nullable
-  location_lng          float8  nullable
-  location_name         text    nullable
-  location_poi          text    nullable  -- POI명
-  reminder_at           timestamptz nullable
-  reminder_location_lat float8  nullable  -- 위치 기반 리마인더
-  reminder_location_lng float8  nullable
-  is_deleted            bool    default false
+### 원격 (요지)
 
-categories
-  id, user_id, name, color, icon, position
+```
+notes: id, user_id, content, category_id, folder_id, note_type,
+       created_at, updated_at, location_*, reminder_at,
+       is_deleted, is_favorited, is_public, icon_emoji
 
-tags
-  id, user_id, name
-
-note_tags
-  note_id, tag_id  PRIMARY KEY
-
-smart_folders
-  id, user_id, name, filter_json, position
+folders: id, user_id, name, parent_id, position, color_hex, icon_emoji
+smart_folders: id, user_id, name, filter_json, position
 ```
 
-**인덱스**
-- `notes(user_id, created_at DESC)`
-- `notes(user_id, location_name)`, `notes(user_id, location_poi)`
-- `pg_trgm` 확장으로 content Full-text search
+`note_tags` 테이블은 스키마에 있을 수 있으나 클라이언트는 본문 `#태그`를 소스로 쓴다.
+
+마이그레이션: `supabase/migrations/20260831000000_sync_folders_and_note_fields.sql`
 
 ---
 
 ## 8. 서버 구조
 
 ```
-iPhone / Mac (SwiftUI)
-    │
-    │  HTTPS + WebSocket
-    ▼
-┌────────────────────────────────────┐
-│            Supabase                │
-│                                    │
-│  Auth ── Apple Sign-In             │
-│          Google OAuth              │
-│                                    │
-│  PostgreSQL ── notes               │
-│                categories          │
-│                tags / smart_folders│
-│                                    │
-│  Realtime ── iPhone ↔ Mac 동기화   │
-│              (isDirty 기반 upsert) │
-│                                    │
-│  Storage ── 이미지 첨부 (Phase 2)  │
-│                                    │
-│  Edge Functions                    │
-│    └── /ai-proxy  AI API 중계      │
-└────────────────────────────────────┘
-         │ (유저 선택 시에만)
-         ▼
-┌──────────────────────┐
-│  Google Calendar API │
-└──────────────────────┘
+iPhone / Mac
+    HTTPS + (Realtime: notes 변경 → debounce pull)
+        ▼
+Supabase
+    Auth (Apple / Google)
+    PostgreSQL (notes, folders, smart_folders)
+    Realtime publication
+    Storage — 이미지 동기화는 이후
+    Edge /ai-proxy — BYOK 중계 (선택)
 ```
 
 ---
 
-## 9. 지도 뷰 전략
+## 9. 지도 뷰
 
-- **MapKit** (Apple Maps) 사용 — OS 내장, 추가 패키지·비용 없음
-- SwiftUI `Map` 컴포넌트로 위치 핀 클러스터링
-- Phase 3 구현 예정
+- MapKit, 위치 있는 메모 핀 클러스터
+- 여기 근처 목록과 같은 좌표 데이터
 
 ---
 
-## 10. 개발 순서도 (Phase별 STEP)
+## 10. 개발 순서
 
-### Phase 1 — iOS MVP _(써볼 수 있는 최소 앱)_
+### Phase 1~3 — 완료
+에디터·위치·목록·캘린더·로그인·동기화·필터·알림·AI·지도·첨부·위젯(최근 보기)
 
-```
-STEP 1  Xcode 프로젝트 세팅
-        SwiftUI Multiplatform, SwiftData 모델 정의
-        (Note + isDirty, Category, Tag, SmartFolder)
-            ↓
-STEP 2  메모 에디터 + 자동저장 + 자동제목
-        TextEditor + onChange 디바운스 저장
-        첫 줄 자동 제목 추출 → 목록 표시
-            ↓
-STEP 3  개발자 코드 툴바 (Input Accessory View)
-        키보드 위 툴바: 백틱, 특수문자, 언어 선택 드롭다운
-        Highlightr 코드 블록 렌더링
-            ↓
-STEP 4  위치 자동 태깅 + POI 매칭
-        CoreLocation (When In Use)
-        CLGeocoder → areasOfInterest + 주소 저장
-        macOS: 로딩 인디케이터 + 실패 시 수동 입력 fallback
-            ↓
-STEP 5  메모 목록 + 카테고리
-        NavigationSplitView (Mac) / Tab Bar (iPhone)
-        swift-markdown-ui 렌더링
-            ↓
-STEP 6  캘린더 뷰
-        히트맵 달력, 날짜별 메모 목록
-```
+### Phase 4 — 사용 루프 완성 (현재)
 
-### Phase 2 — 로그인 & 동기화
+컨셉을 화면에 맞추는 단계. 기능 나열이 아니라 **던지기 → 찾기**.
 
 ```
-STEP 7  Supabase 연동 + 로그인
-        온보딩: "로컬로 시작" 우선
-        Apple / Google 로그인 (설정에서 동등 위계)
-            ↓
-STEP 8  오프라인-온라인 동기화 (SyncManager)
-        NWPathMonitor → isDirty 메모 upsert
-        기기 간 알림 재등록 트리거
-        macOS 알림 센터 스케줄러
-            ↓
-STEP 9  고급 필터 + 스마트 폴더
-        날짜/위치/카테고리/태그 복합 필터
-        SmartFolder 저장 → 사이드바 고정
-            ↓
-STEP 10 알림 + Google Calendar 연동
-        UserNotifications, 위치 기반 리마인더
-        Google Calendar Incremental Auth + 이벤트 내보내기
-        Supabase 웨이크업 봇 (GitHub Actions)
+STEP 15  기획 v0.6 반영 + 오늘 / 여기 근처 기본 뷰
+STEP 16  위젯 퀵 캡처 (새 메모) + 기존 메모 열기 (딥링크)
+STEP 17  온보딩·빈 화면 카피
+STEP 17b 아이콘 스탬프로 한 번 더 나누기 (드래그/탭)
+STEP 18  공유 시트 등 추가 시스템 진입점
+STEP 19  Supabase 마이그레이션 적용 (폴더·타입 동기화)
 ```
 
-### Phase 3 — 고급 기능
+### 그다음 (루프가 안정된 뒤)
 
 ```
-STEP 11 AI 연동 (BYOK)
-        Claude / OpenAI / Gemini
-        요약, 분류 제안, 관련 메모 추천
-            ↓
-STEP 12 지도 뷰
-        MapKit, POI + 위치별 핀 클러스터
-            ↓
-STEP 13 이미지 첨부 + 내보내기
-        Supabase Storage, Markdown / PDF 내보내기
-            ↓
-STEP 14 iOS 홈 위젯
-        WidgetKit: 최근 메모 / 퀵 캡처
+이미지 Storage 동기화
+친구 / 팀 공유 UI
+Google Calendar 실제 연동
+위젯 Lock Screen
+App Store 제출
 ```
 
 ---
 
-## 11. 경쟁 앱 분석
+## 11. 경쟁과 차별
 
-| 앱 | 강점 | 약점 | Locolog 차별점 |
-|---|---|---|---|
-| Apple Notes | 네이티브, 무료, 빠름 | 위치 태깅 없음, 필터 약함 | 위치+날짜+POI 자동 정리 |
-| Bear | 마크다운, 아름다운 UI | 유료, 위치 없음 | 무료 기본기 + 위치 |
-| Notion | 강력한 기능 | 무겁고 복잡 | 빠른 캡처 + 자동 메타데이터 |
-| Joplin | 오픈소스, E2E 암호화 | UI 복잡, 위치 없음 | 심플 UI + POI 위치 |
-| GeoNotes | 위치 특화 | Android만, 기능 단순 | 마크다운 + 캘린더 + 스마트폴더 |
+많이 쓰는 앱은 **빨리 넣기**로 이겼고, 진 앱은 **먼저 정리하세요**를 강요했다.
 
-**핵심 차별화**: 위치·POI·날짜 자동 태깅 + 캘린더 뷰 + 스마트 폴더 + 네이티브 UI
+| 앱 | 사람들이 쓰는 방식 | Locolog |
+|---|---|---|
+| Apple Notes | 기본 앱, 즉시 작성, 검색 | 캡처 속도는 맞추고, **언제·어디 로그**를 더함 |
+| Google Keep | 위젯으로 던짐, 위치 알림 | 위젯 던지기 + 장소가 본문의 목차 |
+| Samsung Notes | 잠금화면 필기 | 마찰 제로만 참고 (필기 캔버스는 안 함) |
+| OneNote | 공책 구조 | 구조를 기본 입구로 두지 않음 |
+| Notion | 쓰기 전 설계 | 하지 않음 |
+| Evernote | 클리퍼·노트북 | 핵심으로 두지 않음 |
+| Bear | `#태그` | 본문 태그는 유지, 전면은 시간·장소 |
+| GeoNotes | 위치만 | 마크다운 + 캘린더 + 네이티브 |
+
+**차별**: 위치·POI·날짜가 자동으로 붙고, 캘린더와 지도가 주 찾기인 네이티브 메모.
 
 ---
 
-## 12. 비용 & 라이센스 주의사항
+## 12. 비용 & 라이센스
 
 | 항목 | 상태 | 내용 |
 |---|---|---|
-| **Supabase 무료 티어 일시정지** | ⚠️ 심각 | 7일 비활성 시 자동 정지 → 심사관 접속 시 먹통 → Guideline 2.1 거절. 심사 기간 GitHub Actions 웨이크업 봇 또는 Pro($25/월) 필수 |
-| **온보딩 소셜 로그인 강제 배치** | ⚠️ 심각 | "로컬로 시작"을 기본으로, 소셜 로그인은 설정에서 동등 위계로 제공. 온보딩에서 Google을 강조하면 Guideline 4.0 거절 |
-| **Apple Sign-In 필수** | ⚠️ 필수 | 소셜 로그인 제공 시 Apple Login 반드시 포함 |
-| **iOS 위치 권한** | ⚠️ 심사 리스크 | `When In Use`만 사용. Always 요청 시 즉시 거절 |
-| **macOS 위치 Sandbox** | ⚠️ UX 필요 | Wi-Fi 기반, 딜레이 가능. 로딩 인디케이터 + 수동 입력 fallback 필수 |
-| **Google calendar.events scope** | ✅ | 설정에서 토글 ON 시 Incremental Auth. 온보딩/로그인 시 요청 금지 |
-| **CLGeocoder** | ✅ | Apple 무료 서버, API 키 불필요 |
-| **MapKit** | ✅ | Apple 무료, 별도 라이센스 없음 |
-| **Supabase** | Apache-2.0 | 셀프호스팅 가능, 상업 이용 가능 |
-| **swift-markdown-ui** | MIT | 상업 앱 배포 가능 |
-| **Highlightr** | MIT | 상업 앱 배포 가능 |
+| Supabase 무료 티어 7일 정지 | ⚠️ | 심사 기간 웨이크업 또는 Pro |
+| 온보딩 소셜 로그인 강제 | ⚠️ | 로컬 시작 기본 |
+| Apple Sign-In | ⚠️ 필수 | 소셜 제공 시 |
+| iOS 위치 | ⚠️ | When In Use만 |
+| macOS 위치 | ⚠️ | 인디케이터 + 수동 입력 |
+| calendar.events | ✅ | 토글 ON 때만 |
+| CLGeocoder / MapKit | ✅ | Apple 무료 |
+| supabase-swift, swift-markdown-ui, Highlightr | MIT | 상업 가능 |
 
 ---
 
-## 13. 수익화 (추후 검토)
+## 13. 수익화 (추후)
 
-- **무료**: 기본 기능 전체, 로컬 저장, 단일 기기
-- **Pro (구독)**: 다기기 동기화, 무제한 저장, 고급 필터
-- **AI**: 사용자 직접 API 키 입력 방식 (별도 과금 없음, 완전 선택)
+- **무료**: 기본 전체, 로컬, 단일 기기
+- **Pro (검토)**: 다기기 동기화
+- **AI**: 사용자 키, 별도 과금 없음
 
 ---
 
-*v0.4 → v0.5: 자동제목/자동저장 명세화, POI 장소명 추가, 개발자 코드 툴바 Input Accessory View 명세, 스마트 폴더 추가, isDirty 오프라인 동기화 모델, 온보딩 구조 App Store 방어 전략, macOS Sandbox 위치 예외처리, Google Calendar Incremental Auth, 위치 기반 리마인더(포그라운드 지오펜싱), macOS 알림 스케줄러*  
-*최종 수정: 2026-05-27*
+## 변경 금지 설계
+
+| 결정 | 이유 |
+|---|---|
+| 위치 `When In Use`만 | Always → 심사 거절 |
+| 온보딩 "로컬로 시작" 기본 | Guideline 4.0 |
+| Apple Sign-In 포함 | 소셜 로그인 시 필수 |
+| `calendar.events`는 토글 ON 때만 | Incremental Auth |
+| Markdown 원문 저장 | 가볍고 유지보수 |
+| CLGeocoder | API 키·비용 없음 |
+| 정리의 축은 시간·장소 | 폴더를 기본 입구로 올리지 않음 |
+
+---
+
+*v0.6 → v0.7: 원점 명시(장소가 1차 분류). 에디터 아이콘 스탬프(드래그/탭)로 2차 분류. 폴더 이름 입력을 요구하지 않음.*  
+*최종 수정: 2026-09-02*

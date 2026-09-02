@@ -24,9 +24,9 @@ struct OnboardingView: View {
             }
 
             VStack(alignment: .leading, spacing: 20) {
-                FeatureRow(icon: "location.fill",  text: "메모하면 장소가 자동으로 기록됩니다")
-                FeatureRow(icon: "calendar",        text: "날짜별로 메모를 캘린더에서 확인합니다")
-                FeatureRow(icon: "magnifyingglass", text: "장소·날짜·태그로 빠르게 검색합니다")
+                FeatureRow(icon: "square.and.pencil", text: "던지면 시각과 장소가 붙습니다")
+                FeatureRow(icon: "mappin.and.ellipse", text: "회사·마트·집이 곧 목차가 됩니다")
+                FeatureRow(icon: "hand.draw", text: "더 나누려면 아이콘을 끌어다 붙입니다")
             }
             .padding(.horizontal, 32)
 

@@ -59,6 +59,7 @@ struct MacSettingsView: View {
 
 private struct AccountTabView: View {
     @ObservedObject private var auth = AuthManager.shared
+    @ObservedObject private var sync = SyncManager.shared
     @State private var isLoading = false
     @State private var errorMessage: String?
 
@@ -142,12 +143,19 @@ private struct AccountTabView: View {
                 }
             }
 
-            HStack(spacing: 8) {
-                Image(systemName: "checkmark.circle.fill")
-                    .foregroundStyle(.green)
-                Text("iPhone ↔ Mac 동기화 중")
-                    .foregroundStyle(.secondary)
+            syncStatusRow
+
+            Button {
+                Task { await SyncManager.shared.syncUsingStoredContext() }
+            } label: {
+                if sync.isSyncing {
+                    ProgressView().controlSize(.small)
+                } else {
+                    Label("지금 동기화", systemImage: "arrow.triangle.2.circlepath")
+                }
             }
+            .disabled(sync.isSyncing || !sync.isOnline)
+            .buttonStyle(.bordered)
 
             Button(role: .destructive) {
                 Task { await signOut() }
@@ -157,6 +165,40 @@ private struct AccountTabView: View {
             }
             .buttonStyle(.bordered)
             .controlSize(.large)
+        }
+    }
+
+    private var syncStatusRow: some View {
+        VStack(spacing: 6) {
+            HStack(spacing: 8) {
+                if !sync.isOnline {
+                    Image(systemName: "wifi.slash")
+                        .foregroundStyle(.orange)
+                    Text("오프라인 — 연결되면 자동으로 동기화합니다.")
+                        .foregroundStyle(.secondary)
+                } else if sync.isSyncing {
+                    ProgressView().controlSize(.small)
+                    Text("동기화 중…")
+                        .foregroundStyle(.secondary)
+                } else if let err = sync.lastError {
+                    Image(systemName: "exclamationmark.triangle.fill")
+                        .foregroundStyle(.orange)
+                    Text(err)
+                        .foregroundStyle(.orange)
+                        .multilineTextAlignment(.center)
+                } else {
+                    Image(systemName: "checkmark.circle.fill")
+                        .foregroundStyle(.green)
+                    if let at = sync.lastSyncedAt {
+                        Text("마지막 동기화 \(at.formatted(date: .abbreviated, time: .shortened))")
+                            .foregroundStyle(.secondary)
+                    } else {
+                        Text("iPhone ↔ Mac 동기화 대기")
+                            .foregroundStyle(.secondary)
+                    }
+                }
+            }
+            .font(.callout)
         }
     }
 
@@ -470,6 +512,7 @@ private struct iOSSettingsView: View {
 
 struct AccountView: View {
     @ObservedObject private var authManager = AuthManager.shared
+    @ObservedObject private var sync = SyncManager.shared
     @State private var isLoading = false
     @State private var errorMessage: String?
 
@@ -525,7 +568,28 @@ struct AccountView: View {
         Group {
             Section {
                 if let email { LabeledContent("계정", value: email) }
-                LabeledContent("동기화 상태", value: "활성화")
+                if !sync.isOnline {
+                    LabeledContent("동기화 상태", value: "오프라인")
+                } else if sync.isSyncing {
+                    LabeledContent("동기화 상태", value: "동기화 중…")
+                } else if let err = sync.lastError {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("동기화 오류")
+                        Text(err).font(.caption).foregroundStyle(.orange)
+                    }
+                } else if let at = sync.lastSyncedAt {
+                    LabeledContent("마지막 동기화", value: at.formatted(date: .abbreviated, time: .shortened))
+                } else {
+                    LabeledContent("동기화 상태", value: "대기")
+                }
+            }
+            Section {
+                Button {
+                    Task { await SyncManager.shared.syncUsingStoredContext() }
+                } label: {
+                    Label("지금 동기화", systemImage: "arrow.triangle.2.circlepath")
+                }
+                .disabled(sync.isSyncing || !sync.isOnline)
             }
             Section {
                 Button(role: .destructive) {
